@@ -209,6 +209,19 @@ table.vtop th {
     height:45%;
 }
 
+.o-roster {
+    width:40%;
+    display: inline-block;
+    
+}
+.o-peeps{
+    height: 253px;
+    width: 189px;
+    overflow: hidden;
+    background-position: center;
+    
+}
+
 
 
 

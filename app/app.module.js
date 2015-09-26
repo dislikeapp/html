@@ -5,7 +5,8 @@
 angular.module('app', [
     'app.about',
     'app.tutorial',
-    'app.documentation'
+    'app.documentation',
+    'app.team'
 ]);
     
 })();

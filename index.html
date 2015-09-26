@@ -18,6 +18,10 @@
     
     <script src="app/Documentations/app.documentation.module.js"></script>
     <script src="app/Documentations/documentation.directive.js"></script>
+    
+    <script src="app/team/app.team.module.js"></script>
+    <script src="app/team/team.controller.js"></script>
+    <script src="app/team/team.directive.js"></script>
 </head>
 <body>
 <div class="titleBlock">
@@ -56,8 +60,7 @@
                 <o-document-tab></o-document-tab>
             </div>
             <div class="panel" ng-show="main.isSelected(4)">
-                <h4> About the Team </h4>
-                <p> We're awesome </p>
+                <o-team-tab></o-team-tab>
             </div>
         </section>
     </div>
