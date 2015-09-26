@@ -1,0 +1,26 @@
+
+<!-- This is the template for our About Page -->
+
+<h2>About OmniEngine</h2>
+<p class="o-textbox"> OmniEngine is a JavaScript API for making 3D web browser games using WebGL.
+    OmniEngine is currently beta, but we would certainly appreciate users and feedback.  Our library is available on <a href="https://github.com/OmniCrew/OmniEngine" target="_blank">the GitHubs</a>
+    or you can just link to it at <a href="http://omniserver.no-ip.biz/main/projects/oe-js/OmniEngine/bin/OmniEngine.js" target="_blank">http://omniserver.no-ip.biz/main/projects/oe-js/OmniEngine/bin/OmniEngine.js</a>
+</p>
+<br>
+<h2>Check Out Some Cool Demos!</h2>
+<br>
+<li class="o-demoList" ng-repeat="demo in about.demos">
+    <div class="o-demoLink">
+        
+        <a href={{demo.address}} target="_blank">
+            <span class="o-demoText">
+                <h2 style="{font: 200 30px/187px 'Arvo', Helvetica, Arial, sans-serif;}">{{demo.name}}</h2>
+                <p style="{font-size: 24px}">{{demo.details}}</p>
+            </span>
+            <img ng-src={{demo.photo}}/>
+            <!--<p class="o-demoText">Sample</p>-->
+        </a>
+        
+    </div>
+</li>
+<br>

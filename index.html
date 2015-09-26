@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title>Omni Engine</title>
+	<link rel="stylesheet" type="text/css" href="assets/style.css" />
+    <link rel="Stylesheet" type="Text/css" href="vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css" />
+    
+    <script src="vendor/angular.min.js"></script>
+	<script src="app/main.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/app.controller.js"></script>
+    
+    <script src="app/about/app.about.module.js"></script>
+    <script src="app/about/about.controller.js"></script>
+    <script src="app/about/about.directive.js"></script>
+    
+    <script src="app/Tutorials/app.tutorial.module.js"></script>
+    <script src="app/Tutorials/tutorial.directive.js"></script>
+    
+    <script src="app/Documentations/app.documentation.module.js"></script>
+    <script src="app/Documentations/documentation.directive.js"></script>
+</head>
+<body>
+<div class="titleBlock">
+    <image src="assets/omni_logo.png" class="o-logo"></image>
+    <div class="o-title-wrapper">
+        
+        <h1 class="o-title">Omni Engine</h1>
+        <h3 class="o-tagline">An Omnipotent Game Engine for the Web</h3>
+    </div>
+</div>
+<div class="siteFrame">
+    <div class="block1 spacedSet" ng-app="app">
+        <section ng-controller="MainController as main" align="center">
+            <ul class="nav nav-pills o-tabs">
+                <li ng-class="{active:main.isSelected(1)}">
+                    <a href ng-click="main.selectTab(1)">About</a>
+                </li>
+                <li ng-class="{active: main.isSelected(2)}">
+                    <a href ng-click="main.selectTab(2)">Tutorials</a>
+                </li>
+                <li ng-class="{active: main.isSelected(3)}">
+                    <a href ng-click="main.selectTab(3)">Documentation</a>
+                </li>
+                <li ng-class="{active: main.isSelected(4)}">
+                    <a href ng-click="main.selectTab(4)">Team</a>
+                </li>
+            </ul>
+
+            <div class="panel" ng-show="main.isSelected(1)">
+                <o-about-tab></o-about-tab>
+            </div>
+            <div class="panel" ng-show="main.isSelected(2)">
+                <o-tutorial-tab></o-tutorial-tab>
+            </div>
+            <div class="panel" ng-show="main.isSelected(3)">
+                <o-document-tab></o-document-tab>
+            </div>
+            <div class="panel" ng-show="main.isSelected(4)">
+                <h4> About the Team </h4>
+                <p> We're awesome </p>
+            </div>
+        </section>
+    </div>
+</div>
+    
+</body>
