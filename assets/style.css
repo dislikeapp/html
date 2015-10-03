@@ -242,6 +242,7 @@ table.vtop th {
     width: 35.2%;
     overflow: hidden;
     background-position: center;
+    background-size: cover;
     margin-bottom: 7%;
     border-radius: 15px;
     
