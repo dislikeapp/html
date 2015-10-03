@@ -1,8 +1,9 @@
 <html>
 <head>
 	<title>OmniEngine</title>
-	<link rel="stylesheet" type="text/css" href="assets/style.css" />
     <link rel="Stylesheet" type="Text/css" href="vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/style.css" />
+
     
     <script src="vendor/angular.min.js"></script>
 	<script src="app/main.js"></script>
@@ -37,7 +38,7 @@
         <section ng-controller="MainController as main" align="center">
             <ul class="nav nav-pills o-tabs">
                 <li ng-class="{active:main.isSelected(1)}">
-                    <a href ng-click="main.selectTab(1)">About</a>
+                    <a class="o-red" href ng-click="main.selectTab(1)">About</a>
                 </li>
                 <li ng-class="{active: main.isSelected(2)}">
                     <a href ng-click="main.selectTab(2)">Tutorials</a>
@@ -50,16 +51,16 @@
                 </li>
             </ul>
 
-            <div class="panel" ng-show="main.isSelected(1)">
+            <div class="o-panel" ng-show="main.isSelected(1)">
                 <o-about-tab></o-about-tab>
             </div>
-            <div class="panel" ng-show="main.isSelected(2)">
+            <div class="o-panel" ng-show="main.isSelected(2)">
                 <o-tutorial-tab></o-tutorial-tab>
             </div>
-            <div class="panel" ng-show="main.isSelected(3)">
+            <div class="o-panel" ng-show="main.isSelected(3)">
                 <o-document-tab></o-document-tab>
             </div>
-            <div class="panel" ng-show="main.isSelected(4)">
+            <div class="o-panel" ng-show="main.isSelected(4)">
                 <o-team-tab></o-team-tab>
             </div>
         </section>
