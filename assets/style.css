@@ -238,11 +238,18 @@ table.vtop th {
     
 }
 .o-peeps{
-    height: 253px;
-    width: 189px;
+    height: 39.4%;
+    width: 35.2%;
     overflow: hidden;
     background-position: center;
+    margin-bottom: 7%;
+    border-radius: 15px;
     
+}
+.o-peeps span {
+    position: absolute;
+    margin-left: 8%;
+    width: 20%;
 }
 
 
