@@ -1,0 +1,25 @@
+{
+	"Full Apps": [
+		{"OE Studio": "../apps/editor", "newWindow": "true"},
+		{"Ballcraft": "../apps/ball", "newWindow": "true"},
+		{"Omniverse": "../apps/omniverse", "newWindow": "true"}
+	],
+	"Tutorials": [
+		{"Getting Started": "../OmniEngine/doc/demos/getting_started"},
+		{"Resources": "../OmniEngine/doc/demos/resources"},
+		{"Basic Input": "../OmniEngine/doc/demos/basic_input"},
+		{"Compositors": "../OmniEngine/doc/demos/compositors/refraction"},
+		{"Stereoscopic": "../OmniEngine/doc/demos/stereoscopic"}
+	],
+	"Compositors": [
+		{"Deferred": "../OmniEngine/doc/demos/compositors/deferred"},
+		{"Refraction": "../OmniEngine/doc/demos/compositors/refraction"}
+	],
+	"Rendering": [
+		{"Blend Modes": "rendering/blend_modes"}
+	],
+	"Loaders": [
+		{"obj": "../OmniEngine/doc/demos/loaders/obj"},
+		{"bvh": "../OmniEngine/doc/demos/loaders/bvh"}
+	]
+}
