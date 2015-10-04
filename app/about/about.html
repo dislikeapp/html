@@ -9,6 +9,23 @@
 <br>
 <h2>Check Out Some Cool Demos!</h2>
 <br>
+<h1>Full Games</h1>
+<li class="o-demoList" ng-repeat="demo in about.games">
+    <div class="o-demoLink">
+        
+        <a href={{demo.address}} target="_blank">
+            <span class="o-demoText">
+                <h2 style="{{font: 200 30px/187px 'Arvo', Helvetica, Arial, sans-serif;}">{{demo.name}}</h2>
+                <p style="{font-size: 24px}">{{demo.details}}</p>
+            </span>
+            <img ng-src={{demo.photo}}></img>
+            <!--<p class="o-demoText">Sample</p>-->
+        </a>
+        
+    </div>
+</li>
+
+<h1>Capabilities and Examples</h1>
 <li class="o-demoList" ng-repeat="demo in about.demos">
     <div class="o-demoLink">
         
