@@ -17,7 +17,7 @@ function AboutController(){
         [
             {
                 'name': 'Ballcraft',
-                'address': 'http://omniserver.no-ip.biz/main/projects/oe-js/apps/ball/',
+                'address': 'http://danglingpointers.me/Ballcraft',
                 'photo': "assets/Ballcraft_screenshot.jpg",
                 'details': ball_details
             }

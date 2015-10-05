@@ -2,7 +2,7 @@
 var bgs = [
 	["assets/sunrise_ballcraft.png", "rgba(0, 0, 0, 0.0)"],
 	["assets/OmniVerse_screenshot.jpg", "rgba(0, 0, 0, 0.0)"],
-	["assets/croppedBunnies.jpg", "rgba(0, 0, 0, 0.0)"]
+	["assets/beemer.png", "rgba(0, 0, 0, 0.0)"]
 ];
 
 window.addEventListener("load", function() {
