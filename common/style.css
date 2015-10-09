@@ -1,0 +1,22 @@
+
+html, body {
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.Fullsize {
+	width: 100%;
+	height: 100%;
+}
+.Fullwidth {width: 100%;}
+.Fullheight {height: 100%;}
+
+.Flex {display: flex;}
+.Flex.Even > * {flex-basis: 100%;}
+.Flex.V {flex-direction: column;}
+.Flex.H {flex-direction: row;}
+.Flex > .Grow {flex-grow: 1;}
+.Flex > .ContentGrows {position: relative;}
+.Flex > .ContentGrows > * {position: absolute;}

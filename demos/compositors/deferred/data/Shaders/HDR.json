@@ -1,0 +1,13 @@
+
+{
+	"shader": {
+		"vert": "Sources/HDR.vert",
+		"frag": "Sources/HDR.frag",
+		"attributes": {
+			"vertPosition":	"POSITION"
+		},
+		"uniforms": {
+			"sampler":		{"INT":		0}
+		}
+	}
+}

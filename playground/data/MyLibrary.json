@@ -1,0 +1,21 @@
+{
+	"Textures": {
+		"bricks": "Textures/bricks.jpg",
+		"bricks_norm": "Textures/bricks_norm.jpg",
+		"bricks_spec": "Textures/bricks_spec.jpg",
+		"concrete": "Textures/concrete.jpg",
+		"concrete_norm": "Textures/concrete_norm.jpg",
+		"concrete_spec": "Textures/concrete_spec.jpg"
+	},
+	"Materials": {
+		"Diamond": "Materials/Diamond.json",
+		"Metal": "Materials/Metal.json",
+		"Light": "Materials/Light.json",
+		"Bricks": "Materials/Bricks.json",
+		"Concrete": "Materials/Concrete.json"
+	},
+	"Models": {
+		"Diamond": "Models/Diamond.obj",
+		"TestScene": "Models/TestScene.obj"
+	}
+}

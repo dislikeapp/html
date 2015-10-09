@@ -1,0 +1,17 @@
+{
+	"scene": {
+		"class": "OE.Scene",
+		"objects": [
+			{
+				"className": "OE.Entity",
+				"model": "Bunny_low",
+				"material": "Glass"
+			},{
+				"className": "OE.Sphere",
+				"radius": 100.0,
+				"segments": 64,
+				"material": "EnvMap"
+			}
+		]
+	}
+}

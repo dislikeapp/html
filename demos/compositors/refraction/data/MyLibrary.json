@@ -1,0 +1,31 @@
+{
+	"Textures": {
+		"White": "Textures/White.bmp",
+		"EnvMap": "Textures/Breezeway_env.jpg",
+		"Metal_norm": "Textures/Metal_norm.jpg"
+	},
+	"Shaders": {
+		"Blit": "Shaders/Blit.json",
+		"HDR": "Shaders/HDR.json",
+		"PlainTexture": "Shaders/PlainTexture.json",
+		"Solid": "Shaders/Solid.json",
+		"SSR": "Shaders/SSR.json"
+	},
+	"Materials": {
+		"Blit": "Materials/Blit.json",
+		"HDR": "Materials/HDR.json",
+		"Chocolate": "Materials/Chocolate.json",
+		"Reflective": "Materials/Reflective.json",
+		"Glass": "Materials/Glass.json",
+		"Diamond": "Materials/Diamond.json",
+		"EnvMap": "Materials/EnvMap.json"
+	},
+	"Models": {
+		"Diamond": "Models/Diamond.obj",
+		"Teapot_high": "Models/Teapot_merge_high.obj",
+		"Bunny_low": "Models/Bunny_low.obj"
+	},
+	"Scenes": {
+		"MyScene": "Shaders/MyScene.json"
+	}
+}
