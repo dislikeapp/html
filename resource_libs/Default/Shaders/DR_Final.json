@@ -1,0 +1,16 @@
+
+{
+	"shader": {
+		"vert": "Sources/DR_Final.vert",
+		"frag": "Sources/DR_Final.frag",
+		"attributes": {
+			"vertPosition":	"POSITION"
+		},
+		"uniforms": {
+			"depthSampler":		{"INT":		0},
+			"normalSampler":	{"INT":		1},
+			"albedoSampler":	{"INT":		2},
+			"lightSampler":		{"INT":		3}
+		}
+	}
+}

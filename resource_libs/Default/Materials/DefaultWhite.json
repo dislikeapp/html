@@ -1,0 +1,27 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"blendMode": {},
+				"textures": {
+					"0": "White",
+					"1": "Flat_norm",
+					"2": "White",
+					"3": "Black"
+				},
+				"uniforms": {
+					"normMapIntensity":	0.0,
+					"specMapIntensity":	0.0,
+					"diffuse":			[0.625, 0.625, 0.625],
+					"specular":			[0.125, 0.125, 0.125],
+					"shininess":		4.0,
+					"emission":			0.125,
+					"diffusivity":		1.0,
+					"reflectivity":		0.0
+				}
+			}
+		]
+	}
+}

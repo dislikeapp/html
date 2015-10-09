@@ -1,0 +1,26 @@
+{
+	"Textures": {
+		"Black": "Textures/Black.bmp",
+		"White": "Textures/White.bmp",
+		"Flat_norm": "Textures/Flat_norm.bmp",
+		"Chrome_env": "Textures/Chrome_env.png"
+	},
+	"Shaders": {
+		"Blit": "Shaders/Blit.json",
+		"Deferred": "Shaders/Deferred.json",
+		"PlainTexture": "Shaders/PlainTexture.json",
+		"Solid": "Shaders/Solid.json"
+	},
+	"Materials": {
+		"Blit": "Materials/Blit.json",
+		"Deferred": "Materials/Deferred.json",
+		
+		"LightVolume": "Materials/LightVolume.json",
+		
+		"DefaultWhite": "Materials/DefaultWhite.json",
+		"Chocolate": "Materials/Chocolate.json",
+		"Diamond": "Materials/Diamond.json",
+		"Glass": "Materials/Glass.json",
+		"Reflective": "Materials/Reflective.json"
+	}
+}

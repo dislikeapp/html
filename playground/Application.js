@@ -18,12 +18,8 @@ Application.prototype = {
 	},
 	loadResources: function() {
 		OE.ResourceManager.declareLibrary("data/MyLibrary.json", function() {
-		OE.ResourceManager.declareLibrary("http://localhost/Default/Library.json", function() {
-		OE.ResourceManager.declareLibrary("http://localhost/oe-convert/output/Lamborghini/Lib.json", function() {
-		OE.ResourceManager.declareLibrary("http://localhost/oe-convert/output/BMW i8/Lib.json", function() {
+		OE.ResourceManager.declareLibrary("../resource_libs/Default/Library.json", function() {
 			this.initScene();
-		}.bind(this));
-		}.bind(this));
 		}.bind(this));
 		}.bind(this));
 	},
