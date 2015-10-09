@@ -1,0 +1,16 @@
+{
+	"Textures": {
+		"White": "Textures/White.bmp",
+		"Chrome_env": "Textures/Chrome_env.png",
+		"Metal_norm": "Textures/Metal_norm.jpg"
+	},
+	"Shaders": {
+		"Solid": "Shaders/Solid.json"
+	},
+	"Materials": {
+		"Diamond": "Materials/Diamond.json"
+	},
+	"Models": {
+		"Diamond": "Models/Diamond.obj"
+	}
+}

@@ -1,0 +1,17 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"blendMode": {},
+				"uniforms": {
+					"diffuse":			[0.9, 0.9, 0.9],
+					"specular":			[1, 1, 1],
+					"shininess":		32.0,
+					"emission":			0.125
+				}
+			}
+		]
+	}
+}
