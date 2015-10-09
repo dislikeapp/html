@@ -1,0 +1,12 @@
+{
+	"shader": {
+		"vert": "vertex/Blit.vert",
+		"frag": "fragment/Blit.frag",
+		"attributes": {
+			"vertPosition":	"POSITION"
+		},
+		"uniforms": {
+			"sampler":		{"INT":		0}
+		}
+	}
+}

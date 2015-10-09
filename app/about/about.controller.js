@@ -34,12 +34,12 @@ function AboutController(){
             },
             {
                 'name':'Glass Teapot',
-                'address': 'http://omniserver.no-ip.biz/main/projects/oe-js/OmniEngine/doc/demos/compositors/refraction/',
+                'address': 'danglingpointers.me/demos/refraction/',
                 'photo': "assets/glassTeapot.png",
                 'details': teapot_details
             },
             {'name':'Demo Page',
-             'address': 'http://omniserver.no-ip.biz/main/projects/oe-js/demos/',
+             'address': 'danglingpointers.me/demos/',
              'photo': "assets/OmniVerse.png",
              'details': demos_details
             }

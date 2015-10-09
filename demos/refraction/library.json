@@ -1,0 +1,27 @@
+{
+    "Textures": {
+        "White": "data/White.bmp",
+        "EnvMap": "data/upgradeOffice.jpg",
+        "Metal_norm": "data/Metal_norm.jpg"
+    },
+    "Shaders": {
+        "Blit": "shaders/Blit.json",
+        "HDR": "shaders/HDR.json",
+        "PlainTexture": "shaders/PlainTexture.json",
+        "Solid": "shaders/Solid.json",
+        "SSR": "shaders/SSR.json"
+    },  
+    "Materials": {
+        "Blit": "data/Blit.json",
+        "HDR": "data/HDR.json",
+        "Reflective": "data/Reflective.json",
+        "Glass": "data/Glass.json",
+        "Diamond": "data/Diamond.json",
+        "EnvMap": "data/EnvMap.json"
+    },
+    "Models": {
+        "Teapot_high": "data/Teapot_merge_high.obj"
+    },
+    "Scenes": {
+    }
+}
