@@ -1,0 +1,24 @@
+{
+	"Full Apps": [
+		{"OE Studio": "http://omniserver.no-ip.biz/main/projects/oe-js/apps/editor", "newWindow": "true"},
+		{"Ballcraft": "http://danglingpointers.me/Ballcraft", "newWindow": "true"},
+		{"Omniverse": "http://omniserver.no-ip.biz/main/projects/oe-js/apps/omniverse", "newWindow": "true"}
+	],
+	"Tutorials": [
+		{"Getting Started": "getting_started"},
+		{"Resources": "resources"},
+		{"Basic Input": "basic_input"},
+		{"Stereoscopic": "stereoscopic"}
+	],
+	"Compositors": [
+		{"Deferred": "compositors/deferred"},
+		{"Refraction": "compositors/refraction"}
+	],
+	"Rendering": [
+		{"Blend Modes": "rendering/blend_modes"}
+	],
+	"Loaders": [
+		{"obj": "loaders/obj"},
+		{"bvh": "loaders/bvh"}
+	]
+}

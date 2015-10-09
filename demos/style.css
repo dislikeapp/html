@@ -1,0 +1,38 @@
+
+body {
+	font-family: Helvetica;
+	font-size: 16px;
+}
+
+#sidebar {
+	overflow-y: scroll;
+}
+
+a.listItem {
+	display: block;
+	border: solid 0px #DFDFDF;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-top: -1;
+	background: transparent;
+	color: #3F5F7F;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 4px;
+	padding-left: 6px;
+}
+a.listItem:hover {
+	background: rgba(0, 0, 0, 0.05);
+	text-decoration: none;
+}
+a.listItem:active {
+	background: rgba(255, 255, 64, 0.125);
+}
+
+.listCategory {
+	color: #7F5F5F;
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 12px;
+}
