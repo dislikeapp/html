@@ -34,7 +34,7 @@ function AboutController(){
             },
             {
                 'name':'Glass Teapot',
-                'address': 'danglingpointers.me/demos/refraction/',
+                'address': '/demos/refraction/',
                 'photo': "assets/glassTeapot.png",
                 'details': teapot_details
             },
