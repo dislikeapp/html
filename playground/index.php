@@ -17,6 +17,7 @@
 				<select class="blue" id="examples">
 					<option value="-1" selected="true">-- Load Example --</option>
 					<option value="basic-scene">Basic Scene</option>
+					<option value="entity">Entity</option>
 					<option value="terrain">Terrain</option>
 				</select>
 				<input class="blue" type="button" value="Load" id="load" />
@@ -31,7 +32,6 @@
 				</div>
 				<div class="ContentGrows" style="flex-basis: 50%;" id="appFrame"></div>
 			</div>
-			<div class="footer">Bottom bar</div>
 		</div>
 	</body>
 </html>
