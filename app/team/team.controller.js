@@ -8,7 +8,7 @@ function TeamController(){
     var vm = this;
     
     var tom_details = "As Chief Engine Engineering Engineer, Tom is responsible for all the important stuff.  He also enjoys China.";
-    var ando_details = "Brad enjoys long walks on the beach and cokes with two straws.  He also makes websites where he talks about himself in the third person.  Weird.";
+    var ando_details = "Brad enjoys long walks on the beach and cokes with two straws.  He also talks about himself in the third person.  Weird.";
     var sego_details = "Systems Architect and resident Other Brad.  When not shooting possums on his front lawn, Brad can be found automating everything.";
     var kevin_details = "Kevin likes cloud computing!";
     
