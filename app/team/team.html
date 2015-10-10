@@ -7,11 +7,12 @@
 <br>
 
 <br>
-<li class="o-roster" ng-repeat="friend in team.members">
+<li class="o-roster" style="height:40%;" ng-repeat="friend in team.members">
     <div class="o-peeps" style={{friend.photo}}>
         
         <span>
             <h2 style="{{font: 200 30px/187px 'Arvo', Helvetica, Arial, sans-serif;}">{{friend.name}}</h2>
+            <p style="{font-size: 24px}"> {{friend.position}}</p>
             <p style="{font-size: 24px}">{{friend.details}}</p>
         </span>
         
