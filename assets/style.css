@@ -258,6 +258,13 @@ table.vtop th {
     width: 20%;
 }
 
+.o-sandLink {
+    height: 15%;
+    position: absolute;
+    right: 0%;
+    top: 3%;
+}
+
 
 
 
