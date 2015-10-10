@@ -57,12 +57,31 @@ table.vtop th {
 	text-shadow: 2px 2px 2px rgba(0, 0, 0, 1.0);
 	text-align: center;
 	font-size: 1.25rem;
-	height: 90%;
-	transition-property: background-image, background-color;
-	transition-duration: 1s;
-	transition-delay: 2s;
+	height: 100%;
+	transition-property: background-image, background-color, height;
+	transition-duration: 1s, 1s, 0.25s;
+	transition-delay: 2s, 2s, 0s;
 	transition-timing-function: linear;
 }
+.titleArrow {
+	z-index: 1;
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	cursor: pointer;
+	display: block;
+	background-color: rgba(0, 0, 0, 0.25);
+	color: #BFBFBF;
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 1.0);
+	text-align: center;
+	font-size: 32px;
+	padding: 12px;
+}
+.titleArrow:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
 .siteFrame {
 	background: #F6F6F6;
 	color: #2B2B2B;
@@ -143,7 +162,8 @@ table.vtop th {
 }
 
 .o-logo {
-    height: 20%;
+    width: 115px;
+    height: 115px;
     display:inline-block;
     border-radius: 15%;
 }

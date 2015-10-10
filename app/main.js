@@ -35,3 +35,18 @@ window.addEventListener("load", function() {
 	update();
 	setInterval(next, 10000);
 });
+
+window.addEventListener("load", function() {
+	var titleBlock = document.getElementsByClassName("titleBlock")[0];
+	var arrow = document.getElementById("titleArrow");
+	arrow.addEventListener("mouseover", function() {
+		titleBlock.style.height = "95%";
+	});
+	arrow.addEventListener("mouseout", function() {
+		titleBlock.style.height = "100%";
+	});
+	arrow.addEventListener("click", function() {
+		var height = window.innerHeight;
+		document.body.scrollTop = height;
+	});
+});
