@@ -34,7 +34,7 @@ function AboutController(){
             },
             {
                 'name':'Glass Teapot',
-                'address': '/demos/refraction/',
+                'address': '/demos/compositors/refraction/',
                 'photo': "assets/glassTeapot.png",
                 'details': teapot_details
             },

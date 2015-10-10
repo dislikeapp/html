@@ -1,6 +1,7 @@
 html {
 	padding: 0px;
 	margin: 0px;
+    height: 100%;
 }
 html * {
 	box-sizing: border-box;
@@ -12,6 +13,7 @@ body {
 	font-family: OpenSans-Light;
 	font-family: Calibri;
 	font-size: 18px;
+    height: 100%;
 }
 
 @font-face {
@@ -194,21 +196,24 @@ table.vtop th {
 }
 
 .o-demoLink img {
-    height: 40%;
+    height: 100%;
+    width: 100%;
     margin-left: 5px;
     transition: all 1s ease;
 }
-.o-demoLink:hover img {
-    height: 45%;
+.o-demoList:hover {
+    height: 42%;
+    
 }
 
 .o-demoList {
-    width: 30%;
+    width: 30.5%;
+    height:40%;
     display: inline-block;
     vertical-align: middle;
     border: 0;
     overflow: hidden;
-    
+    transition: all 1s ease;
 }
 
 .o-demoLink span{
@@ -221,15 +226,15 @@ table.vtop th {
     margin-left:5px;
     margin-top: 0;
     height: 40%;
-    width:29.6%;
+    width:30.5%;
     
 }
 .o-demoLink:hover span{
     color:white;
     background:rgba(0,0,0,0.7);
     z-index:1;
-    width:29.6%;
-    height:45%;
+    
+    height:42%;
 }
 
 .o-roster {
