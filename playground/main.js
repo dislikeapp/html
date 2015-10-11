@@ -9,14 +9,6 @@ window.addEventListener("load", function() {
 var userInitScene = function(scene) {};
 
 window.addEventListener("load", function() {
-	editor = ace.edit("editor");
-	editor.setTheme("ace/theme/monokai");
-	editor.getSession().setMode("ace/mode/javascript");
-	
-	var run = document.getElementById("run");
-	var newScene = document.getElementById("new");
-	var load = document.getElementById("load");
-	
 	function runCode(code) {
 		try {
 			var newInitScene = new Function("scene", code);
@@ -38,10 +30,51 @@ window.addEventListener("load", function() {
 		}
 	}
 	
+	var run = document.getElementById("run");
+	var newScene = document.getElementById("new");
+	var save = document.getElementById("save");
+	var load = document.getElementById("load");
+	
+	var editor = ace.edit("editor");
+	editor.setTheme("ace/theme/monokai");
+	editor.getSession().setMode("ace/mode/javascript");
+	
+	run.addEventListener("click", function() {
+		var code = editor.getValue();
+		runCode(code);
+	});
 	newScene.addEventListener("click", function() {
 		editor.setValue("");
 		userInitScene = function(scene) {};
 		app.mScene.clear();
+	});
+	save.addEventListener("click", function() {
+		var code = editor.getValue();
+		OE.Utils.ajaxRequest("save.php", "code="+code, function(response) {
+			try {
+				response = JSON.parse(response);
+				if (response.status === "OK") {
+					var link = response.link;
+					console.log("Saved to "+link);
+					alert("Saved to "+link);
+				}
+				else if (response.status === "error") {
+					console.warn("Error saving code: "+response.message);
+					alert("Error saving code: "+response.message);
+				}
+				else {
+					console.warn("Unexpected server response:");
+					console.warn(response);
+					alert("Unexpected error saving code. Check console for details.");
+				}
+			}
+			catch (e) {
+				console.warn("Malformed server response:");
+				console.warn(response);
+				console.warn("Exception: "+e);
+				alert("Unexpected error saving code. Check console for details.");
+			}
+		});
 	});
 	load.addEventListener("click", function() {
 		var examples = document.getElementById("examples");
@@ -51,8 +84,11 @@ window.addEventListener("load", function() {
 			runCode(content);
 		});
 	});
-	run.addEventListener("click", function() {
-		var code = editor.getValue();
-		runCode(code);
-	});
+	
+	if (typeof SAVE_ID !== "undefined") {
+		OE.Utils.loadFile("saves/"+SAVE_ID+".js", function(content) {
+			editor.setValue(content);
+			runCode(content);
+		});
+	}
 });

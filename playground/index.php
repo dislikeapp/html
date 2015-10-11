@@ -7,20 +7,27 @@
 		<script src="libs/ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 		<script src="main.js"></script>
 		<script src="Application.js"></script>
-		<script src="BatchedGeom.js"></script>
+		<script src="BatchedGeom.js"></script><?php
+		if ($_GET['save'] !== NULL) {
+			echo '
+		<script> var SAVE_ID = "'.$_GET['save'].'"; </script>';
+		} ?>
 	</head>
 	<body>
 		<div class="Flex V Fullheight">
-			<div class="Flex H header controlList">
-				<input class="red" type="button" value="8" style="font-family:webdings;color:#FF7F7F;font-weight:bold;font-size:24px;" id="run" />
-				<input class="yellow" type="button" value="New" id="new" />
-				<select class="blue" id="examples">
-					<option value="-1" selected="true">-- Load Example --</option>
-					<option value="basic-scene">Basic Scene</option>
-					<option value="entity">Entity</option>
-					<option value="terrain">Terrain</option>
-				</select>
-				<input class="blue" type="button" value="Load" id="load" />
+			<div class="Flex H header controlList Fullwidth">
+				<a class="btn red" id="run"><img src="images/run.png" class="icon" /> Run</a>
+				<a class="btn yellow" id="new"><img src="images/new.png" class="icon" /> New</a>
+				<a class="btn blue" id="save"><img src="images/save.png" class="icon" /> Save</a>
+				<div class="btn green group">
+					<select class="btn gray" id="examples">
+						<option value="-1" selected="true">-- Load Example --</option>
+						<option value="basic-scene">Basic Scene</option>
+						<option value="entity">Entity</option>
+						<option value="terrain">Terrain</option>
+					</select>
+					<a class="btn green" id="load"><img src="images/load.png" class="icon" /> Load</a>
+				</div>
 			</div>
 			<div class="Grow Flex H">
 				<div class="ContentGrows" style="flex-basis: 50%;">

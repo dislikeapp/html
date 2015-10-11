@@ -12,8 +12,16 @@ body {
 	font-size: 18px;
 }
 
-.controlList > * {
+.controlList {
+	background-image: linear-gradient(to bottom,
+		rgb(50,50,50) 0%,
+		rgb(150,150,150) 40%,
+		rgb(80,80,80) 43%,
+		rgb(40,40,40) 100%);
+}
+.controlList .btn {
 	outline: none;
+	display: inline-block;
 	background-color: #7F7F7F;
 	background-image: linear-gradient(to bottom,
 		rgb(50,50,50) 0%,
@@ -21,60 +29,87 @@ body {
 		rgb(80,80,80) 43%,
 		rgb(40,40,40) 100%);
 	background-blend-mode: overlay;
-	border-width: 1px;
-	border-left-width: 0px;
+	border: solid 1px #3F3F3F;
 	color: #EFEFEF;
 	text-shadow: 1px 1px 1px rgba(0,0,0,1.0);
 	font-size: 18px;
-	padding: 8px 12px 8px 12px;
-	margin: 0px;
+	height: 48px;
+	line-height: 48px;
+	vertical-align: middle;
+	padding: 0px 12px 0px 12px;
+	margin: 0px 0px 0px -1px;
 	transition: linear 0.075s background-color, box-shadow;
 }
-.controlList > *:first-child {border-left-width: 1px;}
-.controlList > :hover {
-	z-index: 1;
-	color: #FFFFFF;
+.controlList .btn:first-child {
+	margin-left: 0px;
 }
-.controlList > :active {
-	z-index: 1;
-	color: #DFDFDF;
+
+.controlList .group {
+	padding: 0px !important;
+	border-width: 0px !important;
+	font-size: 0px !important;
+	line-height: 0px !important;
 }
-.controlList > .red:hover {
+
+.controlList img.icon {
+	pointer-events: none;
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}
+
+.controlList .btn {
+	z-index: 0;
+}
+.controlList .btn:hover, .controlList .btn:active {
+	z-index: 1;
+}
+.controlList .gray:hover {
+	border-color: #BFBFBF;
+	background-color: #9F9F9F;
+	box-shadow: 0px 0px 16px 2px rgba(255,255,255,0.5);
+}
+.controlList .gray:active {
+	border-color: #7F7F7F;
+	background-color: #5F5F5F;
+	box-shadow: 0px 0px 16px 2px rgba(127,127,127,0.5);
+}
+.controlList .red:hover {
 	border-color: #FFBFBF;
 	background-color: #DF7F7F;
 	box-shadow: 0px 0px 16px 2px rgba(255,0,0,1.0);
 }
-.controlList > .red:active {
+.controlList .red:active {
 	border-color: #7F5F5F;
 	background-color: #7F5F5F;
 	box-shadow: 0px 0px 16px 2px rgba(127,0,0,1.0);
 }
-.controlList > .yellow:hover {
+.controlList .yellow:hover {
 	border-color: #FFFF7F;
 	background-color: #BFBF9F;
 	box-shadow: 0px 0px 16px 2px rgba(127,127,31,1.0);
 }
-.controlList > .yellow:active {
+.controlList .yellow:active {
 	border-color: #7F7F3F;
 	background-color: #7F7F3F;
 	box-shadow: 0px 0px 16px 2px rgba(63,63,0,1.0);
 }
-.controlList > .green:hover {
+.controlList .green:hover {
 	border-color: #BFFFBF;
 	background-color: #7FDF7F;
 	box-shadow: 0px 0px 16px 2px rgba(0,255,0,1.0);
 }
-.controlList > .green:active {
+.controlList .green:active {
 	border-color: #5F7F5F;
 	background-color: #5F7F5F;
 	box-shadow: 0px 0px 16px 2px rgba(0,127,0,1.0);
 }
-.controlList > .blue:hover {
+.controlList .blue:hover {
 	border-color: #7FBFFF;
 	background-color: #7F9FBF;
 	box-shadow: 0px 0px 16px 2px rgba(0,63,127,1.0);
 }
-.controlList > .blue:active {
+.controlList .blue:active {
 	border-color: #3F5F7F;
 	background-color: #3F5F7F;
 	box-shadow: 0px 0px 16px 2px rgba(0,31,63,1.0);
