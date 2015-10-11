@@ -19,13 +19,25 @@ if ($code !== NULL) {
 	}
 	if ($save_id !== NULL) {
 		$fpath = 'saves/'.$save_id.'.js';
-		$abs_path = $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']);
+		$abs_path = $_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI']);
 		$abs_path = $abs_path.'/?save='.$save_id;
-		file_put_contents($fpath, $code);
-		emit(array(
-			'status' => 'OK',
-			'link' => $abs_path
-		));
+		
+		try {
+			$fp = fopen($fpath, "w");
+			fwrite($fp, $code);
+			fclose($fp);
+			
+			emit(array(
+				'status' => 'OK',
+				'link' => $abs_path
+			));
+		}
+		catch (Exception $e) {
+			emit(array(
+				'status' => 'error',
+				'message' => 'Error writing to file.'
+			));
+		}
 	}
 	else {
 		emit(array(
