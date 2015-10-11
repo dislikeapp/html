@@ -56,7 +56,7 @@ window.addEventListener("load", function() {
 				if (response.status === "OK") {
 					var link = response.link;
 					console.log("Saved to "+link);
-					alert("Saved to "+link);
+					prompt("Copy to clipboard: Ctrl+C\nSaved to the following URL:", link);
 				}
 				else if (response.status === "error") {
 					console.warn("Error saving code: "+response.message);
