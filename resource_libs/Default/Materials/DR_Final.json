@@ -1,0 +1,18 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "DR_Final",
+				"depthMode": {"write": "false", "test": "false"},
+				"textures": {
+					"0": "Black",
+					"1": "Black",
+					"2": "Black",
+					"3": "Black"
+				},
+				"uniforms": {}
+			}
+		]
+	}
+}

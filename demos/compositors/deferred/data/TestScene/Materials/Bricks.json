@@ -1,0 +1,24 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "DR_Solid",
+				"blendMode": {},
+				"textures": {
+					"0": "bricks",
+					"1": "bricks_norm",
+					"2": "bricks_spec"
+				},
+				"uniforms": {
+					"normMapIntensity":	0.5,
+					"specMapIntensity":	0.5,
+					"diffuse":			[1, 1, 1],
+					"specularity":		0.25,
+					"shininess":		8.0,
+					"emission":			0.125
+				}
+			}
+		]
+	}
+}

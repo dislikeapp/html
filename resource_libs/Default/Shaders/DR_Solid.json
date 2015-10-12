@@ -16,15 +16,12 @@
 			"diffSampler":		{"INT":		0},
 			"normSampler":		{"INT":		1},
 			"specSampler":		{"INT":		2},
-			"envSampler":		{"INT":		3},
 			"normMapIntensity":	{"FLOAT":	0.0},
 			"specMapIntensity":	{"FLOAT":	0.0},
 			"diffuse":			{"VEC3":	[1, 1, 1]},
-			"specular":			{"VEC3":	[1, 1, 1]},
+			"specularity":		{"FLOAT":	1.0},
 			"shininess":		{"FLOAT":	16.0},
-			"emission":			{"FLOAT":	0.125},
-			"diffusivity":		{"FLOAT":	1.0},
-			"reflectivity":		{"FLOAT":	0.0}
+			"emission":			{"FLOAT":	0.125}
 		}
 	}
 }

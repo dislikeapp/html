@@ -13,17 +13,20 @@ Application.prototype = {
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = this.mSurface.createViewport(this.mCamera);
 		
+		var gl = OE.getActiveContext();
+		gl.getExtension('WEBGL_draw_buffers');
+		gl.getExtension("OES_texture_float");
+		
 		this.mViewport.mCompositor = new OE.DeferredCompositor(this.mViewport);
 		
 		this.loadResources();
 	},
 	loadResources: function() {
 		var packs = "http://omniserver.no-ip.biz/main/projects/oe-js/resource_packs/";
-		var a = this;
 		OE.ResourceManager.declareLibrary("data/MyLibrary.json", function() {
-		OE.ResourceManager.declareLibrary(packs+"Default/Library.json", function() {
-		OE.ResourceManager.declareLibrary(packs+"TestScene/Lib_TestScene.json", function() {
-				a.initScene();
+		OE.ResourceManager.declareLibrary("data/TestScene/Library.json", function() {
+		OE.ResourceManager.declareLibrary("../../../resource_libs/Default/Library.json", function() {
+			app.initScene();
 		});
 		});
 		});
@@ -34,20 +37,17 @@ Application.prototype = {
 		var comp = this.mViewport.mCompositor;
 		var G = comp.getRenderTarget("OE_Deferred_GBuffer");
 		var F = comp.getRenderTarget("OE_Deferred_Final");
-		var L = comp.getRenderTarget("OE_Deferred_Light");
-		//OE.TextureManager.declareUnmanaged("OE_Deferred_Position", G.textures[0]);
-		//OE.TextureManager.declareUnmanaged("OE_Deferred_Normal", G.textures[1]);
-		//OE.TextureManager.declareUnmanaged("OE_Deferred_Albedo", G.textures[2]);
-		//OE.TextureManager.declareUnmanaged("OE_Deferred_Final", F.textures[0]);
+		OE.TextureManager.declareUnmanaged("OE_Deferred_Position", G.textures[0]);
+		OE.TextureManager.declareUnmanaged("OE_Deferred_Normal", G.textures[1]);
+		OE.TextureManager.declareUnmanaged("OE_Deferred_Albedo", G.textures[2]);
+		OE.TextureManager.declareUnmanaged("OE_Deferred_Final", F.textures[0]);
 		G.mMaterial = OE.MaterialManager.getLoaded("Blit");
-		L.mMaterial = OE.MaterialManager.getLoaded("Blit");
-		F.mMaterial = OE.MaterialManager.getLoaded("Deferred");
+		F.mMaterial = OE.MaterialManager.getLoaded("Blit");
 		
 		G.textures[0].mLoadState = 2;
 		G.textures[1].mLoadState = 2;
 		G.textures[2].mLoadState = 2;
 		F.textures[0].mLoadState = 2;
-		L.textures[0].mLoadState = 2;
 		
 		OE.MaterialManager.load("Glass", function(material) {
 			var pass = material.mPasses[0];
@@ -59,20 +59,19 @@ Application.prototype = {
 		for (var i=0; i<N*N; i++) {
 			var x = (i%N - Math.floor(N/2)) * 20;
 			var z = (Math.floor(i/N) - Math.floor(N/2)) * 20;
-			var object = new OE.Entity(
-				OE.ModelManager.getLoaded("Teapot_high"),
-				OE.MaterialManager.getLoaded("Glass"));
+			var object = new OE.Entity("Teapot_high", "Glass");
 			object.setPosf(x, -7.5, z);
 			object.setPosf(x, 0.0, z);
 			object.setScalef(0.05, 0.05, 0.05);
 			this.mScene.addObject(object);
 		}
 		
-		N = 3;
+		N = 1;
 		for (var i=0; i<N*N; i++) {
 			var x = (i%N - Math.floor(N/2)) * 20;
 			var z = (Math.floor(i/N) - Math.floor(N/2)) * 20;
 			var object = new OE.PointLight(10.0);
+			object.setMaterial("DR_Light");
 			object.setPosf(x, 5.0, z);
 			this.mScene.addObject(object);
 		}

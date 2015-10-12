@@ -11,23 +11,34 @@ uniform mat4 mvMatrix;
 uniform sampler2D diffSampler;
 uniform sampler2D normSampler;
 uniform sampler2D specSampler;
-uniform sampler2D envSampler;
 
 uniform float normMapIntensity;
 uniform float specMapIntensity;
 
 uniform vec3 diffuse;
-uniform vec3 specular;
-uniform float emission;
+uniform float specularity;
 uniform float shininess;
-uniform float diffusivity;
-uniform float reflectivity;
+uniform float emission;
 
-varying vec3 fragPosition;
+varying vec4 fragViewPos;
+varying vec4 fragProjPos;
 varying vec3 fragNormal;
 varying vec2 fragTexCoord;
 
 const float PI = 3.14159265358979323846264338327950;
+
+vec4 pack_float(float f) {
+	const vec4 bit_shift = vec4(256.0*256.0*256.0, 256.0*256.0, 256.0, 1.0);
+	const vec4 bit_mask = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
+	vec4 res = fract(f * bit_shift);
+	res -= res.xxyz * bit_mask;
+	return res;
+}
+float unpack_float(vec4 rgba) {
+	const vec4 bit_shift = vec4(1.0/(256.0*256.0*256.0), 1.0/(256.0*256.0), 1.0/256.0, 1.0);
+	float res = dot(rgba, bit_shift);
+	return res;
+}
 
 mat3 transpose(mat3 matrix) {
 	vec3 i0 = matrix[0];
@@ -76,64 +87,33 @@ mat3 calcTBN(vec3 pos, vec2 texcoord, vec3 normal) {
 
 void main()
 {
-	vec3 E = normalize(-fragPosition);
 	vec3 N;
-	
-	vec3 lightPos = (vMatrix * vec4(vec3(4000.0, 8000.0, 7000.0), 1.0)).xyz;
-	vec3 L = normalize(lightPos - fragPosition);
-	vec3 R;
 	
 	if (normMapIntensity > 0.0) {
 		vec3 normSample = normalize((texture2D(normSampler, fragTexCoord).xyz * 2.0 - 1.0));
 		normSample.xy *= normMapIntensity;
 		normSample = normalize(normSample);
-		mat3 tbn = calcTBN(fragPosition, fragTexCoord, fragNormal);
+		mat3 tbn = calcTBN(fragViewPos.xyz, fragTexCoord, fragNormal);
 		N = tbn * normSample;
 	}
 	else {
 		N = normalize(fragNormal);
 	}
-	R = reflect(-L, N);
 	
-//	gl_FragColor = vec4(N*0.5+0.5, 1.0); return;
-//	gl_FragColor = vec4(vec3(-fragPosition*0.5+0.5), 1.0); return;
-//	gl_FragColor = vec4(E*10.0+0.5, 1.0); return;
-//	gl_FragColor = vec4(N*10.0+0.5, 1.0); return;
-	
-	float kD = mix(max(dot(N, L), 0.0), 1.0, emission);
-	float kS = pow(max(dot(R, E), 0.0), shininess);
-	
-	vec3 diffFinal = diffuse * kD;
-	vec3 specFinal = specular * kS;
+	vec3 diffFinal = diffuse;
+	float specFinal = specularity;
 	
 	vec4 diffSample = texture2D(diffSampler, fragTexCoord);
-	diffFinal *= diffSample.rgb * diffusivity;
-	
-	if (reflectivity > 0.0) {
-		vec2 envCoord;
-		vec3 reflection = reflect(E, N);
-		reflection = normalize((transpose(vMatrix) * vec4(reflection, 1.0)).xyz);
-		envCoord.x = atan(reflection.x, reflection.z) / PI;
-		envCoord.y = dot(reflection, vec3(0, -1, 0));
-		envCoord = envCoord * 0.5 + 0.5;
-		vec3 reflectSample = texture2D(envSampler, envCoord).xyz;
-		float power = reflectSample.x + reflectSample.y + reflectSample.z;
-		reflectSample *= pow(power/3.0, 2.0);
-		specFinal += reflectSample * reflectivity * kD;
-	}
+	diffFinal *= diffSample.rgb;
 	
 	if (specMapIntensity > 0.0) {
 		vec3 specSample = texture2D(specSampler, fragTexCoord).xyz;
 		specSample = 1.0 + (specSample - 1.0) * specMapIntensity;
-		specFinal *= specSample;
+		specFinal *= specSample.r;
 	}
 	
-	vec3 color = diffFinal + specFinal;
-	
-	float fog = pow(clamp(-fragPosition.z / 1000.0, 0.0, 1.0), 3.0);
-	color *= (1.0 - fog);
-	
-	gl_FragData[0] = vec4(fragPosition.z, 1.0);
+	float depth = fragProjPos.z / fragProjPos.w;
+	gl_FragData[0] = pack_float(depth);
 	gl_FragData[1] = vec4(N, 1.0);
-	gl_FragData[2] = vec4(diffSample.rgb, 1.0);
+	gl_FragData[2] = vec4(diffFinal, specFinal);
 }

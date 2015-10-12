@@ -1,0 +1,23 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "DR_Solid",
+				"blendMode": {},
+				"textures": {
+					"0": "White",
+					"1": "Flat_norm",
+					"2": "White"
+				},
+				"uniforms": {
+					"normMapIntensity":	0.0,
+					"diffuse":			[0.25, 0.25, 0.25],
+					"specularity":		1.0,
+					"shininess":		8.0,
+					"emission":			0.125
+				}
+			}
+		]
+	}
+}

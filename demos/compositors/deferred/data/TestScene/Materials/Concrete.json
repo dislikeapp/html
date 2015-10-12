@@ -1,0 +1,24 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "DR_Solid",
+				"blendMode": {},
+				"textures": {
+					"0": "concrete",
+					"1": "concrete_norm",
+					"2": "concrete_spec"
+				},
+				"uniforms": {
+					"normMapIntensity":	1.0,
+					"specMapIntensity":	1.0,
+					"diffuse":			[1, 1, 1],
+					"specular":			0.5,
+					"shininess":		8.0,
+					"emission":			0.125
+				}
+			}
+		]
+	}
+}

@@ -7,15 +7,16 @@
 	},
 	"Shaders": {
 		"Blit": "Shaders/Blit.json",
-		"Deferred": "Shaders/Deferred.json",
+		"DR_Final": "Shaders/DR_Final.json",
+		"DR_Light": "Shaders/DR_Light.json",
+		"DR_Solid": "Shaders/DR_Solid.json",
 		"PlainTexture": "Shaders/PlainTexture.json",
 		"Solid": "Shaders/Solid.json"
 	},
 	"Materials": {
 		"Blit": "Materials/Blit.json",
-		"Deferred": "Materials/Deferred.json",
-		
-		"LightVolume": "Materials/LightVolume.json",
+		"DR_Final": "Materials/DR_Final.json",
+		"DR_Light": "Materials/DR_Light.json",
 		
 		"DefaultWhite": "Materials/DefaultWhite.json",
 		"Chocolate": "Materials/Chocolate.json",
