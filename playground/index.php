@@ -23,6 +23,7 @@
 					<select class="btn gray" id="examples">
 						<option value="-1" selected="true">-- Load Example --</option>
 						<option value="basic-scene">Basic Scene</option>
+						<option value="basic-motion">Basic Motion</option>
 						<option value="entity">Entity</option>
 						<option value="terrain">Terrain</option>
 					</select>
