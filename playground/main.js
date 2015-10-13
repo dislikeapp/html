@@ -51,6 +51,7 @@ window.addEventListener("load", function() {
 	});
 	save.addEventListener("click", function() {
 		var code = editor.getValue();
+		code = encodeURIComponent(code);
 		OE.Utils.ajaxRequest("save.php", "code="+code, function(response) {
 			try {
 				response = JSON.parse(response);
