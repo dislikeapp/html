@@ -1,0 +1,19 @@
+
+{
+	"material": {
+		"layer": "Lights",
+		"passes": [
+			{
+				"shader": "PlainTexture",
+				"blendMode": "ADDITIVE_OPAQUE",
+				"depthMode": {"test": false, "write": true},
+				"textures": {
+					"0": "Cursor"
+				},
+				"uniforms": {
+					"diffuse": [0.125, 0.5, 0.125]
+				}
+			}
+		]
+	}
+}

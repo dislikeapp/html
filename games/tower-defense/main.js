@@ -32,7 +32,7 @@ function declareResources(callback) {
 	var onDeclared = function() {
 		count++;
 		loadStatus(count);
-		if (count == 2) {
+		if (count == 3) {
 			loadFinish();
 			callback();
 		}
@@ -40,6 +40,7 @@ function declareResources(callback) {
 	
 	OE.ResourceManager.declareLibrary("Assets/Library.json", onDeclared);
 	OE.ResourceManager.declareLibrary("Assets/Default/Library.json", onDeclared);
+	OE.ResourceManager.declareLibrary("Assets/Turret/Library.json", onDeclared);
 }
 
 function preloadResources(type, callback) {

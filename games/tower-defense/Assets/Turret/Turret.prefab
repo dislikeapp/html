@@ -1,0 +1,9 @@
+{
+	"root": {
+		"className": "OE.Entity",
+		"model": "Turret",
+		"transform": {
+			"scale": [0.1,0.1,0.1]
+		}
+	}
+}

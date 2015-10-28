@@ -1,0 +1,14 @@
+{
+	"Textures": {
+		"Turret": "Textures/Turret.png"
+	},
+	"Materials": {
+		"Turret": "Materials/Turret.material"
+	},
+	"Models": {
+		"Turret": "Models/Turret.model"
+	},
+	"Prefabs": {
+		"Turret": "Turret.prefab"
+	}
+}

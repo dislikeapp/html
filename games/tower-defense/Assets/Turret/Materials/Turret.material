@@ -1,0 +1,30 @@
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"textures": {
+					"0": "Turret",
+					"1": "Flat_norm",
+					"2": "White",
+					"3": "Chrome_env"
+				},
+				"uniforms": {
+					"diffuse": [
+						"1.25",
+						"1.25",
+						"1.25"
+					],
+					"specular": [
+						"0.0",
+						"0.0",
+						"0.0"
+					],
+					"shininess": "32.0",
+					"emission": "0.75",
+					"reflectivity": 0.0
+				}
+			}
+		]
+	}
+}

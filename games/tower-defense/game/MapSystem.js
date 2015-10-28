@@ -26,8 +26,18 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		this.cursorX = x;
 		this.cursorY = y;
 		this.cursor.mActive = true;
+		
+		var h = 0.5;
+		var obj = this.getObject(x, y);
+		if (obj !== undefined) {
+			if (obj.mBoundingBox !== undefined) {
+				h = obj.mBoundingBox.p2.y - obj.mBoundingBox.p1.y;
+			}
+		}
+		this.cursor.mHeight = h;
+		this.cursor.updateBuffer();
 		this.cursor.setPosf(
-			this.gridToWorldX(x), this.gridScale/2.0,
+			this.gridToWorldX(x), h/2.0,
 			this.gridToWorldY(y));
 	},
 	hideCursor: function() {
@@ -48,15 +58,19 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	},
 	
 	getObject: function(x, y) {
-		var i = this.mSizeX*y+x;
+		var i = this.sizeX*y+x;
 		return this.objects[i];
 	},
 	setObject: function(x, y, obj) {
-		var i = this.mSizeX*y+x;
+		var i = this.sizeX*y+x;
 		var original = this.objects[i];
 		this.objects[i] = this.addChild(obj);
 		if (original !== undefined)
 			original.destroy();
+		obj.setPosf(
+			this.gridToWorldX(x), 0.0,
+			this.gridToWorldY(y)
+		);
 	},
 	isWall: function(x, y) {
 		return (this.getObject(x, y) !== undefined);
@@ -65,8 +79,8 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	build: function() {
 		this.destroyAll();
 		
-		this.cursor = this.addChild(new OE.Sphere(this.gridScale/2.0));
-		this.cursor.setMaterial("DefaultWhite");
+		this.cursor = this.addChild(new OE.Box(this.gridScale, this.gridScale, this.gridScale));
+		this.cursor.setMaterial("Cursor");
 		this.hideCursor();
 		
 		var width = this.sizeX * this.gridScale;

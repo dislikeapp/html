@@ -32,7 +32,8 @@
 		"bricks_spec": "Textures/bricks_spec.jpg",
 		"concrete": "Textures/concrete.jpg",
 		"concrete_norm": "Textures/concrete_norm.jpg",
-		"concrete_spec": "Textures/concrete_spec.jpg"
+		"concrete_spec": "Textures/concrete_spec.jpg",
+		"Cursor": "Textures/Cursor.png"
 	},
 	"Shaders": {
 		"Atmosphere":"Shaders/Atmosphere.json",
@@ -51,7 +52,8 @@
 		"Wall":"Materials/Wall.json",
 		"Water":"Materials/Water.json",
 		"Bricks": "Materials/Bricks.json",
-		"Concrete": "Materials/Concrete.json"
+		"Concrete": "Materials/Concrete.json",
+		"Cursor": "Materials/Cursor.json"
 	},
 	"Models": {
 		"Diamond":"Models/Diamond.obj"

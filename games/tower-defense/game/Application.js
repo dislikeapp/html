@@ -75,10 +75,21 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 	},
 	
+	onKeyDown: function(k) {
+		if (k === OE.Keys.T) {
+			if (this.map && this.map.cursor && this.map.cursor.mActive) {
+				this.map.setObject(
+					this.map.cursorX,
+					this.map.cursorY,
+					new OE.PrefabInst("Turret"));
+			}
+		}
+	},
+	
+	camDistVel: 0.0,
 	onMouseWheel: function(delta) {
 		delta = OE.Math.clamp(delta, -1.0, 1.0);
-		this.camDist -= delta * 5.0;
-		if (this.camDist < 0.0) this.camDist = 0.0;
+		this.camDistVel -= delta * 1.0;
 	},
 	
 	xprev: 0, yprev: 0,
@@ -128,6 +139,10 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	friction: 0.95,
 	
 	onUpdate: function() {
+		this.camDist += this.camDistVel;
+		this.camDistVel *= 0.875;
+		if (this.camDist < 5.0) this.camDist = 5.0;
+		
 		if (this.a === undefined) this.a = new OE.Vector3();
 		if (this.v === undefined) this.v = new OE.Vector3();
 		var a = this.a;
@@ -141,8 +156,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		var pos = this.mCamera.getPos();
 		
 		rot.mulvBy(this.a);
-		this.a.mulByf(0.125);
 		this.a.y = 0.0;
+		this.a.normalize();
+		this.a.mulByf(0.125);
 		this.v.addBy(this.a);
 		this.camPos.addBy(this.v);
 		this.v.mulByf(this.friction);
@@ -153,7 +169,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		pos.addBy(this.camPos);
 		pos.y += 1.0;
 		
-		if (pos.y < 5.0) pos.y = 5.0;
+		if (pos.y < 6.0) pos.y = 6.0;
 		
 		this.mCamera.setPos(pos);
 	}
