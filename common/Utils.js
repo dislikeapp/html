@@ -1,4 +1,15 @@
 
+
+
+function iframePointerEvents(active) {
+	var iframes = document.getElementsByTagName("iframe");
+	for (var i=0; i<iframes.length; i++) {
+		var e = iframes[i];
+		e.style.pointerEvents = active ? "initial" : "none";
+	}
+}
+
+
 var Utils = {};
 
 Utils.splitLines = function(str) {

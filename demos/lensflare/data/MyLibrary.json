@@ -1,0 +1,14 @@
+{
+	"Textures": {
+		"EnvMap": "Textures/Breezeway_env.jpg",
+		"Metal_norm": "Textures/Metal_norm.jpg"
+	},
+	"Materials": {
+		"EnvMap": "Materials/EnvMap.json"
+	},
+	"Models": {
+		"Diamond": "Models/Diamond.obj",
+		"Teapot_high": "Models/Teapot_merge_high.obj",
+		"Bunny_low": "Models/Bunny_low.obj"
+	}
+}

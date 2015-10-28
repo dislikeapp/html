@@ -1,0 +1,20 @@
+{
+	"shader": {
+		"vert": "Sources/DR_Light.vert",
+		"frag": "Sources/DR_Light.frag",
+		"attributes": {
+			"vertPosition":	"POSITION",
+			"vertNormal":	"NORMAL",
+			"vertTexCoord":	"TEXCOORD"
+		},
+		"uniforms": {
+			"mvpMatrix":	"MVP_MATRIX",
+			"mvMatrix":		"MV_MATRIX",
+			"vMatrix":		"V_MATRIX",
+			"nMatrix":		"N_MATRIX",
+			"depthSampler":		{"INT":		0},
+			"normalSampler":	{"INT":		1},
+			"albedoSampler":	{"INT":		2}
+		}
+	}
+}

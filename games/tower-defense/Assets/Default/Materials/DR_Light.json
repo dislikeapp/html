@@ -1,0 +1,18 @@
+
+{
+	"material": {
+		"layer": "Lights",
+		"passes": [
+			{
+				"shader": "DR_Light",
+				"depthMode": {"write": "false", "test": "false"},
+				"textures": {
+					"0": "OE_Deferred_Position",
+					"1": "OE_Deferred_Normal",
+					"2": "OE_Deferred_Albedo"
+				},
+				"uniforms": {}
+			}
+		]
+	}
+}

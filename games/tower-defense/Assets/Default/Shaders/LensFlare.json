@@ -1,0 +1,21 @@
+
+{
+	"shader": {
+		"vert": "Sources/LensFlare.vert",
+		"frag": "Sources/LensFlare.frag",
+		"attributes": {
+			"vertPosition":	"POSITION",
+			"vertTexCoord":	"TEXCOORD",
+			"vertDist":		{"customID": 0},
+			"vertDomain":	{"customID": 1}
+		},
+		"uniforms": {
+			"mvpMatrix":	"MVP_MATRIX",
+			"mvMatrix":		"MV_MATRIX",
+			"vMatrix":		"V_MATRIX",
+			"pMatrix":		"P_MATRIX",
+			"nMatrix":		"N_MATRIX",
+			"sampler":		{"INT":		0}
+		}
+	}
+}

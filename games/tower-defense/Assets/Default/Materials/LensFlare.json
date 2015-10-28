@@ -1,0 +1,16 @@
+{
+	"material": {
+		"layer": "Lights",
+		"passes": [
+			{
+				"shader": "LensFlare",
+				"blendMode": "ADDITIVE",
+				"depthMode": {"test": false, "write": false},
+				"textures": {
+					"0": "LightBillboard"
+				},
+				"uniforms": {}
+			}
+		]
+	}
+}

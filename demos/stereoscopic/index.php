@@ -1,6 +1,4 @@
-<?php
-	include("../../common/demos.php");
-?>
+<?php include("../../common/oejs.php"); ?>
 <html>
 	<head>
 		<?php oejs_script(); ?>

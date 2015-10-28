@@ -1,0 +1,60 @@
+{
+	"Textures": {
+		"Dirt_diff":"Textures/Dirt_diff.png",
+		"Dirt_norm":"Textures/Dirt_norm.png",
+		"Dirt_spec":"Textures/Dirt_spec.png",
+		"Glitter_norm":"Textures/Glitter_norm.bmp",
+		"Grass_diff":"Textures/Grass_diff.png",
+		"Grass_norm":"Textures/Grass_norm.png",
+		"Grass_spec":"Textures/Grass_spec.png",
+		"Map1_env":"Textures/Map1_env.jpg",
+		"Metal_diff":"Textures/Metal_diff.bmp",
+		"Metal_norm":"Textures/Metal_norm.jpg",
+		"Metal_norm_hd":"Textures/Metal_norm_hd.bmp",
+		"Moon_diff":"Textures/Moon_diff.jpg",
+		"Moon_norm":"Textures/Moon_norm.jpg",
+		"Moon_spec":"Textures/Moon_spec.jpg",
+		"Rock_diff":"Textures/Rock_diff.png",
+		"Rock_norm":"Textures/Rock_norm.png",
+		"Rock_spec":"Textures/Rock_spec.png",
+		"Snow_diff":"Textures/Snow_diff.jpg",
+		"Snow_norm":"Textures/Snow_norm.png",
+		"Snow_spec":"Textures/Snow_spec.png",
+		"Terrain_diff":"Textures/Terrain_diff.jpg",
+		"Terrain_diff_hd":"Textures/Terrain_diff_hd.png",
+		"Terrain_diff_spec":"Textures/Terrain_diff_spec.png",
+		"Terrain_norm":"Textures/Terrain_norm.jpg",
+		"Terrain_norm_hd":"Textures/Terrain_norm_hd.png",
+		"Terrain_spec":"Textures/Terrain_spec.jpg",
+		"Terrain_spec_hd":"Textures/Terrain_spec_hd.png",
+		"bricks": "Textures/bricks.jpg",
+		"bricks_norm": "Textures/bricks_norm.jpg",
+		"bricks_spec": "Textures/bricks_spec.jpg",
+		"concrete": "Textures/concrete.jpg",
+		"concrete_norm": "Textures/concrete_norm.jpg",
+		"concrete_spec": "Textures/concrete_spec.jpg"
+	},
+	"Shaders": {
+		"Atmosphere":"Shaders/Atmosphere.json",
+		"Terrain":"Shaders/Terrain.json"
+	},
+	"Materials": {
+		"Atmosphere":"Materials/Atmosphere.json",
+		"Car Paint":"Materials/Car Paint.json",
+		"Chrome":"Materials/Chrome.json",
+		"Dirt":"Materials/Dirt.json",
+		"Grass":"Materials/Grass.json",
+		"Metal":"Materials/Metal.json",
+		"Moon":"Materials/Moon.json",
+		"Rock":"Materials/Rock.json",
+		"Terrain":"Materials/Terrain.json",
+		"Wall":"Materials/Wall.json",
+		"Water":"Materials/Water.json",
+		"Bricks": "Materials/Bricks.json",
+		"Concrete": "Materials/Concrete.json"
+	},
+	"Models": {
+		"Diamond":"Models/Diamond.obj"
+	}
+	
+}

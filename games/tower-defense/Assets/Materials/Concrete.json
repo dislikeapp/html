@@ -1,0 +1,27 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"blendMode": {},
+				"textures": {
+					"0": "concrete",
+					"1": "concrete_norm",
+					"2": "concrete_spec",
+					"3": "Chrome_env"
+				},
+				"uniforms": {
+					"normMapIntensity":	1.0,
+					"specMapIntensity":	1.0,
+					"diffuse":			[1, 1, 1],
+					"specular":			[0.25, 0.25, 0.25],
+					"shininess":		4.0,
+					"emission":			0.0,
+					"diffusivity":		1.0,
+					"reflectivity":		0.0
+				}
+			}
+		]
+	}
+}
