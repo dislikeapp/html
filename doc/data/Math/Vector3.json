@@ -1,0 +1,1 @@
+{"name":"Vector3","type":"class","module":"Math","fields":[],"methods":[{"signature":"setPosf(Number x, Number y, Number z)","description":"Changes this vector's x, y, and z values.","params":[{"name":"x","desc":"New x value."},{"name":"y","desc":"New y value."},{"name":"z","desc":"New z value."}]}],"description":"Represents a 3D vector or point."}

@@ -1,19 +1,32 @@
 
 var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 	
+	map: undefined,
+	
+	active: false,
 	isEmitter: false,
 	difficulty: 0.0,
 	
-	constructor: function Waypoint() {
+	prevWaypoint: undefined,
+	nextWaypoint: undefined,
+	
+	constructor: function Waypoint(map, prev) {
 		OE.GameObject.call(this);
+		
 		var box = this.addChild(new OE.Box(
 			1.0,
-			app.map.gridScale,
+			map.gridScale,
 			1.0));
 		box.setMaterial("DefaultWhite");
-		box.setPosf(0.0, app.map.gridScale/2.0, 0.0);
-		
+		box.setPosf(0.0, map.gridScale/2.0, 0.0);
 		this.mBoundingBox = box.mBoundingBox;
+		
+		this.map = map;
+		
+		this.prevWaypoint = prev;
+		
+		if (prev !== undefined)
+			prev.nextWaypoint = this;
 	},
 	
 	getHarder: function() {
@@ -32,43 +45,59 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 								minType,
 								maxType,
 								Math.pow(Math.random(), curve)));
-		var actor = app.addActor(this.map_pos_x, this.map_pos_y, type);
+		var actor = this.map.addActor(this.map_pos_x, this.map_pos_y, type);
 		
-		var offx = Math.cos(Math.random() * OE.Math.TWO_PI) * 0.025;
-		var offz = Math.sin(Math.random() * OE.Math.TWO_PI) * 0.025;
-		
-		actor.onUpdate = function() {
-			Actor.prototype.onUpdate.call(this);
-			this.velocity.x += Math.cos(Math.random() * OE.Math.TWO_PI) * 0.025 + offx;
-			this.velocity.z += Math.sin(Math.random() * OE.Math.TWO_PI) * 0.025 + offz;
-		};
+		actor.visitWaypoint(this);
 	},
 	emitWave: function() {
 		this.emitting = true;
 		var emits = 0;
 		var emit = function() {
-			emits++;
-			this.emitEnemy();
-			
-			var size = OE.Math.linInterp(this.difficulty*0.5, 1.0, Math.random());
-			var base = OE.Math.linInterp(4.0, 5.0, size);
-			if (Math.random() < base / emits) {
-				setTimeout(emit, 1000);
-			}
-			else {
-				this.getHarder();
-				this.emitting = false;
+			if (this.active) {
+				emits++;
+				this.emitEnemy();
+				
+				var size = OE.Math.linInterp(this.difficulty*0.5, 1.0, Math.random());
+				var base = OE.Math.linInterp(4.0, 5.0, size);
+				if (Math.random() < base / emits) {
+					this.nextEmitTimeout = setTimeout(emit, 600);
+				}
+				else {
+					this.nextEmitTimeout = undefined;
+					this.getHarder();
+					this.emitting = false;
+				}
 			}
 		}.bind(this);
 		
 		emit();
 	},
 	
+	setActive: function(active) {
+		if (active) this.activate();
+		else this.deactivate();
+	},
+	activate: function() {
+		if (!this.active) {
+			this.active = true;
+			this.timer = this.delay - 60;
+		}
+	},
+	deactivate: function() {
+		this.active = false;
+		this.timer = 0;
+		if (this.nextEmitTimeout !== undefined) {
+			clearTimeout(this.nextEmitTimeout);
+			this.nextEmitTimeout = undefined;
+		}
+		this.emitting = false;
+	},
+	
 	emitting: false,
-	timer: 600,
-	delay: 900,
+	timer: 0,
+	delay: 300,
 	onUpdate: function() {
-		if (this.isEmitter) {
+		if (this.isEmitter && this.active) {
 			if (!this.emitting) {
 				this.timer++;
 				if (this.timer >= this.delay) {

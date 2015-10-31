@@ -1,0 +1,1 @@
+{"name":"Material","type":"class","module":"Materials","fields":[],"methods":[],"description":"A kind of [Resource] for describing the way the surface of an object looks.","extends":["Resource"]}

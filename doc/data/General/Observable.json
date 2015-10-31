@@ -1,0 +1,1 @@
+{"name":"Observable","type":"class","module":"General","fields":[],"methods":[],"description":"Stores event listeners and calls them when a named event is dispatched."}

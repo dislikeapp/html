@@ -1,0 +1,1 @@
+{"name":"HasMaterial","type":"class","module":"Materials","fields":[],"methods":[],"description":"A class which has an associated [Material]. Subclasses will inherit a set of utility methods for setting materials and their parameters."}

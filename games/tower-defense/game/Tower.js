@@ -1,6 +1,8 @@
 
 var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	
+	map: undefined,
+	
 	tower_id: 0,
 	upgrade_level: 0,
 	
@@ -12,8 +14,10 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	timer: 0,
 	angle: 0.0,
 	
-	constructor: function Tower(type) {
+	constructor: function Tower(map, type) {
 		OE.PrefabInst.call(this, "Turret");
+		
+		this.map = map;
 		
 		this.tower_id = type;
 		this.setUpgradeLevel(0);
@@ -55,8 +59,8 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	},
 	
 	findTarget: function() {
-		for (var key in app.enemies.data) {
-			var enemy = app.enemies.data[key];
+		for (var key in this.map.enemies.data) {
+			var enemy = this.map.enemies.data[key];
 			if (this.canTarget(enemy)) {
 				this.target = enemy;
 				return;

@@ -1,0 +1,1 @@
+{"name":"Shader","type":"class","module":"Materials","fields":[],"methods":[],"description":"A kind of [Resource] for loading shader programs which run on the GPU and shade geometry.","extends":["Resource"]}

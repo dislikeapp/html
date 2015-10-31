@@ -33,7 +33,8 @@
 		"concrete": "Textures/concrete.jpg",
 		"concrete_norm": "Textures/concrete_norm.jpg",
 		"concrete_spec": "Textures/concrete_spec.jpg",
-		"Cursor": "Textures/Cursor.png"
+		"Cursor": "Textures/Cursor.png",
+		"MetalWall1": "Textures/MetalWall1.jpg"
 	},
 	"Shaders": {
 		"Atmosphere":"Shaders/Atmosphere.json",

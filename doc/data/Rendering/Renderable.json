@@ -1,0 +1,1 @@
+{"name":"Renderable","type":"class","module":"Rendering","fields":[],"methods":[],"description":"An interface for anything that can be queued in a [RenderQueue], and later rendered by the [RenderSystem] by supplying a [RenderOperation]."}

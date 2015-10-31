@@ -14,7 +14,7 @@ function loadStatus(statusText) {
 	var status = overlay.findByName("status");
 	status.innerHTML = statusText;
 }
-function loadFinish() {
+function loadFinish(timeout, callback) {
 	loadStatus("Done!");
 	var overlay = document.getElementById("loadingOverlay");
 	overlay.mTimer = setTimeout(function() {
@@ -22,8 +22,9 @@ function loadFinish() {
 		var status = overlay.findByName("status");
 		status.innerHTML = "";
 		overlay.style.display = "none";
-        showMenu();
-	}, 2000);
+		if (callback !== undefined)
+			callback();
+	}, timeout);
 }
 
 function showMenu() {
@@ -46,8 +47,7 @@ function declareResources(callback) {
 		count++;
 		loadStatus(count);
 		if (count == 3) {
-			loadFinish();
-			callback();
+			loadFinish(0, callback);
 		}
 	};
 	
@@ -61,20 +61,25 @@ function preloadResources(type, callback) {
 		textures: [
 			"White", "Black", "Flat_norm",
 			"concrete",
-			"bricks"
+			"bricks",
+			"MetalWall1",
+			"Turret",
+			"TurretColor"
 		],
 		shaders: [
 			"Solid",
-			"Atmosphere"
+			"Atmosphere",
+			"ColorMask"
 		],
 		materials: [
 			"DefaultWhite",
 			"Atmosphere",
 			"Concrete",
-			"Bricks"
+			"Wall",
+			"Turret"
 		],
 		models: [
-			"Diamond"
+			"Turret"
 		]
 	}
 	var list = resources[type];
@@ -111,6 +116,17 @@ var menuBar;
 function init() {
 	app = new Application();
 	app.run();
+	declareResources(function() {
+		preloadResources("textures", function() {
+		preloadResources("shaders", function() {
+		preloadResources("materials", function() {
+		preloadResources("models", function() {
+			showMenu();
+		});
+		});
+		});
+		});
+	});
 }
 function finish() {
 	if (app)
