@@ -13,6 +13,7 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 		box.setMaterial("DefaultWhite");
 		box.setPosf(0.0, app.map.gridScale/2.0, 0.0);
 		
+		this.mBoundingBox = box.mBoundingBox;
 	},
 	
 	getHarder: function() {
@@ -43,27 +44,38 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 		};
 	},
 	emitWave: function() {
+		this.emitting = true;
 		var emits = 0;
-		var func = function() {
+		var emit = function() {
 			emits++;
 			this.emitEnemy();
 			
-			var base = OE.Math.linInterp(2.0, 4.0, this.difficulty);
-			if (Math.random() < 3.0 / emits)
-				setTimeout(func, 1000);
-			else
+			var size = OE.Math.linInterp(this.difficulty*0.5, 1.0, Math.random());
+			var base = OE.Math.linInterp(4.0, 5.0, size);
+			if (Math.random() < base / emits) {
+				setTimeout(emit, 1000);
+			}
+			else {
 				this.getHarder();
+				this.emitting = false;
+			}
 		}.bind(this);
-		func();
+		
+		emit();
 	},
 	
+	emitting: false,
 	timer: 600,
 	delay: 900,
 	onUpdate: function() {
-		this.timer++;
-		if (this.timer >= this.delay) {
-			this.timer = 0;
-			this.emitWave();
+		if (this.isEmitter) {
+			if (!this.emitting) {
+				this.timer++;
+				if (this.timer >= this.delay) {
+					this.timer = 0;
+					this.emitWave();
+				}
+			}
 		}
 	},
 	onDestroy: function() {}

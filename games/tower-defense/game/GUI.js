@@ -152,6 +152,15 @@ var GUI = OE.Utils.defClass2({
 				+'<div>Health: '+percent+'% ('+hp+'/'+hpm+')</div>';
 			this.ui.selection.innerHTML = str;
 		}
+		else if (object instanceof Waypoint) {
+			var str = '<div>Waypoint</div>';
+			
+			if (object.isEmitter) {
+				var percent = (100.0 * object.difficulty).toFixed(0);
+				str += '<div>Difficulty: '+percent+'%</div>';
+			}
+			this.ui.selection.innerHTML = str;
+		}
 		else {
 			this.ui.selection.innerHTML = '';
 		}

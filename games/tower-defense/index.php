@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="appOverlay" id="ingameOverlay">
-			<div name="frame" class="frame1 absolute" style="top: 4px; right: 4px; bottom: 4px; width: 300px;">
+			<div name="frame" class="frame1 absolute takeInput" style="overflow-y: auto; top: 4px; right: 4px; bottom: 4px; width: 300px;">
 				<input type="button" name="toggle" value="Show/Hide" />
 				<div name="content">
 					<div class="pane userInfo" name="userInfo"></div>

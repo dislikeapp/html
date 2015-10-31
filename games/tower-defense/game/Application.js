@@ -80,6 +80,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		weather.mBoundingBox = undefined;
 		
 		this.enemies = new Map();
+		this.waypoints = new Array();
 	},
 	resetScene: function() {
 		this.mScene.mRoot.removeChild(this.mCamera);
@@ -95,7 +96,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			this.map.setGridSize(20, 20);
 			this.map.build();
 			
-			this.map.setObject(10, 10, scene.addObject(new Waypoint()));
+			this.addWaypoint(10, 10, true);
 		}
 	},
 	
@@ -104,6 +105,12 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			return this.map.setObject(x, y, new Tower(type));
 		}
 		return undefined;
+	},
+	addWaypoint: function(x, y, isEmitter) {
+		var wp = this.map.setObject(x, y, new Waypoint());
+		wp.isEmitter = isEmitter;
+		this.waypoints.push(wp);
+		return wp;
 	},
 	addActor: function(x, y, type) {
 		if (this.actorData) {
