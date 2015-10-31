@@ -1,0 +1,1 @@
+{"name":"Sphere","type":"class","module":"Objects","fields":[],"methods":[],"description":"A default [GameObject] that generates a spherical mesh.\nAlso implements a [Renderable], which is submitted to the [RenderSystem] for rendering.","extends":["Renderable","GameObject","HasMaterial"]}

@@ -1,0 +1,1 @@
+{"name":"Movable","type":"class","module":"Math","fields":[],"methods":[{"signature":"setPosf(Number x, Number y, Number z)","description":"Sets this object's position.","params":[{"name":"x","desc":"New x value."},{"name":"y","desc":"New y value."},{"name":"z","desc":"New z value."}]}],"description":"An object that has a [Transform] which can be used to move it."}

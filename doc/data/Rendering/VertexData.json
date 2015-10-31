@@ -1,0 +1,1 @@
+{"name":"VertexData","type":"class","module":"Rendering","fields":[],"methods":[{"signature":"clear()","description":"Erases the vertex buffer from the GPU and clears all attribute declarations."}],"description":"Represents a buffer of vertex data formatted with a number of vertex attributes on the GPU."}

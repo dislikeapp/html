@@ -1,0 +1,1 @@
+{"name":"Resource","type":"class","module":"Resources","fields":[],"methods":[],"description":"An abstract class for defining resource types. Subclasses of [Resource] should provide an implementation of how the resource is loaded, how loading fails, etc.","extends":["Observable"]}
