@@ -58,19 +58,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mViewport = rt.createViewport(this.mCamera);
 		
 		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
-		
-		declareResources(function() {
-			preloadResources("textures", function() {
-			preloadResources("shaders", function() {
-			preloadResources("materials", function() {
-			preloadResources("models", function() {
-	//			app.initScene();
-//				app.loadLevel(0);
-			});
-			});
-			});
-			});
-		});
 	},
 	onFinish: function() {},
 	

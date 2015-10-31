@@ -44,7 +44,7 @@ var GUI = OE.Utils.defClass2({
 	setShopActive: function(active) {
 		this.shopActive = active;
 		if (!active) {
-			this.selectShopItem(undefined);
+			// this.selectShopItem(undefined);
 		}
 	},
 	
@@ -70,10 +70,6 @@ var GUI = OE.Utils.defClass2({
 	},
 	
 	selectShopItem: function(info) {
-		if (!this.shopActive) {
-			this.ui.shopInfo.innerHTML = '';
-			return;
-		}
 		if (info === undefined) {
 			this.ui.shopInfo.innerHTML = '';
 			return;
@@ -95,6 +91,10 @@ var GUI = OE.Utils.defClass2({
 		
 		var buyBtn = this.ui.shopInfo.findByName("buy");
 		buyBtn.on("click", function() {
+			if (!this.shopActive) {
+				alert("Can only buy during build phase!");
+				return;
+			}
 			if (app.map.cursor.mActive) {
 				var obj = app.map.getObject(app.map.cursorX, app.map.cursorY);
 				if (obj === undefined) {
