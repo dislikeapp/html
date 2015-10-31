@@ -25,12 +25,19 @@
 <body>
 	<div class="appFrame" id="appFrame">
 		<div class="appOverlay nodisplay" id="loadingOverlay">
-			<div class="frame1" style="margin: 24px;">
+			<div class="frame1 loader">
 				Loading...<br />
 				Status:<span name="status"></span>
 			</div>
 		</div>
-		<div class="appOverlay" id="ingameOverlay">
+        <div class="appOverlay nodisplay" id="menuOverlay">
+            <div class="frame1 mainMenu takeInput">
+                <span class="title">Tower Defense Game!</span>
+                <button type="button" class="mainButton" onclick="clickBegin()">Begin</button><br/><br/>
+                <button type="button" class="mainButton">Controls</button>
+            </div>
+        </div>
+		<div class="appOverlay nodisplay" id="ingameOverlay">
 			<div name="frame" class="frame1 absolute takeInput" style="overflow-y: auto; top: 4px; right: 4px; bottom: 4px; width: 300px;">
 				<input type="button" name="toggle" value="Show/Hide" />
 				<div name="content">

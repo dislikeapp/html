@@ -60,8 +60,8 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			preloadResources("shaders", function() {
 			preloadResources("materials", function() {
 			preloadResources("models", function() {
-				app.initScene();
-				app.loadLevel(0);
+	//			app.initScene();
+//				app.loadLevel(0);
 			});
 			});
 			});
