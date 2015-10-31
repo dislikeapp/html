@@ -16,9 +16,11 @@
 	<script src="game/GUI.js"></script>
 	<script src="game/WeatherSystem.js"></script>
 	<script src="game/MapSystem.js"></script>
+	<script src="game/NavMesh.js"></script>
+	<script src="game/Wall.js"></script>
+	<script src="game/Waypoint.js"></script>
 	<script src="game/Tower.js"></script>
 	<script src="game/Actor.js"></script>
-	<script src="game/Waypoint.js"></script>
 	
 	<script src="main.js"></script>
 </head>
@@ -40,6 +42,7 @@
 		<div class="appOverlay nodisplay" id="ingameOverlay">
 			<div name="frame" class="frame1 absolute takeInput" style="overflow-y: auto; top: 4px; right: 4px; bottom: 4px; width: 300px;">
 				<input type="button" name="toggle" value="Show/Hide" />
+				<div class="gameState" name="gameState"></div>
 				<div name="content">
 					<div class="pane userInfo" name="userInfo"></div>
 					<div class="pane shop" name="shop"></div>

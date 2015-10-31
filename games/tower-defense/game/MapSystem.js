@@ -1,25 +1,82 @@
 
 var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	
-	data: undefined,
-	
 	sizeX: 5,
 	sizeY: 5,
 	size: 25,
 	
 	gridScale: 10.0,
-	wallHeight: 5.0,
+	wallHeight: 10.0,
 	
-	constructor: function() {
+	waypoints: undefined,
+	enemies: undefined,
+	nav: undefined,
+	
+	constructor: function(w, h) {
 		OE.GameObject.call(this);
-		this.data = new Array(this.size);
+		this.setGridSize(w, h);
+		
+		this.waypoints = new Array();
+		this.enemies = new Map();
 	},
 	
 	setGridSize: function(w, h) {
 		this.sizeX = w;
 		this.sizeY = h;
 		this.size = w*h;
-		this.data = new Array(this.size);
+		this.nav = new NavMesh(this, w, h);
+		
+		this.objects = new Array(this.size);
+	},
+	
+	addWaypoint: function(x, y, prev, isEmitter) {
+		if (isEmitter === undefined)
+			isEmitter = false;
+		
+		var prevWp = (prev !== undefined) ? this.waypoints[prev] : undefined;
+		
+		var wp = this.setObject(x, y, new Waypoint(this, prevWp));
+		wp.isEmitter = isEmitter;
+		this.waypoints.push(wp);
+		
+		return wp;
+	},
+	addTower: function(x, y, type) {
+		if (app.towerData) {
+			return this.setObject(x, y, new Tower(this, type));
+		}
+		return undefined;
+	},
+	addActor: function(x, y, type) {
+		if (app.actorData) {
+			var actor = this.addChild(new Actor(type));
+			this.setObjectPos(actor, x, y);
+			
+			var key = this.enemies.insertNext(actor);
+			
+			actor.addEventListener("destroyed", function() {
+				this.enemies.removeKey(key);
+				app.userData.receive(actor.bounty);
+				app.gui.updateUserInfo();
+			}.bind(this));
+			return actor;
+		}
+		return undefined;
+	},
+	
+	setWaypointsActive: function(active) {
+		for (var i=0; i<this.waypoints.length; i++) {
+			this.waypoints[i].setActive(active);
+		}
+	},
+	startRaid: function(callback) {
+		this.setWaypointsActive(true);
+		setTimeout(function() {
+			callback();
+		}, 45000);
+	},
+	stopRaid: function() {
+		this.setWaypointsActive(false);
 	},
 	
 	setCursor: function(x, y) {
@@ -79,9 +136,7 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 			this.objects[i] = this.addChild(obj);
 			obj.map_pos_x = x;
 			obj.map_pos_y = y;
-			obj.setPosf(
-				this.gridToWorldX(x), 0.0,
-				this.gridToWorldY(y));
+			this.setObjectPos(obj, x, y);
 		}
 		else {
 			this.objects[i] = undefined;
@@ -92,7 +147,7 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		return (this.getObject(x, y) !== undefined);
 	},
 	
-	build: function() {
+	init: function() {
 		this.destroyAll();
 		
 		this.cursor = this.addChild(new OE.Box(this.gridScale, this.gridScale, this.gridScale));
@@ -107,44 +162,23 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		floor.mTexWrapY = this.sizeY / 4;
 		floor.updateBuffer();
 		floor.setMaterial("Concrete");
-		
-		this.objects = new Array(this.size);
-		
+	},
+	
+	generateWaypoints: function() {
+		this.addWaypoint(5, 5, undefined, true);
+		this.addWaypoint(15, 15, 0);
+	},
+	generateWalls: function() {
 		for (var y=0; y<this.sizeY; y++) {
-			var fy = y/this.sizeY;
 			for (var x=0; x<this.sizeX; x++) {
-				var fx = x/this.sizeX;
-				var i = this.sizeX*y+x;
-				if (Math.random() > 0.9) {
-					this.data[i] = 1;
+				if (this.getObject(x, y) === undefined && Math.random() > 0.9) {
+					this.setObject(x, y, new Wall(this));
 				}
 			}
 		}
-		
-		var whh = this.wallHeight / 2.0;
-		
-		for (var y=0; y<this.sizeY; y++) {
-			var fy = y/this.sizeY;
-			for (var x=0; x<this.sizeX; x++) {
-				var fx = x/this.sizeX;
-				var i = this.sizeX*y+x;
-				var value = this.data[i];
-				var obj = undefined;
-				
-				if (value === 1) {
-					obj = this.addChild(new OE.Box(this.gridScale, this.wallHeight, this.gridScale));
-					obj.setMaterial("Bricks");
-					/*obj.setPosf(
-						(fx-0.5)*this.sizeX * gs + gsh, whh,
-						(fy-0.5)*this.sizeY * gs + gsh);*/
-					obj.setPosf(
-						this.gridToWorldX(x), whh,
-						this.gridToWorldY(y));
-				}
-				
-				this.objects[i] = obj;
-			}
-		}
+	},
+	generateNavMesh: function() {
+		// this.nav.updateMesh(); TODO
 	},
 	
 	onUpdate: function() {},

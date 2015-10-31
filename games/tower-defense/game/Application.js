@@ -26,6 +26,8 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	STATE_DEFENDING: 1,
 	state: 0,
 	
+	buildStateTime: 20000, // ms
+	
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
@@ -55,6 +57,8 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
 		
+		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
+		
 		declareResources(function() {
 			preloadResources("textures", function() {
 			preloadResources("shaders", function() {
@@ -79,8 +83,10 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
 		
-		this.enemies = new Map();
-		this.waypoints = new Array();
+		OE.SoundManager.load("Soliloquy", function(sound) {
+			sound.setLoop(true);
+			sound.play();
+		});
 	},
 	resetScene: function() {
 		this.mScene.mRoot.removeChild(this.mCamera);
@@ -92,41 +98,53 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.resetScene();
 		var scene = this.mScene;
 		if (level === 0) {
-			this.map = scene.addObject(new MapSystem());
-			this.map.setGridSize(20, 20);
-			this.map.build();
+			this.map = scene.addObject(new MapSystem(20, 20));
+			this.map.init();
+			this.map.generateWaypoints();
+			this.map.generateWalls();
+			this.map.generateNavMesh();
 			
-			this.addWaypoint(10, 10, true);
+			this.changeState(this.STATE_BUILDING);
 		}
 	},
 	
-	addTower: function(x, y, type) {
-		if (this.towerData) {
-			return this.map.setObject(x, y, new Tower(type));
-		}
-		return undefined;
+	changeState: function(state) {
+		this.exitState();
+		this.state = state;
+		this.enterState();
 	},
-	addWaypoint: function(x, y, isEmitter) {
-		var wp = this.map.setObject(x, y, new Waypoint());
-		wp.isEmitter = isEmitter;
-		this.waypoints.push(wp);
-		return wp;
-	},
-	addActor: function(x, y, type) {
-		if (this.actorData) {
-			var actor = this.mScene.addObject(new Actor(type));
-			this.map.setObjectPos(actor, x, y);
-			
-			var key = this.enemies.insertNext(actor);
-			
-			actor.addEventListener("destroyed", function() {
-				this.enemies.removeKey(key);
-				this.userData.receive(actor.bounty);
-				this.gui.updateUserInfo();
-			}.bind(this));
-			return actor;
+	enterState: function() {
+		switch (this.state) {
+			case this.STATE_BUILDING: {
+				this.gui.setGameState(this.state);
+				
+				this.map.stopRaid();
+				
+				setTimeout(function() {
+					this.changeState(this.STATE_DEFENDING);
+				}.bind(this), this.buildStateTime);
+				break;
+			};
+			case this.STATE_DEFENDING: {
+				this.map.generateNavMesh();
+				this.gui.setGameState(this.state);
+				
+				this.map.startRaid(function() {
+					this.changeState(this.STATE_BUILDING);
+				}.bind(this));
+				break;
+			};
 		}
-		return undefined;
+	},
+	exitState: function() {
+		switch (this.state) {
+			case this.STATE_BUILDING: {
+				break;
+			};
+			case this.STATE_DEFENDING: {
+				break;
+			};
+		}
 	},
 	
 	onKeyDown: function(k) {

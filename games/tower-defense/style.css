@@ -342,6 +342,21 @@ table.layout > tbody > tr > th {
 	color: #FF0000;
 }
 
+#ingameOverlay .gameState {
+	display: inline-block;
+	float: right;
+	font-size: 18px;
+	font-weight: bold;
+}
+#ingameOverlay .gameState.build {
+	color: #007FFF;
+	background-color: #002F4F;
+}
+#ingameOverlay .gameState.defend {
+	color: #FF0000;
+	background-color: #4F0000;
+}
+
 .userInfo .balance {
 	color: #FFFF00;
 	font-family: monospace;

@@ -11,6 +11,8 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	friction: 0.75,
 	velocity: undefined,
 	
+	lastWaypoint: undefined,
+	
 	dead: false,
 	
 	constructor: function Actor(type) {
@@ -37,6 +39,14 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		this.health = this.healthMax = info.health;
 		this.accel = info.accel;
 		this.bounty = info.bounty;
+	},
+	
+	visitWaypoint: function(wp) {
+		this.lastWaypoint = wp;
+		if (wp.nextWaypoint === undefined) {
+			this.dead = true;
+			this.destroy();
+		}
 	},
 	
 	damage: function(power) {
@@ -96,6 +106,26 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		}
 		
 		var pos = this.getPos();
+		
+		if (this.lastWaypoint !== undefined &&
+			this.lastWaypoint.nextWaypoint !== undefined) {
+			var next = this.lastWaypoint.nextWaypoint;
+			var p2 = next.getPos();
+			var dx = p2.x - pos.x;
+			var dz = p2.z - pos.z;
+			var d2 = dx*dx + dz*dz;
+			if (d2 < 1.0) {
+				this.visitWaypoint(next);
+			}
+			else {
+				var d = Math.sqrt(d2);
+				var nx = dx / d;
+				var nz = dz / d;
+				this.velocity.x += nx * this.accel;
+				this.velocity.z += nz * this.accel;
+			}
+		}
+		
 		this.velocity.mulByf(this.friction);
 		pos.addBy(this.velocity);
 		this.setPos(pos);

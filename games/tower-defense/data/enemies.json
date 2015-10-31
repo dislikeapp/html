@@ -2,37 +2,37 @@
 	{
 		"name": "Ball",
 		"health": 25,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 1
 	},
 	{
 		"name": "Another Ball",
 		"health": 50,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 2
 	},
 	{
 		"name": "Yet Another Ball",
 		"health": 100,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 3
 	},
 	{
 		"name": "Yet Another Ball",
 		"health": 150,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 5
 	},
 	{
 		"name": "Yet Another Ball",
 		"health": 250,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 10
 	},
 	{
 		"name": "Yet Another Ball",
 		"health": 1000,
-		"accel": 0.15,
+		"accel": 0.1,
 		"bounty": 40
 	}
 ]

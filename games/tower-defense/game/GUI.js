@@ -4,11 +4,12 @@ var GUI = OE.Utils.defClass2({
 	ui: undefined,
 	
 	userData: undefined,
+	shopActive: false,
 	
 	constructor: function() {
 		this.overlay = document.getElementById("ingameOverlay");
 		var ui = this.ui = {};
-		var names = ["frame", "toggle", "content", "userInfo", "shop", "shopInfo", "selection"];
+		var names = ["frame", "toggle", "gameState", "content", "userInfo", "shop", "shopInfo", "selection"];
 		for (var i=0; i<names.length; i++)
 			ui[names[i]] = this.overlay.findByName(names[i]);
 		
@@ -28,6 +29,25 @@ var GUI = OE.Utils.defClass2({
 		this.ui.userInfo.innerHTML = str;
 	},
 	
+	setGameState: function(state) {
+		if (state === app.STATE_BUILDING) {
+			this.setShopActive(true);
+			this.ui.gameState.setAttribute("class", "gameState build");
+			this.ui.gameState.innerHTML = "BUILD";
+		}
+		else if (state === app.STATE_DEFENDING) {
+			this.setShopActive(false);
+			this.ui.gameState.setAttribute("class", "gameState defend");
+			this.ui.gameState.innerHTML = "DEFEND";
+		}
+	},
+	setShopActive: function(active) {
+		this.shopActive = active;
+		if (!active) {
+			this.selectShopItem(undefined);
+		}
+	},
+	
 	createShop: function(items) {
 		var str = '';
 		
@@ -43,13 +63,22 @@ var GUI = OE.Utils.defClass2({
 				var item = items[i];
 				var e = this.ui.shop.findByName('item '+i);
 				e.on("click", function() {
-					this.selectTower(item);
+					this.selectShopItem(item);
 				}.bind(this));
 			}.bind(this))(i);
 		}
 	},
 	
-	selectTower: function(info) {
+	selectShopItem: function(info) {
+		if (!this.shopActive) {
+			this.ui.shopInfo.innerHTML = '';
+			return;
+		}
+		if (info === undefined) {
+			this.ui.shopInfo.innerHTML = '';
+			return;
+		}
+		
 		var level = info.levels[0];
 		
 		var delay = (1000.0 * level.delay / 60.0).toFixed(0);
@@ -71,7 +100,7 @@ var GUI = OE.Utils.defClass2({
 				if (obj === undefined) {
 					if (this.userData.charge(level.cost)) {
 						this.updateUserInfo();
-						var tower = app.addTower(app.map.cursorX, app.map.cursorY, info.id);
+						var tower = app.map.addTower(app.map.cursorX, app.map.cursorY, info.id);
 						this.setSelection(tower);
 					}
 					else {
@@ -135,6 +164,11 @@ var GUI = OE.Utils.defClass2({
 				}.bind(this));
 			}
 			sellBtn.on("click", function() {
+				if (!this.shopActive) {
+					alert("Can only sell during build phase!");
+					return;
+				}
+				
 				app.map.setObject(object.map_pos_x, object.map_pos_y, undefined);
 				this.userData.receive(sell_price);
 				this.updateUserInfo();
@@ -159,6 +193,10 @@ var GUI = OE.Utils.defClass2({
 				var percent = (100.0 * object.difficulty).toFixed(0);
 				str += '<div>Difficulty: '+percent+'%</div>';
 			}
+			this.ui.selection.innerHTML = str;
+		}
+		else if (object instanceof Wall) {
+			var str = '<div>Wall</div>';
 			this.ui.selection.innerHTML = str;
 		}
 		else {
