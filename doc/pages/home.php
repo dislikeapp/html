@@ -1,3 +1,4 @@
+<?php include('../OLD/utils.php'); ?>
 <div class="docPage">
 	<h1>OmniEngine.js</h1>
 	<p>OmniEngine-JS is a full-scale high performance game engine for making games on the web.</p>
@@ -13,11 +14,10 @@
 	<p>You can download OmniEngine.js here:</p>
 	<a href="../downloads">http://omniserver.no-ip.biz/main/projects/oe-js/downloads</a>
 	<p>You can also link to it by including this script tag in your HTML source:</p>
-	<div class="codeblock">
-		<!--&lt;script src="http://omniserver.no-ip.biz/oe-js/downloads/OmniEngine.min.js"&gt;&lt;/script&gt;-->
-		<?php
+    <?php code_Start();
 		echo htmlspecialchars('<script src="http://omniserver.no-ip.biz/oe-js/downloads/OmniEngine.min.js"></script>');
-	       ?>
-	</div>
-	<br /><br /><br />
+    code_end(); ?><!--
+    <div class="codeblock">
+		&lt;script src="http://omniserver.no-ip.biz/oe-js/downloads/OmniEngine.min.js"&gt;&lt;/script&gt;
+	</div>--><br /><br /><br />
 </div>
