@@ -272,13 +272,107 @@ table.layout > tbody > tr > th {
 
 .nametag {
 	position: absolute;
-	color: white;
+	transform: translate(0px,0px);
+	transition-duration: 0.05s;
+	transition-timing-function: linear;
+	transition-property: transform;
+}
+.healthbar {
 	background: rgba(0, 0, 0, 0.5);
-	border: solid 1px #7F7F7F;
-	border-radius: 4px;
+	font-size: 0px;
+	line-height: 0px;
+	padding: 1px;
+	height: 6px;
+	width: 32px;
+}
+.healthbar .bar {
+	position: relative;
+	background-color: #00FF00;
+	height: 100%;
+	width: 100%;
+}
+
+#ingameOverlay .pane {
+	border: solid 0px #7F7F7F;
+	border-bottom-width: 1px;
+	padding: 4px;
+}
+#ingameOverlay a.btn {
+	display: inline-block;
+	border: solid 1px #BFBFBF;
+	border-radius: 3px;
+	background: #1F1F1F;
+	color: #FFFFFF;
+	font-family: monospace;
 	font-size: 16px;
 	padding: 4px;
-	transition-duration: 0.25s;
-	transition-timing-function: linear;
-	transition-property: left, bottom;
 }
+#ingameOverlay a.btn.green {
+	border: solid 1px #00BF00;
+	color: #00FF00;
+}
+#ingameOverlay a.btn.yellow {
+	border: solid 1px #BFBF00;
+	color: #FFFF00;
+}
+#ingameOverlay a.btn.red {
+	border: solid 1px #BF0000;
+	color: #FF0000;
+}
+
+.userInfo .balance {
+	color: #FFFF00;
+	font-family: monospace;
+	font-size: 16px;
+	padding: 4px;
+}
+
+.shop > a {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border: solid 1px #7F7F7f;
+	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	margin: 2px;
+}
+
+.shop > a {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border: solid 1px #7F7F7f;
+	border-radius: 3px;
+	margin: 2px;
+}
+.shop > a:hover {
+	border-color: #DFDFDF;
+}
+
+.shopInfo .preview {
+	display: inline-block;
+	float: right;
+	width: 64px;
+	height: 64px;
+	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+.shopInfo .model,
+.selection .model {
+	font-family: monospace;
+	font-size: 16px;
+}
+.selection .model {
+	color: #00FF00;
+}
+.shopInfo .details,
+.selection .details {
+	color: #9F9F9F;
+	font-family: monospace;
+	font-size: 14px;
+}
+

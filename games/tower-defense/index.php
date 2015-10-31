@@ -9,11 +9,17 @@
 	<?php oejs_script(); ?>
 	<script src="../../common/DOM.js"></script>
 	
+	<script src="libs/DOM.js"></script>
+	<script src="libs/Map.js"></script>
+	
+	<script src="game/Application.js"></script>
+	<script src="game/UserData.js"></script>
+	<script src="game/GUI.js"></script>
 	<script src="game/WeatherSystem.js"></script>
 	<script src="game/MapSystem.js"></script>
 	<script src="game/Tower.js"></script>
 	<script src="game/Actor.js"></script>
-	<script src="game/Application.js"></script>
+	<script src="game/Waypoint.js"></script>
 	
 	<script src="main.js"></script>
 </head>
@@ -25,9 +31,15 @@
 				Status:<span name="status"></span>
 			</div>
 		</div>
-		<div class="appOverlay nodisplay" id="ingameOverlay">
-			<div class="frame1 absolute" style="bottom: 0px; right: 0px; width: 300px; height: 100%;">
-				Right Panel
+		<div class="appOverlay" id="ingameOverlay">
+			<div name="frame" class="frame1 absolute" style="top: 4px; right: 4px; bottom: 4px; width: 300px;">
+				<input type="button" name="toggle" value="Show/Hide" />
+				<div name="content">
+					<div class="pane userInfo" name="userInfo"></div>
+					<div class="pane shop" name="shop"></div>
+					<div class="pane shopInfo" name="shopInfo"></div>
+					<div class="pane selection" name="selection"></div>
+				</div>
 			</div>
 		</div>
 	</div>

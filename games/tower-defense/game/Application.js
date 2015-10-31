@@ -15,6 +15,10 @@ OE.Math.intersectRayPlane = function(out, rayPos, rayDir, planePos, planeNorm) {
 };
 
 var Application = OE.Utils.defClass2(OE.BaseApp3D, {
+	
+	userData: undefined,
+	gui: undefined,
+	
 	camPos: undefined,
 	camDist: 75.0,
 	
@@ -26,6 +30,21 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		OE.BaseApp3D.call(this);
 		
 		this.camPos = new OE.Vector3(0.0, 1.0, 0.0);
+		
+		this.userData = new UserData();
+		this.gui = new GUI();
+		
+		this.gui.setUserData(this.userData);
+		
+		OE.Utils.loadJSON("data/towers.json", function(json) {
+			this.towerData = json;
+			this.gui.createShop(json);
+		}.bind(this));
+		
+		OE.Utils.loadJSON("data/enemies.json", function(json) {
+			this.actorData = json;
+		}.bind(this));
+		
 	},
 	onRun: function() {
 		var rs = this.mRenderSystem = new OE.RenderSystem();
@@ -55,9 +74,12 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.addObject(this.mCamera);
 		this.mCamera.setNearPlane(0.5);
 		this.mCamera.setFarPlane(1000.0);
+		this.camPos.setf(0.0, 1.0, 0.0);
 		
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
+		
+		this.enemies = new Map();
 	},
 	resetScene: function() {
 		this.mScene.mRoot.removeChild(this.mCamera);
@@ -72,17 +94,43 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			this.map = scene.addObject(new MapSystem());
 			this.map.setGridSize(20, 20);
 			this.map.build();
+			
+			this.map.setObject(10, 10, scene.addObject(new Waypoint()));
 		}
 	},
 	
+	addTower: function(x, y, type) {
+		if (this.towerData) {
+			return this.map.setObject(x, y, new Tower(type));
+		}
+		return undefined;
+	},
+	addActor: function(x, y, type) {
+		if (this.actorData) {
+			var actor = this.mScene.addObject(new Actor(type));
+			this.map.setObjectPos(actor, x, y);
+			
+			var key = this.enemies.insertNext(actor);
+			
+			actor.addEventListener("destroyed", function() {
+				this.enemies.removeKey(key);
+				this.userData.receive(actor.bounty);
+				this.gui.updateUserInfo();
+			}.bind(this));
+			return actor;
+		}
+		return undefined;
+	},
+	
 	onKeyDown: function(k) {
-		if (k === OE.Keys.T) {
-			if (this.map && this.map.cursor && this.map.cursor.mActive) {
-				this.map.setObject(
-					this.map.cursorX,
-					this.map.cursorY,
-					new OE.PrefabInst("Turret"));
-			}
+		if (k === OE.Keys.B) {
+			// Hotkey for buying at shop.
+		}
+		else if (k === OE.Keys.L) {
+			// Hotkey for selling at shop.
+		}
+		else if (k === OE.Keys.U) {
+			// Hotkey for upgrading at shop.
 		}
 	},
 	
@@ -115,6 +163,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 					var cx = this.map.worldToGridX(this.xPos.x);
 					var cy = this.map.worldToGridY(this.xPos.z);
 					this.map.setCursor(cx, cy);
+					
+					var object = this.map.getObject(cx, cy);
+					this.gui.setSelection(object);
 				}
 			}
 		}
@@ -155,6 +206,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		var rot = this.mCamera.getRot();
 		var pos = this.mCamera.getPos();
 		
+		// Do camera physics.
 		rot.mulvBy(this.a);
 		this.a.y = 0.0;
 		this.a.normalize();
@@ -163,6 +215,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.camPos.addBy(this.v);
 		this.v.mulByf(this.friction);
 		
+		// Update camera constraints.
 		pos.set(OE.Vector3.BACKWARD);
 		rot.mulvBy(pos);
 		pos.mulByf(this.camDist);

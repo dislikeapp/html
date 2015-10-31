@@ -57,6 +57,13 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		return value * this.gridScale + this.gridScale*(1.0 - this.sizeY)/2.0;
 	},
 	
+	setObjectPos: function(obj, x, y) {
+		var pos = obj.getPos();
+		pos.x = this.gridToWorldX(x);
+		pos.z = this.gridToWorldY(y);
+		obj.setPos(pos);
+	},
+	
 	getObject: function(x, y) {
 		var i = this.sizeX*y+x;
 		return this.objects[i];
@@ -64,13 +71,22 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	setObject: function(x, y, obj) {
 		var i = this.sizeX*y+x;
 		var original = this.objects[i];
-		this.objects[i] = this.addChild(obj);
+		
 		if (original !== undefined)
 			original.destroy();
-		obj.setPosf(
-			this.gridToWorldX(x), 0.0,
-			this.gridToWorldY(y)
-		);
+		
+		if (obj !== undefined) {
+			this.objects[i] = this.addChild(obj);
+			obj.map_pos_x = x;
+			obj.map_pos_y = y;
+			obj.setPosf(
+				this.gridToWorldX(x), 0.0,
+				this.gridToWorldY(y));
+		}
+		else {
+			this.objects[i] = undefined;
+		}
+		return obj;
 	},
 	isWall: function(x, y) {
 		return (this.getObject(x, y) !== undefined);

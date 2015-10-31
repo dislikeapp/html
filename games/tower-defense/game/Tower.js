@@ -1,157 +1,128 @@
 
-var Actor = function(isMe, name) {
-	OE.Sphere.call(this, 1.0, 16);
-	this.mMaterial = OE.MaterialManager.getLoaded("Car Paint");
+var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	
-	this.isMe = isMe === undefined ? true : false;
-	this.velocity = new OE.Vector3(0.0);
+	tower_id: 0,
+	upgrade_level: 0,
 	
-	this.name = name;
-	this.nametag = document.createElement("div");
-	this.nametag.setAttribute("class", "nametag");
-	this.nametag.innerHTML = name;
-	document.body.appendChild(this.nametag);
+	range: 1.0,
+	range2: 1.0,
+	fireDelay: 120,
+	power: 1,
 	
-	this.inputStates = {
-		keyDown: new Array(8)
-	};
-	for (var i=0; i<this.inputStates.keyDown.length; i++)
-		this.inputStates.keyDown[i] = false;
-};
-Actor.prototype = {
-	run: true,
-	walkAccel: 0.15,
-	flyAccel: 0.3,
-	flyMode: false,
-	jumpVelocity: 1.0,
-	gravity: 0.1,
-	groundFriction: 0.75,
-	airFriction: 0.99,
-	flyFriction: 0.95,
-	velocity: undefined,
-	grounded: false,
-	inputStates: undefined,
-	name: "Client",
+	timer: 0,
+	angle: 0.0,
 	
-	inputEvent: function(event, code) {
-		switch (event) {
-			case 0: this.inputStates.keyDown[code] = true; break;
-			case 1: this.inputStates.keyDown[code] = false; break;
-			//case 2: this.inputStates.mouseDown[code] = true; break;
-			//case 3: this.inputStates.mouseDown[code] = false; break;
-		}
-		if (event == 0 && code == 6) {
-			this.jump();
-		}
-		if (event == 0 && code == 7) {
-			this.flyMode = !this.flyMode;
-		}
-	},
-	applyForce: function(accel) {
-		this.velocity.addBy(accel);
-	},
-	jump: function(direction) {
-		if (this.grounded) {
-			this.grounded = false;
-			this.velocity.y = this.jumpVelocity;
-		}
-	},
-	
-	wpos: undefined,
-	spos: undefined,
-	vpmat: undefined,
-	updateNametagPos: function() {
-		if (this.wpos === undefined) this.wpos = new Array(4);
-		if (this.spos === undefined) this.spos = new Array(4);
-		if (this.vpmat === undefined) this.vpmat = mat4.create();
+	constructor: function Tower(type) {
+		OE.PrefabInst.call(this, "Turret");
 		
-		var wpos = this.mWorldTransform.getPos();
-		var view = app.mCamera.getViewMatrix();
-		var proj = app.mCamera.getProjectionMatrix();
-		this.wpos[0] = wpos.x;
-		this.wpos[1] = wpos.y+1.25;
-		this.wpos[2] = wpos.z;
-		this.wpos[3] = 1.0;
-		mat4.multiplyVec4(view, this.wpos, this.spos);
-		mat4.multiplyVec4(proj, this.spos, this.spos);
-		var w = app.mSurface.mCanvas.offsetWidth;
-		var h = app.mSurface.mCanvas.offsetHeight;
-		var ntx = w * ((this.spos[0] / this.spos[3])*0.5+0.5);
-		var nty = h * ((this.spos[1] / this.spos[3])*0.5+0.5);
-		ntx -= this.nametag.offsetWidth/2;
-		nty -= this.nametag.offsetHeight/2;
-		this.nametag.style.left = ntx+"px";
-		this.nametag.style.bottom = nty+"px";
+		this.tower_id = type;
+		this.setUpgradeLevel(0);
+		
+		//this.muzzleFlash = this.addChild(new OE.Entity("MuzzleFlash"));
 	},
 	
-	a: new OE.Vector3(),
+	setUpgradeLevel: function(level) {
+		this.upgrade_level = level;
+		var info = app.towerData[this.tower_id];
+		var levelInfo = info.levels[level];
+		
+		this.range = levelInfo.range * app.map.gridScale;
+		this.range2 = this.range * this.range;
+		this.fireDelay = levelInfo.delay;
+		this.power = levelInfo.power;
+		
+		var colors = [
+			[1.25, 1.25, 1.25],
+			[1.25, 0.25, 1.25],
+			[0.25, 1.25, 0.25],
+			[0.25, 1.25, 1.25],
+			[1.25, 0.25, 0.25]];
+		
+		var set = false;
+		var entity = this.mChildren[0];
+		if (entity !== undefined) {
+			var sub = entity.mSubEntities[0];
+			if (sub !== undefined && sub.mMaterial !== undefined && sub.mMaterial.mLoadState === OE.Resource.LoadState.LOADED) {
+				sub.setUniform(0, "diffuse", colors[level]);
+				set = true;
+			}
+		}
+		if (!set) {
+			setTimeout(function() {
+				this.setUpgradeLevel(level);
+			}.bind(this), 100);
+		}
+	},
+	
+	findTarget: function() {
+		for (var key in app.enemies.data) {
+			var enemy = app.enemies.data[key];
+			if (this.canTarget(enemy)) {
+				this.target = enemy;
+				return;
+			}
+		}
+	},
+	fire: function() {
+		/*this.muzzleFlash.mActive = true;
+		setTimeout(function() {
+			this.muzzleFlash.mActive = false;
+		}, 100);*/
+		
+		if (this.target !== undefined) {
+			this.target.damage(this.power);
+			if (!this.canTarget(this.target))
+				this.target = undefined;
+		}
+	},
+	canTarget: function(actor) {
+		if (actor.dead)
+			return false;
+		
+		var p1 = this.getPos();
+		var p2 = actor.getPos();
+		var dx = p2.x - p1.x;
+		var dz = p2.z - p1.z;
+		var d2 = dx*dx + dz*dz;
+		if (d2 > this.range2)
+			return false;
+		
+		return true;
+	},
+	faceTarget: function() {
+		var p1 = this.getPos();
+		var p2 = this.target.getPos();
+		var rot = this.getRot();
+		
+		var dx = p2.x-p1.x;
+		var dz = p2.z-p1.z;
+		this.angle = Math.atan2(dz, dx) * OE.Math.RAD_TO_DEG;
+		
+		rot.fromAxisAngle(OE.Vector3.DOWN, this.angle-90.0);
+		
+		this.setRot(rot);
+	},
 	onUpdate: function() {
-		OE.Sphere.prototype.onUpdate.call(this);
-		
 		var pos = this.getPos();
 		
-		var kd = this.inputStates.keyDown;
-		var a = this.a;
-		a.setf(0.0, 0.0, 0.0);
-		var m = false;
-		if (kd[0])	{m = true; a.x -= 1.0;}
-		if (kd[1])	{m = true; a.x += 1.0;}
-		if (kd[2])	{m = true; a.y -= 1.0;}
-		if (kd[3])	{m = true; a.y += 1.0;}
-		if (kd[4])	{m = true; a.z -= 1.0;}
-		if (kd[5])	{m = true; a.z += 1.0;}
-		if (m) {
-			if (this.flyMode || this.grounded) {
-				a.normalize();
-				this.getRot().mulvBy(a);
-				if (!this.flyMode) {
-					a.y = 0.0;
-				}
-				a.normalize();
-				a.mulByf(this.flyMode ? this.flyAccel : this.walkAccel);
-				this.applyForce(a);
-			}
-		}
+		if (this.target === undefined)
+			this.findTarget();
+		else if (!this.canTarget(this.target))
+			this.target = undefined;
 		
-		if (this.flyMode) {
-			this.velocity.mulByf(this.flyFriction);
-		}
-		else {
-			this.velocity.y -= this.gravity;
-			this.velocity.mulByf(this.grounded ? this.groundFriction : this.airFriction);
-		}
-		pos.addBy(this.velocity);
-		
-		var floor = app.mScene.getHeight(pos) + this.mRadius;
-		var norm = app.mScene.getNormal(pos);
-		var walkable = norm ? (norm.y > 0.95) : true;
-		
-		if (this.grounded) {
-			if (!walkable || pos.y + this.velocity.y > floor + 0.5) {
-				this.grounded = false;
-			}
-			if (pos.y < floor)
-				pos.y = floor;
-		}
-		else {
-			if (pos.y < floor) {
-				var dh = floor - pos.y;
-				var offset = norm.mulf(dh);
-				var dot = norm.dot(OE.Vector3.UP);
-				offset.mulByf(dot);
-				pos.addBy(offset);
-				if (walkable && this.velocity.y < 0.0) {
-					this.velocity.y = 0.0;
-					this.grounded = true;
+		if (this.target !== undefined) {
+			this.timer++;
+			if (this.timer >= this.fireDelay) {
+				this.timer = 0;
+				if (this.target !== undefined) {
+					this.faceTarget();
+					this.fire();
 				}
 			}
 		}
-		
-		this.setPos(pos);
+		else if (this.timer < this.fireDelay) {
+			this.timer++;
+		}
 	},
-	onDestroy: function() {
-		document.body.removeChild(this.nametag);
-	}
-};
-OE.Utils.merge(Actor.prototype, OE.Sphere.prototype);
-Actor.prototype.constructor = Actor;
+	onDestroy: function() {}
+});

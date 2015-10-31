@@ -2,12 +2,10 @@
 	"material": {
 		"passes": [
 			{
-				"shader": "Solid",
+				"shader": "ColorMask",
 				"textures": {
 					"0": "Turret",
-					"1": "Flat_norm",
-					"2": "White",
-					"3": "Chrome_env"
+					"1": "TurretColor"
 				},
 				"uniforms": {
 					"diffuse": [
@@ -21,8 +19,7 @@
 						"0.0"
 					],
 					"shininess": "32.0",
-					"emission": "0.75",
-					"reflectivity": 0.0
+					"emission": "0.75"
 				}
 			}
 		]

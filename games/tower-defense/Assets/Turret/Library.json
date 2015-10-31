@@ -1,6 +1,10 @@
 {
 	"Textures": {
-		"Turret": "Textures/Turret.png"
+		"Turret": "Textures/Turret.png",
+		"TurretColor": "Textures/TurretColor.png"
+	},
+	"Shaders": {
+		"ColorMask": "Shaders/ColorMask.shader"
 	},
 	"Materials": {
 		"Turret": "Materials/Turret.material"
