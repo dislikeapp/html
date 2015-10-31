@@ -22,7 +22,20 @@ function loadFinish() {
 		var status = overlay.findByName("status");
 		status.innerHTML = "";
 		overlay.style.display = "none";
+        showMenu();
 	}, 2000);
+}
+
+function showMenu() {
+    var overlay = document.getElementById("menuOverlay");
+    overlay.style.display = "inline-block";
+}
+
+function clickBegin() {
+    app.initScene();
+    app.loadLevel(0);
+    document.getElementById("menuOverlay").style.display = "none";
+    document.getElementById("ingameOverlay").style.display = "inline-block";
 }
 
 function declareResources(callback) {
