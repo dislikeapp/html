@@ -31,7 +31,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
-		this.camPos = new OE.Vector3(0.0, 1.0, 0.0);
+		this.camPos = new OE.Vector3(0.0, 50.0, 72.0);
 		
 		this.userData = new UserData();
 		this.gui = new GUI();
@@ -55,7 +55,15 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene = new OE.Scene();
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
+        //this.mCamera.mRotX = -32.0;
 		this.mViewport = rt.createViewport(this.mCamera);
+        
+        //this.mCamera.mRotX = -32.0;
+        //this.mCamera.getRot().mulvBy(new OE.Vector3(-32.0, 0, 0));
+        
+        var rot = this.mCamera.getRot();
+        rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
+        this.mCamera.setRot(rot);
 		
 		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
 	},
@@ -65,7 +73,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.addObject(this.mCamera);
 		this.mCamera.setNearPlane(0.5);
 		this.mCamera.setFarPlane(1000.0);
-		this.camPos.setf(0.0, 1.0, 0.0);
+		//this.camPos.setf(2.0, 2.0, 2.0);
 		
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
