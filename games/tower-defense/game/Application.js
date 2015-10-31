@@ -136,13 +136,13 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	
 	onKeyDown: function(k) {
 		if (k === OE.Keys.B) {
-			// Hotkey for buying at shop.
+			this.gui.buySelected();
 		}
 		else if (k === OE.Keys.L) {
-			// Hotkey for selling at shop.
+			this.gui.sellSelected();
 		}
 		else if (k === OE.Keys.U) {
-			// Hotkey for upgrading at shop.
+			this.gui.upgradeSelected();
 		}
 	},
 	

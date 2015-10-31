@@ -22,7 +22,8 @@ function loadFinish(timeout, callback) {
 		var status = overlay.findByName("status");
 		status.innerHTML = "";
 		overlay.style.display = "none";
-		callback();
+		if (callback !== undefined)
+			callback();
 	}, timeout);
 }
 
