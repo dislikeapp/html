@@ -359,6 +359,14 @@ table.layout > tbody > tr > th {
 	background-color: #4F0000;
 }
 
+#ingameOverlay .countdown {
+	display: inline-block;
+	float: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #FF0000;
+}
+
 .userInfo .balance {
 	color: #FFFF00;
 	font-family: monospace;
