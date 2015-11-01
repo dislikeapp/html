@@ -39,6 +39,13 @@ function clickBegin() {
     document.getElementById("ingameOverlay").style.display = "inline-block";
 }
 
+function showControls() {
+	if (document.getElementById("controls_display").style.display === "none")
+		document.getElementById("controls_display").style.display = "initial";
+	else
+		document.getElementById("controls_display").style.display = "none"	
+}
+
 function declareResources(callback) {
 	loadStart();
 	loadStatus("0");

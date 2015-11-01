@@ -36,7 +36,19 @@
             <div class="frame1 mainMenu takeInput">
                 <span class="title">Tower Defense Game!</span>
                 <button type="button" class="mainButton" onclick="clickBegin()">Begin</button><br/><br/>
-                <button type="button" class="mainButton">Controls</button>
+                <button type="button" class="mainButton" onclick="showControls()">Controls</button>
+                <div id="controls_display" style="display: none;">
+                	<table align="center" id="controls_table">
+                		<th style="text-align:left">Key</th><th style="text-align:center">Action</th>
+                		<tr><td>'W'</td><td>- move camera forward</td><tr>
+                		<tr><td>'S'</td><td>- move camera backwards</td></tr>
+                		<tr><td>'A'</td><td>- move camera left</td></tr>
+                		<tr><td>'D'</td><td>- move camera right</td></tr>
+                		<tr><td>'B'</td><td>- buy selected</td></tr>
+                		<tr><td>'L'</td><td>- sell selected</td></tr>
+                		<tr><td>'U'</td><td>- upgrade selected</td></tr>
+                	</table>
+                </div>
             </div>
         </div>
 		<div class="appOverlay nodisplay" id="ingameOverlay">
