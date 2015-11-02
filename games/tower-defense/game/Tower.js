@@ -6,6 +6,7 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	tower_id: 0,
 	upgrade_level: 0,
 	
+	series: "Sentry",
 	range: 1.0,
 	range2: 1.0,
 	fireDelay: 120,
@@ -15,12 +16,16 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	angle: 0.0,
 	
 	constructor: function Tower(map, type) {
-		OE.PrefabInst.call(this, "Turret");
+		var info = app.towerData[type];
+		OE.PrefabInst.call(this, info.series);
 		
 		this.map = map;
-		
 		this.tower_id = type;
 		this.setUpgradeLevel(0);
+		
+		this.sound = OE.SoundManager.getLoaded(this.series, function(sound) {
+			sound.setTriggerLimit(1, 90); // Can only play 2 times within a 50 millisecond boundary.
+		});
 		
 		//this.muzzleFlash = this.addChild(new OE.Entity("MuzzleFlash"));
 	},
@@ -29,6 +34,8 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		this.upgrade_level = level;
 		var info = app.towerData[this.tower_id];
 		var levelInfo = info.levels[level];
+		
+		this.series = info.series;
 		
 		this.range = levelInfo.range * app.map.gridScale;
 		this.range2 = this.range * this.range;
@@ -73,6 +80,8 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 			this.muzzleFlash.mActive = false;
 		}, 100);*/
 		
+		this.sound.trigger();
+		
 		if (this.target !== undefined) {
 			this.target.damage(this.power);
 			if (!this.canTarget(this.target))
@@ -80,7 +89,7 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		}
 	},
 	canTarget: function(actor) {
-		if (actor.dead)
+		if (actor.dead || actor.mScene === undefined)
 			return false;
 		
 		var p1 = this.getPos();

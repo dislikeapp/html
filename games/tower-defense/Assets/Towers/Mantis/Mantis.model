@@ -1344,7 +1344,7 @@ vt 0.225427 0.513059 0.000000
 # 430 texture coords
 
 g Turret
-usemtl Turret
+usemtl Mantis
 f 1/1/1 2/2/2 3/3/3 
 f 4/4/4 1/1/1 3/3/3 
 f 5/5/5 4/4/4 3/3/3 

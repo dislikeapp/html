@@ -1,0 +1,20 @@
+{
+	"Textures": {
+		"Sentry": "Sentry/Sentry.png",
+		"SentryColor": "Sentry/SentryColor.png",
+		"Mantis": "Mantis/Mantis.png",
+		"MantisColor": "Mantis/MantisColor.png"
+	},
+	"Materials": {
+		"Sentry": "Sentry/Sentry.material",
+		"Mantis": "Mantis/Mantis.material"
+	},
+	"Models": {
+		"Sentry": "Sentry/Sentry.model",
+		"Mantis": "Mantis/Mantis.model"
+	},
+	"Prefabs": {
+		"Sentry": "Sentry/Sentry.prefab",
+		"Mantis": "Mantis/Mantis.prefab"
+	}
+}

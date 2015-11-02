@@ -27,19 +27,7 @@ function loadFinish(timeout, callback) {
 	}, timeout);
 }
 
-function showMenu() {
-    var overlay = document.getElementById("menuOverlay");
-    overlay.style.display = "inline-block";
-}
-
-function clickBegin() {
-    app.initScene();
-    app.loadLevel(0);
-    document.getElementById("menuOverlay").style.display = "none";
-    document.getElementById("ingameOverlay").style.display = "inline-block";
-}
-
-function declareResources(callback) {
+function declareAll(callback) {
 	loadStart();
 	loadStatus("0");
 	var count = 0;
@@ -50,12 +38,10 @@ function declareResources(callback) {
 			loadFinish(0, callback);
 		}
 	};
-	
 	OE.ResourceManager.declareLibrary("Assets/Library.json", onDeclared);
-	OE.ResourceManager.declareLibrary("Assets/Default/Library.json", onDeclared);
-	OE.ResourceManager.declareLibrary("Assets/Turret/Library.json", onDeclared);
+	OE.ResourceManager.declareLibrary("../../resource_libs/Default/Library.json", onDeclared);
+	OE.ResourceManager.declareLibrary("Assets/Towers/Library.json", onDeclared);
 }
-
 function preloadResources(type, callback) {
 	var resources = {
 		textures: [
@@ -63,8 +49,8 @@ function preloadResources(type, callback) {
 			"concrete",
 			"bricks",
 			"MetalWall1",
-			"Turret",
-			"TurretColor"
+			"Sentry",
+			"Mantis"
 		],
 		shaders: [
 			"Solid",
@@ -76,10 +62,16 @@ function preloadResources(type, callback) {
 			"Atmosphere",
 			"Concrete",
 			"Wall",
-			"Turret"
+			"Sentry",
+			"Mantis"
 		],
 		models: [
-			"Turret"
+			"Sentry",
+			"Mantis"
+		],
+		sounds: [
+			"Menu",
+			"BGM"
 		]
 	}
 	var list = resources[type];
@@ -102,29 +94,47 @@ function preloadResources(type, callback) {
 	if (type == "shaders") mgr = OE.ShaderManager;
 	if (type == "materials") mgr = OE.MaterialManager;
 	if (type == "models") mgr = OE.ModelManager;
+	if (type == "sounds") mgr = OE.SoundManager;
 	if (mgr) {
 		for (var i=0; i<num; i++) {
 			mgr.load(list[i], onLoaded);
 		}
 	}
 }
+function preloadAll(callback) {
+	preloadResources("textures", function() {
+	preloadResources("shaders", function() {
+	preloadResources("materials", function() {
+	preloadResources("models", function() {
+	preloadResources("sounds", function() {
+		callback();
+	});
+	});
+	});
+	});
+	});
+}
 
 var app;
-var io;
-var menuBar;
 
+function showMenu() {
+    var overlay = document.getElementById("menuOverlay");
+    overlay.style.display = "inline-block";
+}
+
+function clickBegin() {
+    app.initScene();
+    app.loadLevel(0);
+    document.getElementById("menuOverlay").style.display = "none";
+    document.getElementById("ingameOverlay").style.display = "inline-block";
+}
 function init() {
 	app = new Application();
 	app.run();
-	declareResources(function() {
-		preloadResources("textures", function() {
-		preloadResources("shaders", function() {
-		preloadResources("materials", function() {
-		preloadResources("models", function() {
+	declareAll(function() {
+		preloadAll(function() {
+			app.initMenu();
 			showMenu();
-		});
-		});
-		});
 		});
 	});
 }

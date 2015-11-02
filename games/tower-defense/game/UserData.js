@@ -1,7 +1,7 @@
 
 var UserData = OE.Utils.defClass2({
 	
-	balance: 100,
+	balance: 0,
 	
 	constructor: function() {
 	},

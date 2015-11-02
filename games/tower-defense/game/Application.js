@@ -20,13 +20,17 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	gui: undefined,
 	
 	camPos: undefined,
-	camDist: 75.0,
+	camDist: 100.0,
 	
 	STATE_BUILDING: 0,
 	STATE_DEFENDING: 1,
 	state: 0,
 	
-	buildStateTime: 20000, // ms
+	gridSizeX: 15,
+	gridSizeY: 15,
+	buildStateTime: 25000, // 25 seconds
+	defendStateTime: 45000, // 45 seconds
+	difficultyStep: 0.02, // 2% harder, 50 waves until max difficulty.
 	
 	constructor: function() {
 		OE.BaseApp3D.call(this);
@@ -34,8 +38,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.camPos = new OE.Vector3(0.0, 1.0, 0.0);
 		
 		this.userData = new UserData();
-		this.gui = new GUI();
+		this.userData.receive(100);
 		
+		this.gui = new GUI();
 		this.gui.setUserData(this.userData);
 		
 		OE.Utils.loadJSON("data/towers.json", function(json) {
@@ -56,11 +61,15 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
-		
-		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
 	},
 	onFinish: function() {},
 	
+	initMenu: function() {
+		OE.SoundManager.load("Menu", function(sound) {
+			sound.setLoop(true);
+			sound.play();
+		});
+	},
 	initScene: function() {
 		this.mScene.addObject(this.mCamera);
 		this.mCamera.setNearPlane(0.5);
@@ -70,7 +79,10 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
 		
-		OE.SoundManager.load("Soliloquy", function(sound) {
+		OE.SoundManager.load("Menu", function(sound) {
+			sound.stop();
+		});
+		OE.SoundManager.load("BGM", function(sound) {
 			sound.setLoop(true);
 			sound.play();
 		});
@@ -85,11 +97,12 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.resetScene();
 		var scene = this.mScene;
 		if (level === 0) {
-			this.map = scene.addObject(new MapSystem(20, 20));
+			this.map = scene.addObject(new MapSystem(this.gridSizeX, this.gridSizeY));
 			this.map.init();
+			this.map.generateNavMesh();
 			this.map.generateWaypoints();
 			this.map.generateWalls();
-			this.map.generateNavMesh();
+			this.map.generateBestPath();
 			
 			this.changeState(this.STATE_BUILDING);
 		}
@@ -104,7 +117,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		switch (this.state) {
 			case this.STATE_BUILDING: {
 				this.gui.setGameState(this.state);
-				
 				this.map.stopRaid();
 				
 				setTimeout(function() {
@@ -113,12 +125,13 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 				break;
 			};
 			case this.STATE_DEFENDING: {
-				this.map.generateNavMesh();
+				this.map.generateBestPath();
 				this.gui.setGameState(this.state);
+				this.map.startRaid();
 				
-				this.map.startRaid(function() {
+				setTimeout(function() {
 					this.changeState(this.STATE_BUILDING);
-				}.bind(this));
+				}.bind(this), this.defendStateTime);
 				break;
 			};
 		}
@@ -129,6 +142,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 				break;
 			};
 			case this.STATE_DEFENDING: {
+				this.map.getHarder(this.difficultyStep);
 				break;
 			};
 		}
@@ -143,6 +157,20 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 		else if (k === OE.Keys.U) {
 			this.gui.upgradeSelected();
+		}
+		else if (k === OE.Keys.R) {
+			var x = this.map.cursorX;
+			var y = this.map.cursorY;
+			if (this.map.cursor && this.map.cursor.mActive) {
+				if (this.map.getObject(x, y) instanceof Wall) {
+					this.map.nav.notifyCleared(x, y);
+					this.map.setObject(x, y, undefined);
+					this.map.generateNavMeshDebug();
+				}
+				else {
+					this.map.addWall(x, y);
+				}
+			}
 		}
 	},
 	

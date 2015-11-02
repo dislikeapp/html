@@ -38,7 +38,8 @@
 	},
 	"Shaders": {
 		"Atmosphere":"Shaders/Atmosphere.json",
-		"Terrain":"Shaders/Terrain.json"
+		"Terrain":"Shaders/Terrain.json",
+		"ColorMask":"Shaders/ColorMask.json"
 	},
 	"Materials": {
 		"Atmosphere":"Materials/Atmosphere.json",
@@ -58,6 +59,11 @@
 	},
 	"Models": {
 		"Diamond":"Models/Diamond.obj"
+	},
+	"Sounds": {
+		"Sentry":"Sounds/Sentry.ogg",
+		"Mantis":"Sounds/Mantis.ogg",
+		"Menu":"Sounds/12okt.ogg",
+		"BGM":"Sounds/battle.ogg"
 	}
-	
 }

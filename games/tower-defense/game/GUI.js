@@ -111,7 +111,8 @@ var GUI = OE.Utils.defClass2({
 			
 			var sell_price = this.getSellPrice(object.tower_id, object.upgrade_level);
 			
-			var str = '<p class="model">Selection: '+level.name+'</p>'
+			var str = '<div class="preview" style="background-image: url(\''+info.preview+'\');"></div>'
+				+'<p class="model">Selection:<br />'+level.name+'</p>'
 				+'<p class="details">'
 					+'Upgrade: Lv. '+nextLv+'<br />'
 					+'Range: '+range+' units<br />'
@@ -185,9 +186,14 @@ var GUI = OE.Utils.defClass2({
 				if (info !== undefined) {
 					var level = info.levels[0];
 					if (this.userData.charge(level.cost)) {
-						this.updateUserInfo();
 						var tower = app.map.addTower(app.map.cursorX, app.map.cursorY, info.id);
-						this.setSelection(tower);
+						if (tower === undefined) {
+							this.userData.receive(level.cost);
+						}
+						else {
+							this.updateUserInfo();
+							this.setSelection(tower);
+						}
 					}
 					else {
 						alert("Not enough funds!");
@@ -213,7 +219,7 @@ var GUI = OE.Utils.defClass2({
 		if (object !== undefined) {
 			var sell_price = this.getSellPrice(object.tower_id, object.upgrade_level);
 			
-			app.map.setObject(object.map_pos_x, object.map_pos_y, undefined);
+			app.map.clearObject(object.map_pos_x, object.map_pos_y);
 			this.userData.receive(sell_price);
 			this.updateUserInfo();
 			this.setSelection(undefined);
@@ -226,13 +232,15 @@ var GUI = OE.Utils.defClass2({
 			var info = app.towerData[object.tower_id];
 			var nextLv = object.upgrade_level + 1;
 			
-			if (this.userData.charge(info.levels[nextLv].cost)) {
-				object.setUpgradeLevel(nextLv);
-				this.updateUserInfo();
-				this.setSelection(object);
-			}
-			else {
-				alert("Not enough funds!");
+			if (nextLv < info.levels.length) {
+				if (this.userData.charge(info.levels[nextLv].cost)) {
+					object.setUpgradeLevel(nextLv);
+					this.updateUserInfo();
+					this.setSelection(object);
+				}
+				else {
+					alert("Not enough funds!");
+				}
 			}
 		}
 	}

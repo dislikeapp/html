@@ -1,28 +1,35 @@
 
 var Actor = OE.Utils.defClass2(OE.Sphere, {
-	
+	map: undefined,
 	actor_id: 0,
 	
+	scale: 1.0,
 	health: 50,
 	healthMax: 50,
 	bounty: 1,
 	
-	accel: 0.15,
+	accel: 0.1,
 	friction: 0.75,
 	velocity: undefined,
+	target: undefined,
 	
 	lastWaypoint: undefined,
+	nextNode: undefined,
 	
 	dead: false,
 	
-	constructor: function Actor(type) {
-		OE.Sphere.call(this, 2.0+type, 16);
+	constructor: function Actor(map, type) {
+		OE.Sphere.call(this, map.gridScale * 0.5, 16);
 		this.setMaterial("DefaultWhite");
+		
+		this.map = map;
 		
 		this.setActorType(type);
 		
-		this.setPosf(0.0, this.mRadius, 0.0);
+		this.setScalef(this.scale, this.scale, this.scale);
+		this.setPosf(0.0, this.mRadius * this.scale, 0.0);
 		this.velocity = new OE.Vector3(0.0);
+		this.target = new OE.Vector3(0.0);
 		
 		this.nametag = document.createElement("div");
 		this.nametag.setAttribute("class", "nametag healthbar");
@@ -36,17 +43,11 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	setActorType: function(type) {
 		var info = app.actorData[type];
 		this.actor_id = type;
+		this.name = info.name;
+		this.scale = info.scale;
 		this.health = this.healthMax = info.health;
 		this.accel = info.accel;
 		this.bounty = info.bounty;
-	},
-	
-	visitWaypoint: function(wp) {
-		this.lastWaypoint = wp;
-		if (wp.nextWaypoint === undefined) {
-			this.dead = true;
-			this.destroy();
-		}
 	},
 	
 	damage: function(power) {
@@ -59,6 +60,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		
 		if (this.health === 0 && !this.dead) {
 			this.dead = true;
+			this.dispatchEvent("killed");
 			this.destroy();
 		}
 	},
@@ -95,12 +97,43 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		this.nametag.style.transform = 'translate('+ntx+'px,'+nty+'px)';
 	},
 	
+	visitWaypoint: function(wp) {
+		this.lastWaypoint = wp;
+		if (wp.nextWaypoint === undefined) {
+			this.dead = false;
+			this.destroy();
+		}
+	},
+	visitNode: function(node) {
+		this.nextNode = node;
+		if (this.nextNode !== undefined) {
+			this.nextNode = this.nextNode.next;
+			if (this.nextNode !== undefined)
+				this.map.getNavNodePos(this.target, this.nextNode);
+		}
+	},
+	gotoTarget: function() {
+		var p1 = this.getPos();
+		var p2 = this.target;
+		var dx = p2.x - p1.x;
+		var dz = p2.z - p1.z;
+		var d2 = dx*dx + dz*dz;
+		if (d2 < 1.0) {
+			this.visitNode(this.nextNode);
+		}
+		else {
+			var d = Math.sqrt(d2);
+			this.velocity.x += this.accel * dx / d;
+			this.velocity.z += this.accel * dz / d;
+		}
+	},
+	
 	nametagTimer: 0,
 	onUpdate: function() {
 		OE.Sphere.prototype.onUpdate.call(this);
 		
 		this.nametagTimer++;
-		if (this.nametagTimer >= 4) {
+		if (this.nametagTimer >= 1) {
 			this.nametagTimer = 0;
 			this.updateNametagPos();
 		}
@@ -118,11 +151,11 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 				this.visitWaypoint(next);
 			}
 			else {
-				var d = Math.sqrt(d2);
-				var nx = dx / d;
-				var nz = dz / d;
-				this.velocity.x += nx * this.accel;
-				this.velocity.z += nz * this.accel;
+				if (this.nextNode === undefined)
+					this.visitNode(this.map.getNearestNavNode(pos.x, pos.z));
+				
+				if (this.nextNode !== undefined)
+					this.gotoTarget();
 			}
 		}
 		

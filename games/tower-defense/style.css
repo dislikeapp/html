@@ -388,7 +388,8 @@ table.layout > tbody > tr > th {
 	border-color: #DFDFDF;
 }
 
-.shopInfo .preview {
+.shopInfo .preview,
+.selection .preview {
 	display: inline-block;
 	float: right;
 	width: 64px;

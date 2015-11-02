@@ -4,8 +4,8 @@
 			{
 				"shader": "ColorMask",
 				"textures": {
-					"0": "Turret",
-					"1": "TurretColor"
+					"0": "Mantis",
+					"1": "MantisColor"
 				},
 				"uniforms": {
 					"diffuse": [

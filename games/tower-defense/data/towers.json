@@ -7,36 +7,36 @@
 				"name": "Sentry Mk. I",
 				"cost": 15,
 				"range": 3,
-				"delay": 60,
+				"delay": 50,
 				"power": 5
 			},
 			{
 				"name": "Sentry Mk. II",
 				"cost": 10,
 				"range": 4,
-				"delay": 60,
-				"power": 10
+				"delay": 50,
+				"power": 12
 			},
 			{
 				"name": "Sentry Mk. III",
 				"cost": 40,
 				"range": 5,
-				"delay": 50,
-				"power": 15
+				"delay": 45,
+				"power": 35
 			},
 			{
 				"name": "Sentry Mk. IV",
 				"cost": 80,
 				"range": 6,
-				"delay": 50,
-				"power": 30
+				"delay": 40,
+				"power": 80
 			},
 			{
 				"name": "Sentry Mk. V",
 				"cost": 180,
 				"range": 10,
-				"delay": 40,
-				"power": 70
+				"delay": 35,
+				"power": 180
 			}
 		]
 	},

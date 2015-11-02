@@ -1,0 +1,14 @@
+{
+	"shader": {
+		"vert": "Sources/Shapes.vert",
+		"frag": "Sources/Shapes.frag",
+		"attributes": {
+			"vertPosition":	"POSITION",
+			"vertColor":	"COLOR",
+			"vertSize":		{"customID": 0}
+		},
+		"uniforms": {
+			"mvpMatrix":	"MVP_MATRIX"
+		}
+	}
+}

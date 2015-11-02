@@ -1,38 +1,93 @@
 [
 	{
 		"name": "Ball",
+		"scale": 0.1,
 		"health": 25,
 		"accel": 0.1,
 		"bounty": 1
 	},
 	{
-		"name": "Another Ball",
-		"health": 50,
+		"name": "Ball",
+		"scale": 0.15,
+		"health": 30,
+		"accel": 0.15,
+		"bounty": 1
+	},
+	{
+		"name": "Ball",
+		"scale": 0.4,
+		"health": 60,
 		"accel": 0.1,
 		"bounty": 2
 	},
 	{
-		"name": "Yet Another Ball",
-		"health": 100,
+		"name": "Ball",
+		"scale": 0.5,
+		"health": 130,
 		"accel": 0.1,
 		"bounty": 3
 	},
 	{
-		"name": "Yet Another Ball",
-		"health": 150,
+		"name": "Ball",
+		"scale": 0.6,
+		"health": 250,
+		"accel": 0.1,
+		"bounty": 4
+	},
+	{
+		"name": "Ball",
+		"scale": 0.7,
+		"health": 400,
 		"accel": 0.1,
 		"bounty": 5
 	},
 	{
-		"name": "Yet Another Ball",
-		"health": 250,
+		"name": "Ball",
+		"scale": 0.8,
+		"health": 700,
 		"accel": 0.1,
+		"bounty": 6
+	},
+	{
+		"name": "Ball",
+		"scale": 0.5,
+		"health": 1000,
+		"accel": 0.08,
+		"bounty": 7
+	},
+	{
+		"name": "Ball",
+		"scale": 0.6,
+		"health": 1500,
+		"accel": 0.06,
+		"bounty": 8
+	},
+	{
+		"name": "Ball",
+		"scale": 0.7,
+		"health": 1600,
+		"accel": 0.08,
 		"bounty": 10
 	},
 	{
-		"name": "Yet Another Ball",
-		"health": 1000,
-		"accel": 0.1,
-		"bounty": 40
+		"name": "Ball",
+		"scale": 0.8,
+		"health": 2000,
+		"accel": 0.08,
+		"bounty": 11
+	},
+	{
+		"name": "Ball",
+		"scale": 1.0,
+		"health": 2500,
+		"accel": 0.06,
+		"bounty": 12
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 2700,
+		"accel": 0.08,
+		"bounty": 13
 	}
 ]

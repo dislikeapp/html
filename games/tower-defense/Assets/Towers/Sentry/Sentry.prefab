@@ -1,7 +1,7 @@
 {
 	"root": {
 		"className": "OE.Entity",
-		"model": "Turret",
+		"model": "Sentry",
 		"transform": {
 			"scale": [0.1,0.1,0.1]
 		}
