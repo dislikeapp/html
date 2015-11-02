@@ -6,6 +6,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	health: 50,
 	healthMax: 50,
 	bounty: 1,
+	power: 1,
 	
 	accel: 0.15,
 	friction: 0.75,
@@ -39,11 +40,13 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		this.health = this.healthMax = info.health;
 		this.accel = info.accel;
 		this.bounty = info.bounty;
+		this.power = info.power;
 	},
 	
 	visitWaypoint: function(wp) {
 		this.lastWaypoint = wp;
 		if (wp.nextWaypoint === undefined) {
+			app.userData.damage(this.power);
 			this.dead = true;
 			this.destroy();
 		}

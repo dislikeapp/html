@@ -67,7 +67,8 @@ var GUI = OE.Utils.defClass2({
 		this.updateUserInfo();
 	},
 	updateUserInfo: function() {
-		var str = '<div class="balance">Balance: $'+this.userData.balance+'</div>';
+		var str = '<div class="balance">Health: ' + this.userData.health + '</div>';
+			str += '<div class="balance">Balance: $'+ this.userData.balance + '</div>';
 		this.ui.userInfo.innerHTML = str;
 	},
 	

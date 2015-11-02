@@ -26,7 +26,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	STATE_DEFENDING: 1,
 	state: 0,
 	
-	buildStateTime: 25000, // ms
+	buildStateTime: 20000, // ms
 	
 	constructor: function() {
 		OE.BaseApp3D.call(this);
