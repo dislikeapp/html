@@ -66,6 +66,14 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	},
 	
 	findTarget: function() {
+		/*var keys = Object.keys(this.map.enemies.data);
+		for (var i=keys.length-1; i>=0; i--) {
+			var enemy = this.map.enemies.data[keys[i]];
+			if (this.canTarget(enemy)) {
+				this.target = enemy;
+				return;
+			}
+		}*/
 		for (var key in this.map.enemies.data) {
 			var enemy = this.map.enemies.data[key];
 			if (this.canTarget(enemy)) {
