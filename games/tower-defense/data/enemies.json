@@ -16,78 +16,141 @@
 	{
 		"name": "Ball",
 		"scale": 0.4,
-		"health": 60,
+		"health": 100,
 		"accel": 0.1,
 		"bounty": 2
 	},
 	{
 		"name": "Ball",
 		"scale": 0.5,
-		"health": 130,
+		"health": 200,
 		"accel": 0.1,
 		"bounty": 3
 	},
 	{
 		"name": "Ball",
 		"scale": 0.6,
-		"health": 250,
+		"health": 350,
+		"accel": 0.1,
+		"bounty": 3
+	},
+	{
+		"name": "Ball",
+		"scale": 0.7,
+		"health": 600,
 		"accel": 0.1,
 		"bounty": 4
 	},
 	{
 		"name": "Ball",
-		"scale": 0.7,
-		"health": 400,
+		"scale": 0.8,
+		"health": 900,
 		"accel": 0.1,
 		"bounty": 5
 	},
 	{
 		"name": "Ball",
-		"scale": 0.8,
-		"health": 700,
-		"accel": 0.1,
-		"bounty": 6
-	},
-	{
-		"name": "Ball",
 		"scale": 0.5,
-		"health": 1000,
+		"health": 1200,
 		"accel": 0.08,
-		"bounty": 7
+		"bounty": 5
 	},
 	{
 		"name": "Ball",
 		"scale": 0.6,
-		"health": 1500,
+		"health": 1600,
 		"accel": 0.06,
-		"bounty": 8
+		"bounty": 6
 	},
 	{
 		"name": "Ball",
 		"scale": 0.7,
 		"health": 1600,
 		"accel": 0.08,
-		"bounty": 10
+		"bounty": 6
 	},
 	{
 		"name": "Ball",
 		"scale": 0.8,
 		"health": 2000,
 		"accel": 0.08,
-		"bounty": 11
+		"bounty": 7
 	},
 	{
 		"name": "Ball",
 		"scale": 1.0,
 		"health": 2500,
 		"accel": 0.06,
-		"bounty": 12
+		"bounty": 7
 	},
 	{
 		"name": "Ball",
 		"scale": 0.9,
 		"health": 2700,
 		"accel": 0.08,
+		"bounty": 7
+	},
+	{
+		"name": "Ball",
+		"scale": 0.8,
+		"health": 4000,
+		"accel": 0.08,
+		"bounty": 8
+	},
+	{
+		"name": "Ball",
+		"scale": 1.0,
+		"health": 6000,
+		"accel": 0.08,
+		"bounty": 9
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 8000,
+		"accel": 0.08,
+		"bounty": 10
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 10000,
+		"accel": 0.08,
+		"bounty": 11
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 12000,
+		"accel": 0.08,
+		"bounty": 12
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 14000,
+		"accel": 0.08,
 		"bounty": 13
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 16000,
+		"accel": 0.08,
+		"bounty": 14
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 18000,
+		"accel": 0.08,
+		"bounty": 15
+	},
+	{
+		"name": "Ball",
+		"scale": 0.9,
+		"health": 20000,
+		"accel": 0.08,
+		"bounty": 16
 	}
 ]
