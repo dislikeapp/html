@@ -1,6 +1,5 @@
 
 var Wall = OE.Utils.defClass2(OE.Box, {
-	
 	constructor: function Wall(map) {
 		OE.Box.call(this, map.gridScale, map.wallHeight, map.gridScale);
 		this.setMaterial("Wall");

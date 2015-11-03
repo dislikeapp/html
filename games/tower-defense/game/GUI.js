@@ -39,7 +39,7 @@ var GUI = OE.Utils.defClass2({
 			this.ui.gameState.innerHTML = "BUILD";
 		}
 		else if (state === app.STATE_DEFENDING) {
-			this.setShopActive(false);
+			//this.setShopActive(false);
 			this.ui.gameState.setAttribute("class", "gameState defend");
 			this.ui.gameState.innerHTML = "DEFEND";
 		}
@@ -82,16 +82,23 @@ var GUI = OE.Utils.defClass2({
 		
 		var level = info.levels[0];
 		
-		var delay = (1000.0 * level.delay / 60.0).toFixed(0);
-		var range = level.range;
-		
 		var str = '<div class="preview" style="background-image: url(\''+info.preview+'\');"></div>'
 			+'<p class="model">Model: '+level.name+'</p>'
-			+'<p class="details">'
-				+'Range: '+range+' units<br />'
-				+'Delay: '+delay+' ms<br />'
-				+'Power: '+level.power+'<br /></p>'
-			+'<p><a name="buy" class="btn yellow">Buy for $'+level.cost+'</a><p>';
+			+'<p class="details">';
+		
+		if (info.offensive === false) {
+			str += 'Non-offensive.';
+		}
+		else {
+			var delay = (1000.0 * level.delay / 60.0).toFixed(0);
+			var range = level.range;
+			
+			str += 'Range: '+range+' units<br />'
+					+'Delay: '+delay+' ms<br />'
+					+'Power: '+level.power+'<br />';
+		}
+		str += '</p>';
+		str += '<p><a name="buy" class="btn yellow">Buy for $'+level.cost+'</a><p>';
 		this.ui.shopInfo.innerHTML = str;
 		
 		var buyBtn = this.ui.shopInfo.findByName("buy");
@@ -106,18 +113,25 @@ var GUI = OE.Utils.defClass2({
 			var level = info.levels[object.upgrade_level];
 			var nextLv = object.upgrade_level + 1;
 			
-			var delay = (1000.0 * level.delay / 60.0).toFixed(0);
-			var range = level.range;
-			
 			var sell_price = this.getSellPrice(object.tower_id, object.upgrade_level);
 			
 			var str = '<div class="preview" style="background-image: url(\''+info.preview+'\');"></div>'
 				+'<p class="model">Selection:<br />'+level.name+'</p>'
 				+'<p class="details">'
-					+'Upgrade: Lv. '+nextLv+'<br />'
-					+'Range: '+range+' units<br />'
-					+'Delay: '+delay+' ms<br />'
-					+'Power: '+level.power+'<br /></p>';
+					'Upgrade: Lv. '+nextLv+'<br />'
+			
+			if (info.offensive === false) {
+				str += 'Non-offensive.';
+			}
+			else {
+				var delay = (1000.0 * level.delay / 60.0).toFixed(0);
+				var range = level.range;
+				
+				str += 'Range: '+range+' units<br />'
+						+'Delay: '+delay+' ms<br />'
+						+'Power: '+level.power+'<br />';
+			}
+			str += '</p>';
 			
 			str += '<p><a name="sell" class="btn red">Sell for $'+sell_price+'</a></p>';
 			

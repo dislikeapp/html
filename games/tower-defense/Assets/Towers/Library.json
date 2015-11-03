@@ -6,6 +6,7 @@
 		"MantisColor": "Mantis/MantisColor.png"
 	},
 	"Materials": {
+		"PlayerWall": "Wall/PlayerWall.material",
 		"Sentry": "Sentry/Sentry.material",
 		"Mantis": "Mantis/Mantis.material"
 	},
@@ -14,6 +15,7 @@
 		"Mantis": "Mantis/Mantis.model"
 	},
 	"Prefabs": {
+		"Wall": "Wall/Wall.prefab",
 		"Sentry": "Sentry/Sentry.prefab",
 		"Mantis": "Mantis/Mantis.prefab"
 	}

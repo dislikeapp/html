@@ -1,5 +1,16 @@
 [
 	{
+		"series": "Wall",
+		"preview": "images/Wall.jpg",
+		"offensive": false,
+		"levels": [
+			{
+				"name": "Wall",
+				"cost": 5
+			}
+		]
+	},
+	{
 		"series": "Sentry",
 		"preview": "images/Sentry.jpg",
 		"levels": [

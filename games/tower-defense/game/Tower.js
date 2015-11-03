@@ -7,6 +7,8 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 	upgrade_level: 0,
 	
 	series: "Sentry",
+	
+	offensive: true,
 	range: 1.0,
 	range2: 1.0,
 	fireDelay: 120,
@@ -23,9 +25,11 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		this.tower_id = type;
 		this.setUpgradeLevel(0);
 		
-		this.sound = OE.SoundManager.getLoaded(this.series, function(sound) {
-			sound.setTriggerLimit(1, 90); // Can only play 2 times within a 50 millisecond boundary.
-		});
+		if (this.offensive) {
+			this.sound = OE.SoundManager.getLoaded(this.series, function(sound) {
+				sound.setTriggerLimit(1, 90); // Can only play 2 times within a 50 millisecond boundary.
+			});
+		}
 		
 		//this.muzzleFlash = this.addChild(new OE.Entity("MuzzleFlash"));
 	},
@@ -36,11 +40,14 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		var levelInfo = info.levels[level];
 		
 		this.series = info.series;
+		this.offensive = info.offensive === undefined ? true : info.offensive;
 		
-		this.range = levelInfo.range * app.map.gridScale;
-		this.range2 = this.range * this.range;
-		this.fireDelay = levelInfo.delay;
-		this.power = levelInfo.power;
+		if (this.offensive) {
+			this.range = levelInfo.range * app.map.gridScale;
+			this.range2 = this.range * this.range;
+			this.fireDelay = levelInfo.delay;
+			this.power = levelInfo.power;
+		}
 		
 		var colors = [
 			[1.25, 1.25, 1.25],
@@ -49,19 +56,19 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 			[0.25, 1.25, 1.25],
 			[1.25, 0.25, 0.25]];
 		
-		var set = false;
 		var entity = this.mChildren[0];
-		if (entity !== undefined) {
+		if (entity instanceof OE.Entity) {
+			var set = false;
 			var sub = entity.mSubEntities[0];
 			if (sub !== undefined && sub.mMaterial !== undefined && sub.mMaterial.mLoadState === OE.Resource.LoadState.LOADED) {
 				sub.setUniform(0, "diffuse", colors[level]);
 				set = true;
 			}
-		}
-		if (!set) {
-			setTimeout(function() {
-				this.setUpgradeLevel(level);
-			}.bind(this), 100);
+			if (!set) {
+				setTimeout(function() {
+					this.setUpgradeLevel(level);
+				}.bind(this), 100);
+			}
 		}
 	},
 	
@@ -124,25 +131,27 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		this.setRot(rot);
 	},
 	onUpdate: function() {
-		var pos = this.getPos();
-		
-		if (this.target === undefined)
-			this.findTarget();
-		else if (!this.canTarget(this.target))
-			this.target = undefined;
-		
-		if (this.target !== undefined) {
-			this.timer++;
-			if (this.timer >= this.fireDelay) {
-				this.timer = 0;
-				if (this.target !== undefined) {
-					this.faceTarget();
-					this.fire();
+		if (this.offensive) {
+			var pos = this.getPos();
+			
+			if (this.target === undefined)
+				this.findTarget();
+			else if (!this.canTarget(this.target))
+				this.target = undefined;
+			
+			if (this.target !== undefined) {
+				this.timer++;
+				if (this.timer >= this.fireDelay) {
+					this.timer = 0;
+					if (this.target !== undefined) {
+						this.faceTarget();
+						this.fire();
+					}
 				}
 			}
-		}
-		else if (this.timer < this.fireDelay) {
-			this.timer++;
+			else if (this.timer < this.fireDelay) {
+				this.timer++;
+			}
 		}
 	},
 	onDestroy: function() {}

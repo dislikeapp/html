@@ -1,0 +1,10 @@
+{
+	"root": {
+		"className": "OE.Box",
+		"material": "PlayerWall",
+		"transform": {
+			"pos": [0.0, 5.0, 0.0],
+			"scale": [10.0, 10.0, 10.0]
+		}
+	}
+}

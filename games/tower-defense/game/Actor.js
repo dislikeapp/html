@@ -94,7 +94,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		var nty = -h * ((this.spos[1] / this.spos[3])*0.5+0.5);
 		ntx -= this.nametag.offsetWidth/2;
 		nty -= this.nametag.offsetHeight/2;
-		this.nametag.style.transform = 'translate('+ntx+'px,'+nty+'px)';
+		this.nametag.style.transform = 'translate3d('+ntx+'px,'+nty+'px,0px)';
 	},
 	
 	visitWaypoint: function(wp) {
