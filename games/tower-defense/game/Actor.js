@@ -31,13 +31,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		this.velocity = new OE.Vector3(0.0);
 		this.target = new OE.Vector3(0.0);
 		
-		this.nametag = document.createElement("div");
-		this.nametag.setAttribute("class", "nametag healthbar");
-		document.body.appendChild(this.nametag);
-		
-		this.hpbar = document.createElement("div");
-		this.hpbar.setAttribute("class", "bar");
-		this.nametag.appendChild(this.hpbar);
+		this.nametag = this.addChild(new Nametag());
 	},
 	
 	setActorType: function(type) {
@@ -55,8 +49,9 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	},
 	setHealth: function(health) {
 		this.health = OE.Math.clamp(health, 0, this.healthMax);
-		var f = 100.0 * this.health / this.healthMax;
-		this.hpbar.style.width = f.toFixed(0)+'%';
+		var f = this.health / this.healthMax;
+		
+		this.nametag.setHealth(f);
 		
 		if (this.health === 0 && !this.dead) {
 			this.dead = true;
@@ -71,30 +66,6 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	walk: function(dir, mag) {
 		dir.mulByf(mag * this.accel);
 		this.velocity.addBy(accel);
-	},
-	
-	wpos: undefined,
-	spos: undefined,
-	updateNametagPos: function() {
-		if (this.wpos === undefined) this.wpos = new Array(4);
-		if (this.spos === undefined) this.spos = new Array(4);
-		
-		var wpos = this.mWorldTransform.getPos();
-		var view = app.mCamera.getViewMatrix();
-		var proj = app.mCamera.getProjectionMatrix();
-		this.wpos[0] = wpos.x;
-		this.wpos[1] = wpos.y + this.mRadius;
-		this.wpos[2] = wpos.z;
-		this.wpos[3] = 1.0;
-		mat4.multiplyVec4(view, this.wpos, this.spos);
-		mat4.multiplyVec4(proj, this.spos, this.spos);
-		var w = app.mSurface.mCanvas.offsetWidth;
-		var h = app.mSurface.mCanvas.offsetHeight;
-		var ntx = w * ((this.spos[0] / this.spos[3])*0.5+0.5);
-		var nty = -h * ((this.spos[1] / this.spos[3])*0.5+0.5);
-		ntx -= this.nametag.offsetWidth/2;
-		nty -= this.nametag.offsetHeight/2;
-		this.nametag.style.transform = 'translate3d('+ntx+'px,'+nty+'px,0px)';
 	},
 	
 	visitWaypoint: function(wp) {
@@ -128,15 +99,8 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		}
 	},
 	
-	nametagTimer: 0,
 	onUpdate: function() {
 		OE.Sphere.prototype.onUpdate.call(this);
-		
-		this.nametagTimer++;
-		if (this.nametagTimer >= 1) {
-			this.nametagTimer = 0;
-			this.updateNametagPos();
-		}
 		
 		var pos = this.getPos();
 		
@@ -163,7 +127,5 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		pos.addBy(this.velocity);
 		this.setPos(pos);
 	},
-	onDestroy: function() {
-		document.body.removeChild(this.nametag);
-	}
+	onDestroy: function() {}
 });

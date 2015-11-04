@@ -1,0 +1,18 @@
+
+{
+	"shader": {
+		"vert": "Sources/HealthBar.vert",
+		"frag": "Sources/HealthBar.frag",
+		"attributes": {
+			"vertPosition":	"POSITION",
+			"vertTexCoord":	"TEXCOORD",
+			"vertColor":	"COLOR"
+		},
+		"uniforms": {
+			"mMatrix":		"M_MATRIX",
+			"vMatrix":		"V_MATRIX",
+			"pMatrix":		"P_MATRIX",
+			"health":		{"FLOAT":	1.0}
+		}
+	}
+}

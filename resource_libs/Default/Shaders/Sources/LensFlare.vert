@@ -1,9 +1,6 @@
 
-uniform mat4 mvpMatrix;
 uniform mat4 mvMatrix;
-uniform mat4 vMatrix;
 uniform mat4 pMatrix;
-uniform mat3 nMatrix;
 
 attribute vec3 vertPosition;
 attribute vec2 vertTexCoord;

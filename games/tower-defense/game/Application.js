@@ -1,4 +1,47 @@
 
+var Timer = OE.Utils.defClass2({
+	callback: undefined,
+	handler: undefined,
+	delay: undefined,
+	
+	timeout: undefined,
+	timeStarted: undefined,
+	timeFinished: undefined,
+	
+	constructor: function(callback, delay) {
+		this.callback = callback;
+		this.delay = delay;
+		this.handler = this.handler.bind(this);
+	},
+	start: function() {
+		if (this.isRunning()) {
+			this.stop();
+		}
+		this.timeStarted = Date.now();
+		this.timeout = setTimeout(this.handler, this.delay);
+	},
+	stop: function() {
+		if (this.isRunning()) {
+			clearTimeout(this.timeout);
+			this.timeout = undefined;
+		}
+	},
+	handler: function() {
+		this.callback();
+		this.timeFinished = Date.now();
+		clearTimeout(this.timeout);
+		this.timeout = undefined;
+	},
+	
+	isRunning: function() {
+		return (this.timeout !== undefined);
+	},
+	getTimeLeft: function() {
+		var ms = (this.timeStarted - Date.now()) + this.delay;
+		return ms / 1000;
+	}
+});
+
 OE.Math.intersectRayPlane = function(out, rayPos, rayDir, planePos, planeNorm) {
 	var denom = planeNorm.dot(rayDir);
 	if (Math.abs(denom) > OE.Math.EPSILON) {
@@ -22,14 +65,17 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	camPos: undefined,
 	camDist: 100.0,
 	
-	STATE_BUILDING: 0,
-	STATE_DEFENDING: 1,
+	STATE_CALM: 0,
+	STATE_RAID: 1,
 	state: 0,
 	
 	gridSizeX: 15,
 	gridSizeY: 15,
-	buildStateTime: 25000, // 25 seconds
-	defendStateTime: 45000, // 45 seconds
+	
+	calmStateTime: 25000, // 25 seconds
+	raidStateTime: 45000, // 45 seconds
+	calmTimer: undefined,
+	raidTimer: undefined,
 	difficultyStep: 0.02, // 2% harder, 50 waves until max difficulty.
 	
 	constructor: function() {
@@ -38,10 +84,17 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.camPos = new OE.Vector3(0.0, 1.0, 0.0);
 		
 		this.userData = new UserData();
-		this.userData.receive(100);
 		
 		this.gui = new GUI();
 		this.gui.setUserData(this.userData);
+		
+		this.calmTimer = new Timer(function() {
+			this.changeState(this.STATE_RAID);
+		}.bind(this), this.calmStateTime);
+		
+		this.raidTimer = new Timer(function() {
+			this.changeState(this.STATE_CALM);
+		}.bind(this), this.raidStateTime);
 		
 		OE.Utils.loadJSON("data/towers.json", function(json) {
 			this.towerData = json;
@@ -61,6 +114,8 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
+		
+		setInterval(this.gui.updateTimer.bind(this.gui), 1000);
 	},
 	onFinish: function() {},
 	
@@ -104,7 +159,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			this.map.generateWalls();
 			this.map.generateBestPath();
 			
-			this.changeState(this.STATE_BUILDING);
+			this.changeState(this.STATE_CALM);
 		}
 	},
 	
@@ -115,33 +170,27 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	},
 	enterState: function() {
 		switch (this.state) {
-			case this.STATE_BUILDING: {
-				this.gui.setGameState(this.state);
+			case this.STATE_CALM: {
+				this.calmTimer.start();
 				this.map.stopRaid();
-				
-				setTimeout(function() {
-					this.changeState(this.STATE_DEFENDING);
-				}.bind(this), this.buildStateTime);
+				this.gui.setGameState(this.state);
 				break;
 			};
-			case this.STATE_DEFENDING: {
+			case this.STATE_RAID: {
 				this.map.generateBestPath();
-				this.gui.setGameState(this.state);
+				this.raidTimer.start();
 				this.map.startRaid();
-				
-				setTimeout(function() {
-					this.changeState(this.STATE_BUILDING);
-				}.bind(this), this.defendStateTime);
+				this.gui.setGameState(this.state);
 				break;
 			};
 		}
 	},
 	exitState: function() {
 		switch (this.state) {
-			case this.STATE_BUILDING: {
+			case this.STATE_CALM: {
 				break;
 			};
-			case this.STATE_DEFENDING: {
+			case this.STATE_RAID: {
 				this.map.getHarder(this.difficultyStep);
 				break;
 			};

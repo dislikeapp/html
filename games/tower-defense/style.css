@@ -319,6 +319,9 @@ table.layout > tbody > tr > th {
 	border-bottom-width: 1px;
 	padding: 4px;
 }
+#ingameOverlay .pane:last_child {
+	border-bottom-width: 0px;
+}
 #ingameOverlay a.btn {
 	display: inline-block;
 	border: solid 1px #BFBFBF;
@@ -347,21 +350,26 @@ table.layout > tbody > tr > th {
 	float: right;
 	font-size: 18px;
 	font-weight: bold;
+	color: #FF7F00;
 }
-#ingameOverlay .gameState.build {
-	color: #007FFF;
-	background-color: #002F4F;
-}
-#ingameOverlay .gameState.defend {
+/*#ingameOverlay .gameState.calm {
 	color: #FF0000;
 	background-color: #4F0000;
 }
+#ingameOverlay .gameState.raid {
+	color: #007FFF;
+	background-color: #002F4F;
+}*/
 
+.userInfo .health {
+	color: #FF0000;
+	font-family: monospace;
+	font-size: 16px;
+}
 .userInfo .balance {
 	color: #FFFF00;
 	font-family: monospace;
 	font-size: 16px;
-	padding: 4px;
 }
 
 .shop > a {

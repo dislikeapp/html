@@ -28,20 +28,28 @@ var GUI = OE.Utils.defClass2({
 		this.updateUserInfo();
 	},
 	updateUserInfo: function() {
-		var str = '<div class="balance">Balance: $'+this.userData.balance+'</div>';
+		var str = '<div class="health">Health: '+this.userData.health+'</div>';
+		str +=    '<div class="balance">Balance: $'+this.userData.balance+'</div>';
 		this.ui.userInfo.innerHTML = str;
 	},
 	
 	setGameState: function(state) {
-		if (state === app.STATE_BUILDING) {
+		if (state === app.STATE_CALM) {
 			this.setShopActive(true);
-			this.ui.gameState.setAttribute("class", "gameState build");
-			this.ui.gameState.innerHTML = "BUILD";
+			this.ui.gameState.setAttribute("class", "gameState calm");
 		}
-		else if (state === app.STATE_DEFENDING) {
+		else if (state === app.STATE_RAID) {
 			//this.setShopActive(false);
-			this.ui.gameState.setAttribute("class", "gameState defend");
-			this.ui.gameState.innerHTML = "DEFEND";
+			this.ui.gameState.setAttribute("class", "gameState raid");
+		}
+		this.updateTimer();
+	},
+	updateTimer: function() {
+		if (app.state === app.STATE_CALM) {
+			this.ui.gameState.innerHTML = "Next Raid in "+app.calmTimer.getTimeLeft().toFixed(0)+"s";
+		}
+		else if (app.state === app.STATE_RAID) {
+			this.ui.gameState.innerHTML = "Next Calm in "+app.raidTimer.getTimeLeft().toFixed(0)+"s";
 		}
 	},
 	setShopActive: function(active) {

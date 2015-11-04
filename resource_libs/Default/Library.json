@@ -14,7 +14,8 @@
 		"PlainTexture": "Shaders/PlainTexture.json",
 		"Solid": "Shaders/Solid.json",
 		"LensFlare": "Shaders/LensFlare.json",
-		"Shapes": "Shaders/Shapes.json"
+		"Shapes": "Shaders/Shapes.json",
+		"Billboard": "Shaders/Billboard.json"
 	},
 	"Materials": {
 		"Blit": "Materials/Blit.json",

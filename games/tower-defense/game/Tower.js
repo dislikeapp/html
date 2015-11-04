@@ -89,13 +89,22 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 			}
 		}
 	},
+	auxVec: undefined,
 	fire: function() {
 		/*this.muzzleFlash.mActive = true;
 		setTimeout(function() {
 			this.muzzleFlash.mActive = false;
 		}, 100);*/
 		
-		this.sound.trigger();
+		if (this.auxVec === undefined) this.auxVec = new OE.Vector3();
+		this.auxVec.set(this.getPos());
+		this.auxVec.subBy(app.mCamera.getPos());
+		
+		var f = this.auxVec.length();
+		f = 1.0-OE.Math.clamp(f/100.0, 0.0, 1.0);
+		
+		if (f > 0.05)
+			this.sound.trigger({gain: f});
 		
 		if (this.target !== undefined) {
 			this.target.damage(this.power);

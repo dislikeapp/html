@@ -39,7 +39,8 @@
 	"Shaders": {
 		"Atmosphere":"Shaders/Atmosphere.json",
 		"Terrain":"Shaders/Terrain.json",
-		"ColorMask":"Shaders/ColorMask.json"
+		"ColorMask":"Shaders/ColorMask.json",
+		"HealthBar":"Shaders/HealthBar.json"
 	},
 	"Materials": {
 		"Atmosphere":"Materials/Atmosphere.json",
@@ -55,7 +56,8 @@
 		"Water":"Materials/Water.json",
 		"Bricks": "Materials/Bricks.json",
 		"Concrete": "Materials/Concrete.json",
-		"Cursor": "Materials/Cursor.json"
+		"Cursor": "Materials/Cursor.json",
+		"Nametag": "Materials/Nametag.json"
 	},
 	"Models": {
 		"Diamond":"Models/Diamond.obj"
@@ -64,6 +66,6 @@
 		"Sentry":"Sounds/Sentry.ogg",
 		"Mantis":"Sounds/Mantis.ogg",
 		"Menu":"Sounds/12okt.ogg",
-		"BGM":"Sounds/battle.ogg"
+		"BGM":"Sounds/boss.ogg"
 	}
 }
