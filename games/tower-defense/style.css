@@ -28,7 +28,9 @@ iframe {
 	overflow-x: scroll;
 }
 
-
+#controls_table td {
+	text-align: left;
+}
 
 .appFrame {
 	width: 100%;

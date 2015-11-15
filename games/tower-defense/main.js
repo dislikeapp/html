@@ -46,8 +46,7 @@ function preloadResources(type, callback) {
 	var resources = {
 		textures: [
 			"White", "Black", "Flat_norm",
-			"concrete",
-			"bricks",
+			"concrete", "bricks",
 			"MetalWall1",
 			"Sentry",
 			"Mantis"
@@ -118,16 +117,24 @@ function preloadAll(callback) {
 var app;
 
 function showMenu() {
-    var overlay = document.getElementById("menuOverlay");
-    overlay.style.display = "inline-block";
+	var overlay = document.getElementById("menuOverlay");
+	overlay.style.display = "inline-block";
+}
+function clickBegin() {
+	app.initScene();
+	app.loadLevel(0);
+	document.getElementById("menuOverlay").style.display = "none";
+	document.getElementById("ingameOverlay").style.display = "inline-block";
+	app.mSurface.mCanvas.focus();
 }
 
-function clickBegin() {
-    app.initScene();
-    app.loadLevel(0);
-    document.getElementById("menuOverlay").style.display = "none";
-    document.getElementById("ingameOverlay").style.display = "inline-block";
+function showControls() {
+	if (document.getElementById("controls_display").style.display === "none")
+		document.getElementById("controls_display").style.display = "initial";
+	else
+		document.getElementById("controls_display").style.display = "none"	
 }
+
 function init() {
 	app = new Application();
 	app.run();
