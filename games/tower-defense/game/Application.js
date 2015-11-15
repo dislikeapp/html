@@ -55,16 +55,22 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene = new OE.Scene();
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
-        //this.mCamera.mRotX = -32.0;
 		this.mViewport = rt.createViewport(this.mCamera);
         
-        //this.mCamera.mRotX = -32.0;
-        //this.mCamera.getRot().mulvBy(new OE.Vector3(-32.0, 0, 0));
-        
         var rot = this.mCamera.getRot();
-        rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
-        this.mCamera.setRot(rot);
-		
+        //rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
+        
+        // TODO: Im setting this camera Rotation so it starts in a reasonable place
+        // The MouseMove function makes a call to mouseLook which seems to think the camera is still at
+        // 0, 0
+        //this.mCamera.setRot(rot);
+        //this.mCamera.mouseLook(0, -10, 1);
+        //this.mCamera.mMLookX = -0.075;
+		var i;
+        for (i = 0; i < 225; ++i) {
+            this.haxCode(1, i);
+        }
+        
 		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
 	},
 	onFinish: function() {},
@@ -73,7 +79,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.addObject(this.mCamera);
 		this.mCamera.setNearPlane(0.5);
 		this.mCamera.setFarPlane(1000.0);
-		//this.camPos.setf(2.0, 2.0, 2.0);
 		
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
@@ -167,7 +172,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	onMouseDown: function(x, y, k) {
 		this.xprev = x;
 		this.yprev = y;
-		
+        console.log("mouseLookY: ", this.mCamera.mMLookY, " mouseLookX: ", this.mCamera.mMLookX);
 		if (k === 0 && !this.mKeyDown[16]) {
 			if (this.rayPos === undefined) this.rayPos = new OE.Vector3();
 			if (this.rayDir === undefined) this.rayDir = new OE.Vector3();
@@ -191,18 +196,31 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 	},
 	onMouseMove: function(x, y) {
-		if (this.mKeyDown[16]) {
-			if (this.mMouseDown[0]) {
-				var dx = x - this.xprev;
-				var dy = y - this.yprev;
-				this.xprev = x;
-				this.yprev = y;
-				
-				this.mCamera.mLockY = true;
-				this.mCamera.mouseLook(dx, dy, -0.075);
-			}
-		}
+        
+        // Retain both the shift-click zoom from before and try out right-click zoom
+		if ((this.mKeyDown[16] && this.mMouseDown[0]) || this.mMouseDown[2] ) {
+		  console.log("x: ", x, "y: " , y);
+            this.haxCode(x, y);
+//            var dx = x - this.xprev;
+//            var dy = y - this.yprev;
+//            this.xprev = x;
+//            this.yprev = y;
+//				
+//            this.mCamera.mLockY = true;
+//            this.mCamera.mouseLook(dx, dy, -0.075);
+        }
 	},
+    
+    haxCode: function(x, y) {
+        var dx = x - this.xprev;
+        var dy = y - this.yprev;
+        this.xprev = x;
+        this.yprev = y;
+				
+        this.mCamera.mLockY = true;
+        this.mCamera.mouseLook(dx, dy, -0.075);
+    },
+    
 	onMouseUp: function(x, y, k) {},
 	
 	a: undefined,
