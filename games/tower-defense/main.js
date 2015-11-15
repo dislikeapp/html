@@ -37,6 +37,7 @@ function clickBegin() {
     app.loadLevel(0);
     document.getElementById("menuOverlay").style.display = "none";
     document.getElementById("ingameOverlay").style.display = "inline-block";
+    app.mSurface.mCanvas.focus();
 }
 
 function showControls() {

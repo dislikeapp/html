@@ -172,7 +172,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	onMouseDown: function(x, y, k) {
 		this.xprev = x;
 		this.yprev = y;
-        console.log("mouseLookY: ", this.mCamera.mMLookY, " mouseLookX: ", this.mCamera.mMLookX);
 		if (k === 0 && !this.mKeyDown[16]) {
 			if (this.rayPos === undefined) this.rayPos = new OE.Vector3();
 			if (this.rayDir === undefined) this.rayDir = new OE.Vector3();
@@ -199,7 +198,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
         
         // Retain both the shift-click zoom from before and try out right-click zoom
 		if ((this.mKeyDown[16] && this.mMouseDown[0]) || this.mMouseDown[2] ) {
-		  console.log("x: ", x, "y: " , y);
             this.haxCode(x, y);
 //            var dx = x - this.xprev;
 //            var dy = y - this.yprev;
