@@ -81,7 +81,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
-		this.camPos = new OE.Vector3(0.0, 50.0, 72.0);
+		this.camPos = new OE.Vector3(0.0, 1.0, 1.0);
 		
 		this.userData = new UserData();
 		
@@ -114,10 +114,8 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
-		
-		setInterval(this.gui.updateTimer.bind(this.gui), 1000);
         
-        var rot = this.mCamera.getRot();
+        setInterval(this.gui.updateTimer.bind(this.gui), 1000);
         //rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
         
         // TODO: Im setting this camera Rotation so it starts in a reasonable place

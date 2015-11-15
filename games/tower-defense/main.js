@@ -38,7 +38,7 @@ function clickBegin() {
     document.getElementById("menuOverlay").style.display = "none";
     document.getElementById("ingameOverlay").style.display = "inline-block";
     app.mSurface.mCanvas.focus();
-    
+    console.log(document.activeElement);
 }
 
 function showControls() {
@@ -143,12 +143,6 @@ function showMenu() {
     overlay.style.display = "inline-block";
 }
 
-function clickBegin() {
-    app.initScene();
-    app.loadLevel(0);
-    document.getElementById("menuOverlay").style.display = "none";
-    document.getElementById("ingameOverlay").style.display = "inline-block";
-}
 function init() {
 	app = new Application();
 	app.run();
