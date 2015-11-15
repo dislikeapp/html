@@ -27,6 +27,27 @@ function loadFinish(timeout, callback) {
 	}, timeout);
 }
 
+function showMenu() {
+    var overlay = document.getElementById("menuOverlay");
+    overlay.style.display = "inline-block";
+}
+
+function clickBegin() {
+    app.initScene();
+    app.loadLevel(0);
+    document.getElementById("menuOverlay").style.display = "none";
+    document.getElementById("ingameOverlay").style.display = "inline-block";
+    app.mSurface.mCanvas.focus();
+    
+}
+
+function showControls() {
+	if (document.getElementById("controls_display").style.display === "none")
+		document.getElementById("controls_display").style.display = "initial";
+	else
+		document.getElementById("controls_display").style.display = "none"	
+}
+
 function declareAll(callback) {
 	loadStart();
 	loadStatus("0");

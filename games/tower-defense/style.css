@@ -28,7 +28,9 @@ iframe {
 	overflow-x: scroll;
 }
 
-
+#controls_table td {
+	text-align: left;
+}
 
 .appFrame {
 	width: 100%;
@@ -366,6 +368,15 @@ table.layout > tbody > tr > th {
 	font-family: monospace;
 	font-size: 16px;
 }
+
+#ingameOverlay .countdown {
+	display: inline-block;
+	float: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #FF0000;
+}
+
 .userInfo .balance {
 	color: #FFFF00;
 	font-family: monospace;

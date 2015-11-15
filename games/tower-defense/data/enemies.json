@@ -8,44 +8,35 @@
 		"power": 1
 	},
 	{
-		"name": "Ball",
-		"scale": 0.15,
-		"health": 30,
-		"accel": 0.15,
-		"bounty": 1,
-		"power": 1
+		"name": "Another Ball",
+		"health": 50,
+		"accel": 0.1,
+		"bounty": 2,
+		"power": 2
 	},
 	{
 		"name": "Ball",
 		"scale": 0.4,
 		"health": 100,
 		"accel": 0.1,
-		"bounty": 2,
-		"power": 1
-	},
-	{
-		"name": "Ball",
-		"scale": 0.5,
-		"health": 200,
-		"accel": 0.1,
 		"bounty": 3,
-		"power": 1
+		"power": 5
 	},
 	{
 		"name": "Ball",
 		"scale": 0.6,
 		"health": 350,
 		"accel": 0.1,
-		"bounty": 3,
-		"power": 2
+		"bounty": 5,
+		"power": 8
 	},
 	{
 		"name": "Ball",
 		"scale": 0.7,
 		"health": 600,
 		"accel": 0.1,
-		"bounty": 4,
-		"power": 2
+		"bounty": 10,
+		"power": 10
 	},
 	{
 		"name": "Ball",

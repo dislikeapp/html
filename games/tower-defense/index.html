@@ -27,7 +27,7 @@
 	<script src="main.js"></script>
 </head>
 <body>
-	<div class="appFrame" id="appFrame">
+	<div class="appFrame" id="appFrame" oncontextmenu="return false;">
 		<div class="appOverlay nodisplay" id="loadingOverlay">
 			<div class="frame1 loader">
 				Loading...<br />
@@ -36,15 +36,31 @@
 		</div>
         <div class="appOverlay nodisplay" id="menuOverlay">
             <div class="frame1 mainMenu takeInput">
-                <span class="title">Tower Defense Game!</span>
+                <span class="title">Sentry Online! BETA</span>
                 <button type="button" class="mainButton" onclick="clickBegin()">Begin</button><br/><br/>
-                <button type="button" class="mainButton">Controls</button>
+                <button type="button" class="mainButton" onclick="showControls()">Controls</button>
+                <div id="controls_display" style="display: none;">
+                	<table align="center" id="controls_table">
+                		<th style="text-align:left">Key</th><th style="text-align:center">Action</th>
+                		<tr><td>'W'</td><td>- Move Camera Forward</td><tr>
+                		<tr><td>'S'</td><td>- Move Camera Backwards</td></tr>
+                		<tr><td>'A'</td><td>- Move Camera Left</td></tr>
+                		<tr><td>'D'</td><td>- Move Camera Right</td></tr>
+                		<tr><td>'B'</td><td>- Buy Selected</td></tr>
+                		<tr><td>'L'</td><td>- Sell Selected</td></tr>
+                		<tr><td>'U'</td><td>- Upgrade Selected</td></tr>
+                        <tr><td>'Left Click'</td><td>- Select Tile</td></tr>
+                        <tr><td>'Wheel'</td><td>- Zoom Camera</td></tr>
+                        <tr><td>'Right Click'</td><td>- Rotate Camera</td></tr>
+                	</table>
+                </div>
             </div>
         </div>
 		<div class="appOverlay nodisplay" id="ingameOverlay">
 			<div name="frame" class="frame1 absolute takeInput" style="overflow-y: auto; top: 4px; right: 4px; bottom: 4px; width: 300px;">
 				<input type="button" name="toggle" value="Show/Hide" />
 				<div class="gameState" name="gameState"></div>
+				<div class="countdown" name="countdown"></div>
 				<div class="userInfo" name="userInfo"></div>
 				<div name="content">
 					<div class="pane shop" name="shop"></div>
