@@ -259,6 +259,7 @@ var GUI = OE.Utils.defClass2({
 					object.setUpgradeLevel(nextLv);
 					this.updateUserInfo();
 					this.setSelection(object);
+					app.map.setCursor(object.map_pos_x, object.map_pos_y);
 				}
 				else {
 					alert("Not enough funds!");

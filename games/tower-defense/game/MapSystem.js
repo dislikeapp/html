@@ -33,6 +33,28 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		
 		this.cursor = this.addChild(new OE.Box(this.gridScale, this.gridScale, this.gridScale));
 		this.cursor.setMaterial("Cursor");
+		
+		//this.rangeHighlight = this.cursor.addChild(new OE.Box(2.0, 0.1, 2.0));
+		//this.rangeHighlight.setMaterial("Range");
+		
+		this.rangeHighlight = this.cursor.addChild(new OE.DrawShapes());
+		(function() {
+			var elevation = 0.1;
+			var color = new OE.Color(1.0, 0.0, 0.0, 1.0);
+			var segs = 32;
+			var draw = this.rangeHighlight;
+			draw.setMaterial("Shapes");
+			for (var i=0; i<segs; i++) {
+				var t1 = OE.Math.TWO_PI * i/segs;
+				var t2 = OE.Math.TWO_PI * (i+1)/segs;
+				draw.line(	Math.cos(t1), elevation, Math.sin(t1),
+							Math.cos(t2), elevation, Math.sin(t2),
+							color, 1.0);
+			}
+			draw.updateBuffer();
+		}.bind(this))();
+		
+		this.setRangeHighlight(undefined);
 		this.hideCursor();
 		
 		var width = this.sizeX * this.gridScale;
@@ -293,6 +315,15 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 			if (obj.mBoundingBox !== undefined) {
 				h = obj.mBoundingBox.p2.y - obj.mBoundingBox.p1.y;
 			}
+			if (obj.range !== undefined) {
+				this.setRangeHighlight(obj.range);
+			}
+			else {
+				this.setRangeHighlight(undefined);
+			}
+		}
+		else {
+			this.setRangeHighlight(undefined);
 		}
 		this.cursor.mHeight = h;
 		this.cursor.updateBuffer();
@@ -302,6 +333,14 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	},
 	hideCursor: function() {
 		this.cursor.mActive = false;
+	},
+	setRangeHighlight: function(range) {
+		if (range === undefined)
+			this.rangeHighlight.mActive = false;
+		else {
+			this.rangeHighlight.mActive = true;
+			this.rangeHighlight.setScalef(range, 1.0, range);
+		}
 	},
 	
 	worldToGridX: function(value) {
