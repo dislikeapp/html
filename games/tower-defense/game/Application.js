@@ -81,7 +81,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
-		this.camPos = new OE.Vector3(0.0, 50.0, 72.0);
+		this.camPos = new OE.Vector3(0.0, 1.0, 1.0);
 		
 		this.userData = new UserData();
 		
@@ -114,27 +114,23 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
-<<<<<<< HEAD
 		
 		setInterval(this.gui.updateTimer.bind(this.gui), 1000);
-=======
-        
-        var rot = this.mCamera.getRot();
-        //rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
-        
-        // TODO: Im setting this camera Rotation so it starts in a reasonable place
-        // The MouseMove function makes a call to mouseLook which seems to think the camera is still at
-        // 0, 0
-        //this.mCamera.setRot(rot);
-        //this.mCamera.mouseLook(0, -10, 1);
-        //this.mCamera.mMLookX = -0.075;
+		
+		//rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
+
+		// TODO: Im setting this camera Rotation so it starts in a reasonable place
+		// The MouseMove function makes a call to mouseLook which seems to think the camera is still at
+		// 0, 0
+		//this.mCamera.setRot(rot);
+		//this.mCamera.mouseLook(0, -10, 1);
+		//this.mCamera.mMLookX = -0.075;
 		var i;
-        for (i = 0; i < 225; ++i) {
-            this.haxCode(1, i);
-        }
-        
+		for (i = 0; i < 225; ++i) {
+			this.haxCode(1, i); // Lol brad this is genius
+		}
+		
 		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
->>>>>>> refs/remotes/origin/Development
 	},
 	onFinish: function() {},
 	
@@ -277,10 +273,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 	},
 	onMouseMove: function(x, y) {
-        
-        // Retain both the shift-click zoom from before and try out right-click zoom
+		// Retain both the shift-click zoom from before and try out right-click zoom
 		if ((this.mKeyDown[16] && this.mMouseDown[0]) || this.mMouseDown[2] ) {
-            this.haxCode(x, y);
+			this.haxCode(x, y);
 //            var dx = x - this.xprev;
 //            var dy = y - this.yprev;
 //            this.xprev = x;
@@ -288,19 +283,19 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 //				
 //            this.mCamera.mLockY = true;
 //            this.mCamera.mouseLook(dx, dy, -0.075);
-        }
+		}
 	},
-    
-    haxCode: function(x, y) {
-        var dx = x - this.xprev;
-        var dy = y - this.yprev;
-        this.xprev = x;
-        this.yprev = y;
-				
-        this.mCamera.mLockY = true;
-        this.mCamera.mouseLook(dx, dy, -0.075);
-    },
-    
+	
+	haxCode: function(x, y) {
+		var dx = x - this.xprev;
+		var dy = y - this.yprev;
+		this.xprev = x;
+		this.yprev = y;
+		
+		this.mCamera.mLockY = true;
+		this.mCamera.mouseLook(dx, dy, -0.075);
+	},
+	
 	onMouseUp: function(x, y, k) {},
 	
 	a: undefined,

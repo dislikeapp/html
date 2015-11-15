@@ -1,14 +1,9 @@
 
 var UserData = OE.Utils.defClass2({
 	
-<<<<<<< HEAD
 	balance: 0,
 	health: 0,
 	dead: true,
-=======
-	balance: 100,
-	health: 100,
->>>>>>> refs/remotes/origin/Development
 	
 	constructor: function() {
 		this.receive(100);

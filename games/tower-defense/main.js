@@ -127,7 +127,6 @@ function clickBegin() {
 	document.getElementById("ingameOverlay").style.display = "inline-block";
 	app.mSurface.mCanvas.focus();
 }
-
 function showControls() {
 	if (document.getElementById("controls_display").style.display === "none")
 		document.getElementById("controls_display").style.display = "initial";

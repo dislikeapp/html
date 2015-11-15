@@ -78,11 +78,14 @@ var GUI = OE.Utils.defClass2({
 				}.bind(this));
 			}.bind(this))(i);
 		}
+		
+		// hacksy so the player can build towers without using gui for now
+		this.selectShopItem(items[2]);
 	},
 	
 	selectShopItem: function(info) {
 		this.selectedShopItem = info;
-		
+		console.log(info);
 		if (info === undefined) {
 			this.ui.shopInfo.innerHTML = '';
 			return;
