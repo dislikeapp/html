@@ -2,8 +2,6 @@
 var GUI = OE.Utils.defClass2({
 	overlay: undefined,
 	ui: undefined,
-
-	countdown: undefined,
 	
 	userData: undefined,
 	shopActive: false,
@@ -14,7 +12,7 @@ var GUI = OE.Utils.defClass2({
 	constructor: function() {
 		this.overlay = document.getElementById("ingameOverlay");
 		var ui = this.ui = {};
-		var names = ["frame", "toggle", "gameState", "countdown", "content", "userInfo", "shop", "shopInfo", "selection"];
+		var names = ["frame", "toggle", "gameState", "content", "userInfo", "shop", "shopInfo", "selection"];
 		for (var i=0; i<names.length; i++)
 			ui[names[i]] = this.overlay.findByName(names[i]);
 		
@@ -24,66 +22,34 @@ var GUI = OE.Utils.defClass2({
 			ui.frame.style.bottom = this.contentVisible ? '4px' : 'initial';
 		}.bind(this));
 	},
-
-	// set timer according to buildStateTime in application.js
-	// give it actual time in seconds
-	startTimer: function(duration, display) {
-	    var start = Date.now(),
-	        diff,
-	        minutes,
-	        seconds;
-	    function timer() {
-	        // get the number of seconds that have elapsed since 
-	        // startTimer() was called
-	        diff = duration - (((Date.now() - start) / 1000) | 0);
-
-	        // does the same job as parseInt truncates the float
-	        minutes = (diff / 60) | 0;
-	        seconds = (diff % 60) | 0;
-
-	        minutes = minutes < 10 ? "0" + minutes : minutes;
-	        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-	        display.textContent = minutes + ":" + seconds; 
-
-	        if (diff <= 0) {
-	            // add one second so that the count down starts at the full duration
-	            // example 05:00 not 04:59
-	            start = Date.now() + 1000;
-	        }
-	    };
-	    // we don't want to wait a full second before the timer starts
-	    timer();
-	    this.countdown = setInterval(timer, 1000);
-	},
-
-	stopTimer: function(display) {
-		clearInterval(this.countdown);
-		display.textContent = "--:--";
-	},
 	
 	setUserData: function(userData) {
 		this.userData = userData;
 		this.updateUserInfo();
 	},
 	updateUserInfo: function() {
-		var str = '<div class="balance">Health: ' + this.userData.health + '</div>';
-			str += '<div class="balance">Balance: $'+ this.userData.balance + '</div>';
+		var str = '<div class="health">Health: '+this.userData.health+'</div>';
+		str +=    '<div class="balance">Balance: $'+this.userData.balance+'</div>';
 		this.ui.userInfo.innerHTML = str;
 	},
 	
 	setGameState: function(state) {
-		if (state === app.STATE_BUILDING) {
+		if (state === app.STATE_CALM) {
 			this.setShopActive(true);
-			this.ui.gameState.setAttribute("class", "gameState build");
-			this.ui.gameState.innerHTML = "BUILD";
-			this.startTimer(app.buildStateTime / 1000, this.ui.countdown);
+			this.ui.gameState.setAttribute("class", "gameState calm");
 		}
-		else if (state === app.STATE_DEFENDING) {
-			this.setShopActive(false);
-			this.ui.gameState.setAttribute("class", "gameState defend");
-			this.ui.gameState.innerHTML = "DEFEND";
-			this.stopTimer(this.ui.countdown);
+		else if (state === app.STATE_RAID) {
+			//this.setShopActive(false);
+			this.ui.gameState.setAttribute("class", "gameState raid");
+		}
+		this.updateTimer();
+	},
+	updateTimer: function() {
+		if (app.state === app.STATE_CALM) {
+			this.ui.gameState.innerHTML = "Next Raid in "+app.calmTimer.getTimeLeft().toFixed(0)+"s";
+		}
+		else if (app.state === app.STATE_RAID) {
+			this.ui.gameState.innerHTML = "Next Calm in "+app.raidTimer.getTimeLeft().toFixed(0)+"s";
 		}
 	},
 	setShopActive: function(active) {
@@ -112,11 +78,14 @@ var GUI = OE.Utils.defClass2({
 				}.bind(this));
 			}.bind(this))(i);
 		}
+		
+		// hacksy so the player can build towers without using gui for now
+		this.selectShopItem(items[2]);
 	},
 	
 	selectShopItem: function(info) {
 		this.selectedShopItem = info;
-		
+		console.log(info);
 		if (info === undefined) {
 			this.ui.shopInfo.innerHTML = '';
 			return;
@@ -124,16 +93,23 @@ var GUI = OE.Utils.defClass2({
 		
 		var level = info.levels[0];
 		
-		var delay = (1000.0 * level.delay / 60.0).toFixed(0);
-		var range = level.range;
-		
 		var str = '<div class="preview" style="background-image: url(\''+info.preview+'\');"></div>'
 			+'<p class="model">Model: '+level.name+'</p>'
-			+'<p class="details">'
-				+'Range: '+range+' units<br />'
-				+'Delay: '+delay+' ms<br />'
-				+'Power: '+level.power+'<br /></p>'
-			+'<p><a name="buy" class="btn yellow">Buy for $'+level.cost+'</a><p>';
+			+'<p class="details">';
+		
+		if (info.offensive === false) {
+			str += 'Non-offensive.';
+		}
+		else {
+			var delay = (1000.0 * level.delay / 60.0).toFixed(0);
+			var range = level.range;
+			
+			str += 'Range: '+range+' units<br />'
+					+'Delay: '+delay+' ms<br />'
+					+'Power: '+level.power+'<br />';
+		}
+		str += '</p>';
+		str += '<p><a name="buy" class="btn yellow">Buy for $'+level.cost+'</a><p>';
 		this.ui.shopInfo.innerHTML = str;
 		
 		var buyBtn = this.ui.shopInfo.findByName("buy");
@@ -148,17 +124,25 @@ var GUI = OE.Utils.defClass2({
 			var level = info.levels[object.upgrade_level];
 			var nextLv = object.upgrade_level + 1;
 			
-			var delay = (1000.0 * level.delay / 60.0).toFixed(0);
-			var range = level.range;
-			
 			var sell_price = this.getSellPrice(object.tower_id, object.upgrade_level);
 			
-			var str = '<p class="model">Selection: '+level.name+'</p>'
+			var str = '<div class="preview" style="background-image: url(\''+info.preview+'\');"></div>'
+				+'<p class="model">Selection:<br />'+level.name+'</p>'
 				+'<p class="details">'
-					+'Upgrade: Lv. '+nextLv+'<br />'
-					+'Range: '+range+' units<br />'
-					+'Delay: '+delay+' ms<br />'
-					+'Power: '+level.power+'<br /></p>';
+					'Upgrade: Lv. '+nextLv+'<br />'
+			
+			if (info.offensive === false) {
+				str += 'Non-offensive.';
+			}
+			else {
+				var delay = (1000.0 * level.delay / 60.0).toFixed(0);
+				var range = level.range;
+				
+				str += 'Range: '+range+' units<br />'
+						+'Delay: '+delay+' ms<br />'
+						+'Power: '+level.power+'<br />';
+			}
+			str += '</p>';
 			
 			str += '<p><a name="sell" class="btn red">Sell for $'+sell_price+'</a></p>';
 			
@@ -227,9 +211,14 @@ var GUI = OE.Utils.defClass2({
 				if (info !== undefined) {
 					var level = info.levels[0];
 					if (this.userData.charge(level.cost)) {
-						this.updateUserInfo();
 						var tower = app.map.addTower(app.map.cursorX, app.map.cursorY, info.id);
-						this.setSelection(tower);
+						if (tower === undefined) {
+							this.userData.receive(level.cost);
+						}
+						else {
+							this.updateUserInfo();
+							this.setSelection(tower);
+						}
 					}
 					else {
 						alert("Not enough funds!");
@@ -255,7 +244,7 @@ var GUI = OE.Utils.defClass2({
 		if (object !== undefined) {
 			var sell_price = this.getSellPrice(object.tower_id, object.upgrade_level);
 			
-			app.map.setObject(object.map_pos_x, object.map_pos_y, undefined);
+			app.map.clearObject(object.map_pos_x, object.map_pos_y);
 			this.userData.receive(sell_price);
 			this.updateUserInfo();
 			this.setSelection(undefined);
@@ -268,13 +257,16 @@ var GUI = OE.Utils.defClass2({
 			var info = app.towerData[object.tower_id];
 			var nextLv = object.upgrade_level + 1;
 			
-			if (this.userData.charge(info.levels[nextLv].cost)) {
-				object.setUpgradeLevel(nextLv);
-				this.updateUserInfo();
-				this.setSelection(object);
-			}
-			else {
-				alert("Not enough funds!");
+			if (nextLv < info.levels.length) {
+				if (this.userData.charge(info.levels[nextLv].cost)) {
+					object.setUpgradeLevel(nextLv);
+					this.updateUserInfo();
+					this.setSelection(object);
+					app.map.setCursor(object.map_pos_x, object.map_pos_y);
+				}
+				else {
+					alert("Not enough funds!");
+				}
 			}
 		}
 	}

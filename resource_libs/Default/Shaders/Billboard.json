@@ -1,0 +1,19 @@
+
+{
+	"shader": {
+		"vert": "Sources/Billboard.vert",
+		"frag": "Sources/Billboard.frag",
+		"attributes": {
+			"vertPosition":	"POSITION",
+			"vertTexCoord":	"TEXCOORD",
+			"vertColor":	"COLOR"
+		},
+		"uniforms": {
+			"mMatrix":		"M_MATRIX",
+			"vMatrix":		"V_MATRIX",
+			"pMatrix":		"P_MATRIX",
+			"sampler":		{"INT":		0},
+			"color":		{"VEC4":	[1, 1, 1, 1]}
+		}
+	}
+}

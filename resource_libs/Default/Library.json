@@ -13,7 +13,9 @@
 		"DR_Solid": "Shaders/DR_Solid.json",
 		"PlainTexture": "Shaders/PlainTexture.json",
 		"Solid": "Shaders/Solid.json",
-		"LensFlare": "Shaders/LensFlare.json"
+		"LensFlare": "Shaders/LensFlare.json",
+		"Shapes": "Shaders/Shapes.json",
+		"Billboard": "Shaders/Billboard.json"
 	},
 	"Materials": {
 		"Blit": "Materials/Blit.json",
@@ -25,6 +27,7 @@
 		"Diamond": "Materials/Diamond.json",
 		"Glass": "Materials/Glass.json",
 		"Reflective": "Materials/Reflective.json",
-		"LensFlare": "Materials/LensFlare.json"
+		"LensFlare": "Materials/LensFlare.json",
+		"Shapes": "Materials/Shapes.json"
 	}
 }

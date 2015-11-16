@@ -29,9 +29,9 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 			prev.nextWaypoint = this;
 	},
 	
-	getHarder: function() {
+	getHarder: function(amount) {
 		if (this.difficulty < 1) {
-			this.difficulty += 0.05;
+			this.difficulty += amount;
 			if (this.difficulty >= 1)
 				this.difficulty = 1;
 		}
@@ -40,7 +40,7 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 	emitEnemy: function() {
 		var minType = OE.Math.linInterp(0, app.actorData.length-2, this.difficulty);
 		var maxType = OE.Math.linInterp(2, app.actorData.length, this.difficulty);
-		var curve = OE.Math.linInterp(2.0, 0.75, this.difficulty);
+		var curve = OE.Math.linInterp(1.75, 0.75, this.difficulty);
 		var type = Math.floor(OE.Math.linInterp(
 								minType,
 								maxType,
@@ -51,20 +51,20 @@ var Waypoint = OE.Utils.defClass2(OE.GameObject, {
 	},
 	emitWave: function() {
 		this.emitting = true;
-		var emits = 0;
+		var count = 0;
+		var waveSize = OE.Math.linInterp(this.difficulty*0.5, 1.0, Math.random());
+		
 		var emit = function() {
 			if (this.active) {
-				emits++;
+				count++;
 				this.emitEnemy();
 				
-				var size = OE.Math.linInterp(this.difficulty*0.5, 1.0, Math.random());
-				var base = OE.Math.linInterp(4.0, 5.0, size);
-				if (Math.random() < base / emits) {
+				var base = OE.Math.linInterp(4.0, 6.0, waveSize);
+				if (Math.random() < base / count) {
 					this.nextEmitTimeout = setTimeout(emit, 600);
 				}
 				else {
 					this.nextEmitTimeout = undefined;
-					this.getHarder();
 					this.emitting = false;
 				}
 			}

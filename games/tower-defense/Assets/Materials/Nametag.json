@@ -1,0 +1,14 @@
+
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "HealthBar",
+				"blendMode": {},
+				"uniforms": {
+					"health":	1.0
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"root": {
+		"className": "OE.Entity",
+		"model": "Sentry",
+		"transform": {
+			"scale": [0.1,0.1,0.1]
+		},
+		"children": [
+			{
+				"className": "OE.Entity",
+				"model": "Plasma",
+				"transform": {
+					"pos": [0.0,0.925,-0.55]
+				}
+			}
+		]
+	}
+}

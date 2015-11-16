@@ -1,10 +1,5 @@
 
-#extension GL_OES_standard_derivatives : enable
-
 precision highp float;
-
-uniform mat4 vMatrix;
-uniform mat4 mvMatrix;
 
 uniform sampler2D sampler;
 

@@ -1,4 +1,47 @@
 
+var Timer = OE.Utils.defClass2({
+	callback: undefined,
+	handler: undefined,
+	delay: undefined,
+	
+	timeout: undefined,
+	timeStarted: undefined,
+	timeFinished: undefined,
+	
+	constructor: function(callback, delay) {
+		this.callback = callback;
+		this.delay = delay;
+		this.handler = this.handler.bind(this);
+	},
+	start: function() {
+		if (this.isRunning()) {
+			this.stop();
+		}
+		this.timeStarted = Date.now();
+		this.timeout = setTimeout(this.handler, this.delay);
+	},
+	stop: function() {
+		if (this.isRunning()) {
+			clearTimeout(this.timeout);
+			this.timeout = undefined;
+		}
+	},
+	handler: function() {
+		this.callback();
+		this.timeFinished = Date.now();
+		clearTimeout(this.timeout);
+		this.timeout = undefined;
+	},
+	
+	isRunning: function() {
+		return (this.timeout !== undefined);
+	},
+	getTimeLeft: function() {
+		var ms = (this.timeStarted - Date.now()) + this.delay;
+		return ms / 1000;
+	}
+});
+
 OE.Math.intersectRayPlane = function(out, rayPos, rayDir, planePos, planeNorm) {
 	var denom = planeNorm.dot(rayDir);
 	if (Math.abs(denom) > OE.Math.EPSILON) {
@@ -20,23 +63,38 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	gui: undefined,
 	
 	camPos: undefined,
-	camDist: 75.0,
+	camDist: 100.0,
 	
-	STATE_BUILDING: 0,
-	STATE_DEFENDING: 1,
+	STATE_CALM: 0,
+	STATE_RAID: 1,
 	state: 0,
 	
-	buildStateTime: 20000, // ms
+	gridSizeX: 15,
+	gridSizeY: 15,
+	
+	calmStateTime: 25000, // 25 seconds
+	raidStateTime: 45000, // 45 seconds
+	calmTimer: undefined,
+	raidTimer: undefined,
+	difficultyStep: 0.02, // 2% harder, 50 waves until max difficulty.
 	
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
-		this.camPos = new OE.Vector3(0.0, 50.0, 72.0);
+		this.camPos = new OE.Vector3(0.0, 1.0, 1.0);
 		
 		this.userData = new UserData();
-		this.gui = new GUI();
 		
+		this.gui = new GUI();
 		this.gui.setUserData(this.userData);
+		
+		this.calmTimer = new Timer(function() {
+			this.changeState(this.STATE_RAID);
+		}.bind(this), this.calmStateTime);
+		
+		this.raidTimer = new Timer(function() {
+			this.changeState(this.STATE_CALM);
+		}.bind(this), this.raidStateTime);
 		
 		OE.Utils.loadJSON("data/towers.json", function(json) {
 			this.towerData = json;
@@ -56,25 +114,32 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.mScene.setRenderSystem(rs);
 		this.mCamera = new OE.ForceCamera(this.mScene);
 		this.mViewport = rt.createViewport(this.mCamera);
-        
-        var rot = this.mCamera.getRot();
-        //rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
-        
-        // TODO: Im setting this camera Rotation so it starts in a reasonable place
-        // The MouseMove function makes a call to mouseLook which seems to think the camera is still at
-        // 0, 0
-        //this.mCamera.setRot(rot);
-        //this.mCamera.mouseLook(0, -10, 1);
-        //this.mCamera.mMLookX = -0.075;
+		
+		setInterval(this.gui.updateTimer.bind(this.gui), 1000);
+		
+		//rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
+
+		// TODO: Im setting this camera Rotation so it starts in a reasonable place
+		// The MouseMove function makes a call to mouseLook which seems to think the camera is still at
+		// 0, 0
+		//this.mCamera.setRot(rot);
+		//this.mCamera.mouseLook(0, -10, 1);
+		//this.mCamera.mMLookX = -0.075;
 		var i;
-        for (i = 0; i < 225; ++i) {
-            this.haxCode(1, i);
-        }
-        
+		for (i = 0; i < 225; ++i) {
+			this.haxCode(1, i); // Lol brad this is genius
+		}
+		
 		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
 	},
 	onFinish: function() {},
 	
+	initMenu: function() {
+		OE.SoundManager.load("Menu", function(sound) {
+			sound.setLoop(true);
+			sound.play();
+		});
+	},
 	initScene: function() {
 		this.mScene.addObject(this.mCamera);
 		this.mCamera.setNearPlane(0.5);
@@ -83,7 +148,10 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		var weather = this.mCamera.addChild(new WeatherSystem(750.0));
 		weather.mBoundingBox = undefined;
 		
-		OE.SoundManager.load("Soliloquy", function(sound) {
+		OE.SoundManager.load("Menu", function(sound) {
+			sound.stop();
+		});
+		OE.SoundManager.load("BGM", function(sound) {
 			sound.setLoop(true);
 			sound.play();
 		});
@@ -98,13 +166,14 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		this.resetScene();
 		var scene = this.mScene;
 		if (level === 0) {
-			this.map = scene.addObject(new MapSystem(20, 20));
+			this.map = scene.addObject(new MapSystem(this.gridSizeX, this.gridSizeY));
 			this.map.init();
+			this.map.generateNavMesh();
 			this.map.generateWaypoints();
 			this.map.generateWalls();
-			this.map.generateNavMesh();
+			this.map.generateBestPath();
 			
-			this.changeState(this.STATE_BUILDING);
+			this.changeState(this.STATE_CALM);
 		}
 	},
 	
@@ -115,33 +184,28 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	},
 	enterState: function() {
 		switch (this.state) {
-			case this.STATE_BUILDING: {
-				this.gui.setGameState(this.state);
-				
+			case this.STATE_CALM: {
+				this.calmTimer.start();
 				this.map.stopRaid();
-				
-				setTimeout(function() {
-					this.changeState(this.STATE_DEFENDING);
-				}.bind(this), this.buildStateTime);
+				this.gui.setGameState(this.state);
 				break;
 			};
-			case this.STATE_DEFENDING: {
-				this.map.generateNavMesh();
+			case this.STATE_RAID: {
+				this.map.generateBestPath();
+				this.raidTimer.start();
+				this.map.startRaid();
 				this.gui.setGameState(this.state);
-				
-				this.map.startRaid(function() {
-					this.changeState(this.STATE_BUILDING);
-				}.bind(this));
 				break;
 			};
 		}
 	},
 	exitState: function() {
 		switch (this.state) {
-			case this.STATE_BUILDING: {
+			case this.STATE_CALM: {
 				break;
 			};
-			case this.STATE_DEFENDING: {
+			case this.STATE_RAID: {
+				this.map.getHarder(this.difficultyStep);
 				break;
 			};
 		}
@@ -156,6 +220,20 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 		else if (k === OE.Keys.U) {
 			this.gui.upgradeSelected();
+		}
+		else if (k === OE.Keys.R) {
+			var x = this.map.cursorX;
+			var y = this.map.cursorY;
+			if (this.map.cursor && this.map.cursor.mActive) {
+				if (this.map.getObject(x, y) instanceof Wall) {
+					this.map.nav.notifyCleared(x, y);
+					this.map.setObject(x, y, undefined);
+					this.map.generateNavMeshDebug();
+				}
+				else {
+					this.map.addWall(x, y);
+				}
+			}
 		}
 	},
 	
@@ -195,10 +273,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		}
 	},
 	onMouseMove: function(x, y) {
-        
-        // Retain both the shift-click zoom from before and try out right-click zoom
+		// Retain both the shift-click zoom from before and try out right-click zoom
 		if ((this.mKeyDown[16] && this.mMouseDown[0]) || this.mMouseDown[2] ) {
-            this.haxCode(x, y);
+			this.haxCode(x, y);
 //            var dx = x - this.xprev;
 //            var dy = y - this.yprev;
 //            this.xprev = x;
@@ -206,19 +283,19 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 //				
 //            this.mCamera.mLockY = true;
 //            this.mCamera.mouseLook(dx, dy, -0.075);
-        }
+		}
 	},
-    
-    haxCode: function(x, y) {
-        var dx = x - this.xprev;
-        var dy = y - this.yprev;
-        this.xprev = x;
-        this.yprev = y;
-				
-        this.mCamera.mLockY = true;
-        this.mCamera.mouseLook(dx, dy, -0.075);
-    },
-    
+	
+	haxCode: function(x, y) {
+		var dx = x - this.xprev;
+		var dy = y - this.yprev;
+		this.xprev = x;
+		this.yprev = y;
+		
+		this.mCamera.mLockY = true;
+		this.mCamera.mouseLook(dx, dy, -0.075);
+	},
+	
 	onMouseUp: function(x, y, k) {},
 	
 	a: undefined,
