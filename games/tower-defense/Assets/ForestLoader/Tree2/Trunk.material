@@ -1,0 +1,17 @@
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"textures": {
+					"0": "Forest/Tree2Trunk"
+				},
+				"uniforms": {
+					"diffuse": [0.3, 0.2, 0.1],
+					"specular": [0.125, 0.125, 0.125],
+					"emission": 0.5
+				}
+			}
+		]
+	}
+}

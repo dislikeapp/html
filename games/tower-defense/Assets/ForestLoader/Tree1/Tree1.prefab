@@ -1,0 +1,7 @@
+{
+	"root": {
+		"className": "OE.Entity",
+		"model": "Forest/Tree1",
+		"transform": {"scale": [1.0, 1.25, 1.0]}
+	}
+}

@@ -8,6 +8,8 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 	gridScale: 10.0,
 	wallHeight: 10.0,
 	
+	loader: undefined,
+	
 	waypoints: undefined,
 	enemies: undefined,
 	nav: undefined,
@@ -19,6 +21,8 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		
 		this.waypoints = new Array();
 		this.enemies = new Map();
+		
+		this.loader = new DefaultLoader(this);
 	},
 	
 	setGridSize: function(w, h) {
@@ -56,38 +60,14 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		
 		this.setRangeHighlight(undefined);
 		this.hideCursor();
-		
-		var width = this.sizeX * this.gridScale;
-		var height = this.sizeY * this.gridScale;
-		
-		var floor = this.addChild(new OE.Plane(width, height, this.sizeX, this.sizeY));
-		floor.mTexWrapX = this.sizeX / 4;
-		floor.mTexWrapY = this.sizeY / 4;
-		floor.updateBuffer();
-		floor.setMaterial("Concrete");
 	},
 	
-	generateWaypoints: function() {
-		var randx = function() {return Math.floor(Math.random()*this.sizeX);}.bind(this);
-		var randy = function() {return Math.floor(Math.random()*this.sizeY);}.bind(this);
-		
-		this.addWaypoint(randx(), randy(), undefined, true);
-		
-		var x, y;
-		while (x === undefined || this.getObject(x, y) !== undefined) {
-			x = randx();
-			y = randy();
-		}
-		this.addWaypoint(x, y, 0);
+	setLoader: function(loader) {
+		this.loader = loader;
 	},
-	generateWalls: function() {
-		for (var y=0; y<this.sizeY; y++) {
-			for (var x=0; x<this.sizeX; x++) {
-				if (this.getObject(x, y) === undefined && Math.random() > 0.9) {
-					this.addWall(x, y);
-				}
-			}
-		}
+	
+	generateLevel: function() {
+		this.loader.generate();
 	},
 	generateNavMesh: function() {
 		this.nav = new NavMesh(this);
@@ -195,7 +175,7 @@ var MapSystem = OE.Utils.defClass2(OE.GameObject, {
 		else {
 			this.generateBestPath();
 			this.generateNavMeshDebug();
-			return this.setObject(x, y, new Wall(this));
+			return this.setObject(x, y, this.loader.createWall());
 		}
 	},
 	addTower: function(x, y, type) {

@@ -168,9 +168,9 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		if (level === 0) {
 			this.map = scene.addObject(new MapSystem(this.gridSizeX, this.gridSizeY));
 			this.map.init();
+			this.map.setLoader(new ForestLoader(this.map));
 			this.map.generateNavMesh();
-			this.map.generateWaypoints();
-			this.map.generateWalls();
+			this.map.generateLevel();
 			this.map.generateBestPath();
 			
 			this.changeState(this.STATE_CALM);
@@ -226,9 +226,7 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			var y = this.map.cursorY;
 			if (this.map.cursor && this.map.cursor.mActive) {
 				if (this.map.getObject(x, y) instanceof Wall) {
-					this.map.nav.notifyCleared(x, y);
 					this.map.setObject(x, y, undefined);
-					this.map.generateNavMeshDebug();
 				}
 				else {
 					this.map.addWall(x, y);

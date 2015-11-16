@@ -1,0 +1,37 @@
+{
+	"Textures": {
+		"Forest/Tree1Leaves": "Tree1/Leaves.jpg",
+		"Forest/Tree1Trunk": "Tree1/Trunk.jpg",
+		"Forest/Tree2Leaves": "Tree2/Leaves.jpg",
+		"Forest/Tree2Trunk": "Tree2/Trunk.jpg",
+		"Forest/Tree3Leaves": "Tree3/Leaves.jpg",
+		"Forest/Tree3Trunk": "Tree3/Trunk.jpg",
+		"Forest/Rock1": "Rock1/Rock1.jpg",
+		"Forest/Rock2": "Rock2/Rock2.jpg"
+	},
+	"Materials": {
+		"Forest/Grass": "Grass.material",
+		"Forest/Tree1Leaves": "Tree1/Leaves.material",
+		"Forest/Tree1Trunk": "Tree1/Trunk.material",
+		"Forest/Tree2Leaves": "Tree2/Leaves.material",
+		"Forest/Tree2Trunk": "Tree2/Trunk.material",
+		"Forest/Tree3Leaves": "Tree3/Leaves.material",
+		"Forest/Tree3Trunk": "Tree3/Trunk.material",
+		"Forest/Rock1": "Rock1/Rock1.material",
+		"Forest/Rock2": "Rock2/Rock2.material"
+	},
+	"Models": {
+		"Forest/Tree1": "Tree1/Tree1.obj",
+		"Forest/Tree2": "Tree2/Tree2.obj",
+		"Forest/Tree3": "Tree3/Tree3.obj",
+		"Forest/Rock1": "Rock1/Rock1.obj",
+		"Forest/Rock2": "Rock2/Rock2.obj"
+	},
+	"Prefabs": {
+		"Forest/Tree1": "Tree1/Tree1.prefab",
+		"Forest/Tree2": "Tree2/Tree2.prefab",
+		"Forest/Tree3": "Tree3/Tree3.prefab",
+		"Forest/Rock1": "Rock1/Rock1.prefab",
+		"Forest/Rock2": "Rock2/Rock2.prefab"
+	}
+}

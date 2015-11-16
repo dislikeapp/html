@@ -1,0 +1,9 @@
+{
+	"libs": [
+		"../../../resource_libs/Default/Library.json",
+		
+		"Library.json",
+		"Towers/Library.json",
+		"ForestLoader/Library.json"
+	]
+}
