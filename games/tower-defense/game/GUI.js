@@ -12,7 +12,7 @@ var GUI = OE.Utils.defClass2({
 	constructor: function() {
 		this.overlay = document.getElementById("ingameOverlay");
 		var ui = this.ui = {};
-		var names = ["frame", "toggle", "gameState", "content", "userInfo", "shop", "shopInfo", "selection"];
+		var names = ["frame", "toggle", "gameState", "comeAtMe", "content", "userInfo", "shop", "shopInfo", "selection"];
 		for (var i=0; i<names.length; i++)
 			ui[names[i]] = this.overlay.findByName(names[i]);
 		
@@ -21,6 +21,10 @@ var GUI = OE.Utils.defClass2({
 			ui.content.style.display = this.contentVisible ? 'block' : 'none';
 			ui.frame.style.bottom = this.contentVisible ? '4px' : 'initial';
 		}.bind(this));
+		
+		ui.comeAtMe.on("click", app.comeAtMe.bind(app));
+		
+		this.timerInterval = setInterval(this.updateTimer.bind(this), 1000);
 	},
 	
 	setUserData: function(userData) {
@@ -37,10 +41,12 @@ var GUI = OE.Utils.defClass2({
 		if (state === app.STATE_CALM) {
 			this.setShopActive(true);
 			this.ui.gameState.setAttribute("class", "gameState calm");
+			this.ui.comeAtMe.style.display = "block";
 		}
 		else if (state === app.STATE_RAID) {
 			//this.setShopActive(false);
 			this.ui.gameState.setAttribute("class", "gameState raid");
+			this.ui.comeAtMe.style.display = "none";
 		}
 		this.updateTimer();
 	},

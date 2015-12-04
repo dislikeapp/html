@@ -29,7 +29,7 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		
 		if (this.offensive) {
 			this.sound = OE.SoundManager.getLoaded(this.series, function(sound) {
-				sound.setTriggerLimit(1, 90); // Can only play 2 times within a 50 millisecond boundary.
+				sound.setTriggerLimit(1, 90); // Can only play 1 time within a 90 millisecond boundary.
 			});
 		}
 		
@@ -128,12 +128,12 @@ var Tower = OE.Utils.defClass2(OE.PrefabInst, {
 		this.auxVec.set(this.getPos());
 		this.auxVec.subBy(app.mCamera.getPos());
 		
-		var f = this.auxVec.length();
-		f = 1.0-OE.Math.clamp(f/100.0, 0.0, 1.0);
-		
-		if (f > 0.05)
-			this.sound.trigger({gain: f});
-		
+		if (this.sound !== undefined) {
+			var f = this.auxVec.length();
+			f = 1.0-OE.Math.clamp(f/100.0, 0.0, 1.0);
+			if (f > 0.05)
+				this.sound.trigger({gain: f});
+		}
 		if (this.target !== undefined) {
 			this.target.damage(this.power);
 			if (!this.canTarget(this.target))

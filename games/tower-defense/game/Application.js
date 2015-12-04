@@ -26,6 +26,13 @@ var Timer = OE.Utils.defClass2({
 			this.timeout = undefined;
 		}
 	},
+	skipToEnd: function() {
+		if (this.isRunning()) {
+			clearTimeout(this.timeout);
+			this.timeout = undefined;
+			this.handler();
+		}
+	},
 	handler: function() {
 		this.callback();
 		this.timeFinished = Date.now();
@@ -81,10 +88,18 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 	constructor: function() {
 		OE.BaseApp3D.call(this);
 		
+	},
+	onRun: function() {
+		var rs = this.mRenderSystem = new OE.RenderSystem();
+		var rt = this.mSurface = new OE.WebGLSurface("appFrame");
+		
+		this.mScene = new OE.Scene();
+		this.mScene.setRenderSystem(rs);
+		this.mCamera = new OE.ForceCamera(this.mScene);
+		this.mViewport = rt.createViewport(this.mCamera);
+		
 		this.camPos = new OE.Vector3(0.0, 1.0, 1.0);
-		
 		this.userData = new UserData();
-		
 		this.gui = new GUI();
 		this.gui.setUserData(this.userData);
 		
@@ -105,18 +120,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			this.actorData = json;
 		}.bind(this));
 		
-	},
-	onRun: function() {
-		var rs = this.mRenderSystem = new OE.RenderSystem();
-		var rt = this.mSurface = new OE.WebGLSurface("appFrame");
-		
-		this.mScene = new OE.Scene();
-		this.mScene.setRenderSystem(rs);
-		this.mCamera = new OE.ForceCamera(this.mScene);
-		this.mViewport = rt.createViewport(this.mCamera);
-		
-		setInterval(this.gui.updateTimer.bind(this.gui), 1000);
-		
 		//rot.fromAxisAngle(OE.Vector3.RIGHT, -30.0);
 
 		// TODO: Im setting this camera Rotation so it starts in a reasonable place
@@ -129,8 +132,6 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 		for (i = 0; i < 225; ++i) {
 			this.haxCode(1, i); // Lol brad this is genius
 		}
-		
-		OE.SoundManager.declare("Soliloquy", "Assets/Music/Soliloquy_1.mp3");
 	},
 	onFinish: function() {},
 	
@@ -174,6 +175,12 @@ var Application = OE.Utils.defClass2(OE.BaseApp3D, {
 			this.map.generateBestPath();
 			
 			this.changeState(this.STATE_CALM);
+		}
+	},
+	
+	comeAtMe: function() {
+		if (this.state === this.STATE_CALM) {
+			this.calmTimer.skipToEnd();
 		}
 	},
 	

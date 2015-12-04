@@ -354,6 +354,9 @@ table.layout > tbody > tr > th {
 	font-weight: bold;
 	color: #FF7F00;
 }
+#ingameOverlay .gameState .comeAtMe {
+	display: block;
+}
 /*#ingameOverlay .gameState.calm {
 	color: #FF0000;
 	background-color: #4F0000;
