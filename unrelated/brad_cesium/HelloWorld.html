@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="Build/Cesium/Cesium.js"></script>
+  <style>
+      @import url(Build/Cesium/Widgets/widgets.css);
+      html, body, #cesiumContainer {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    var viewer = new Cesium.Viewer('cesiumContainer');
+      
+      // selectable by default corridor object
+      var greenCorridor = viewer.entities.add({
+          name: 'default selectable is true',
+          corridor: {
+            positions: Cesium.Cartesian3.fromDegreesArray([
+                    -90.0, 40.0,
+                    -95.0, 40.0,
+                    -95.0, 35.0
+                ]),  
+            height: 20000.0,
+            extrudedHeight: 100000.0,
+            width: 200000.0,
+            material: Cesium.Color.GREEN
+          }
+      });
+      
+      // non selectable by corridor object
+      var blueCorridor = viewer.entities.add({
+          name: ' explicitly stated selectable is true',
+          corridor: {
+            positions: Cesium.Cartesian3.fromDegreesArray([
+                    -80.0, 40.0,
+                    -85.0, 40.0,
+                    -85.0, 35.0
+                ]),  
+            height: 20000.0,
+            extrudedHeight: 100000.0,
+            width: 200000.0,
+            material: Cesium.Color.BLUE
+          },
+          selectable: true
+      });
+      
+      // non selectable entity
+      var yellowThing = viewer.entities.add({
+          name: 'selectable is false',
+          corridor: {
+              positions: Cesium.Cartesian3.fromDegreesArray([
+                  -80.0, 50.0,
+                  -85.0, 50.0,
+                  -85.0, 45.0
+              ]),
+              height: 20000.0,
+              extrudedHeight: 100000.0,
+              width: 200000.0,
+              material: Cesium.Color.YELLOW
+          },
+          selectable: false
+      });
+      
+      var czmlStream = new Cesium.CzmlDataSource();
+      czmlStream.load('test.czml');
+      viewer.dataSources.add(czmlStream);
+  </script>
+</body>
+</html>
