@@ -54,6 +54,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 			this.destroy();
 		}
 	},
+	
 	damage: function(power) {
 		this.setHealth(this.health - power);
 	},

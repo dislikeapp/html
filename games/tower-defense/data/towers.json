@@ -57,7 +57,7 @@
 		"levels": [
 			{
 				"name": "Mantis Mk. I",
-				"cost": 25,
+				"cost": 20,
 				"range": 3,
 				"delay": 20,
 				"power": 3
@@ -74,21 +74,21 @@
 				"cost": 45,
 				"range": 4,
 				"delay": 14,
-				"power": 11
+				"power": 12
 			},
 			{
 				"name": "Mantis Mk. IV",
 				"cost": 90,
 				"range": 5,
 				"delay": 11,
-				"power": 18
+				"power": 20
 			},
 			{
 				"name": "Mantis Mk. V",
 				"cost": 190,
 				"range": 9,
 				"delay": 6,
-				"power": 25
+				"power": 32
 			}
 		]
 	},

@@ -2,16 +2,19 @@
 	"Textures": {
 		"Sentry": "Sentry/Sentry.png",
 		"SentryColor": "Sentry/SentryColor.png",
+		"Plasma": "Sentry/Plasma.png",
 		"Mantis": "Mantis/Mantis.png",
 		"MantisColor": "Mantis/MantisColor.png"
 	},
 	"Materials": {
 		"PlayerWall": "Wall/PlayerWall.material",
 		"Sentry": "Sentry/Sentry.material",
+		"Plasma": "Sentry/Plasma.material",
 		"Mantis": "Mantis/Mantis.material"
 	},
 	"Models": {
 		"Sentry": "Sentry/Sentry.model",
+		"Plasma": "Sentry/Plasma.model",
 		"Mantis": "Mantis/Mantis.model"
 	},
 	"Prefabs": {

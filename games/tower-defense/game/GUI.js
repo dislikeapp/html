@@ -2,8 +2,6 @@
 var GUI = OE.Utils.defClass2({
 	overlay: undefined,
 	ui: undefined,
-
-	countdown: undefined,
 	
 	userData: undefined,
 	shopActive: false,
@@ -14,7 +12,7 @@ var GUI = OE.Utils.defClass2({
 	constructor: function() {
 		this.overlay = document.getElementById("ingameOverlay");
 		var ui = this.ui = {};
-		var names = ["frame", "toggle", "gameState", "countdown", "content", "userInfo", "shop", "shopInfo", "selection"];
+		var names = ["frame", "toggle", "gameState", "content", "userInfo", "shop", "shopInfo", "selection"];
 		for (var i=0; i<names.length; i++)
 			ui[names[i]] = this.overlay.findByName(names[i]);
 		
@@ -24,43 +22,6 @@ var GUI = OE.Utils.defClass2({
 			ui.frame.style.bottom = this.contentVisible ? '4px' : 'initial';
 		}.bind(this));
 	},
-
-	// set timer according to buildStateTime in application.js
-	// give it actual time in seconds
-	startTimer: function(duration, display) {
-	    var start = Date.now(),
-	        diff,
-	        minutes,
-	        seconds;
-	    function timer() {
-	        // get the number of seconds that have elapsed since 
-	        // startTimer() was called
-	        diff = duration - (((Date.now() - start) / 1000) | 0);
-
-	        // does the same job as parseInt truncates the float
-	        minutes = (diff / 60) | 0;
-	        seconds = (diff % 60) | 0;
-
-	        minutes = minutes < 10 ? "0" + minutes : minutes;
-	        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-	        display.textContent = minutes + ":" + seconds; 
-
-	        if (diff <= 0) {
-	            // add one second so that the count down starts at the full duration
-	            // example 05:00 not 04:59
-	            start = Date.now() + 1000;
-	        }
-	    };
-	    // we don't want to wait a full second before the timer starts
-	    timer();
-	    this.countdown = setInterval(timer, 1000);
-	},
-
-	stopTimer: function(display) {
-		clearInterval(this.countdown);
-		display.textContent = "--:--";
-	},
 	
 	setUserData: function(userData) {
 		this.userData = userData;
@@ -69,7 +30,6 @@ var GUI = OE.Utils.defClass2({
 	updateUserInfo: function() {
 		var str = '<div class="health">Health: '+this.userData.health+'</div>';
 		str +=    '<div class="balance">Balance: $'+this.userData.balance+'</div>';
-
 		this.ui.userInfo.innerHTML = str;
 	},
 	
@@ -77,9 +37,6 @@ var GUI = OE.Utils.defClass2({
 		if (state === app.STATE_CALM) {
 			this.setShopActive(true);
 			this.ui.gameState.setAttribute("class", "gameState calm");
-            this.ui.gameState.setAttribute("class", "gameState build");
-			this.ui.gameState.innerHTML = "BUILD";
-			this.startTimer(app.buildStateTime / 1000, this.ui.countdown);
 		}
 		else if (state === app.STATE_RAID) {
 			//this.setShopActive(false);
@@ -93,13 +50,6 @@ var GUI = OE.Utils.defClass2({
 		}
 		else if (app.state === app.STATE_RAID) {
 			this.ui.gameState.innerHTML = "Next Calm in "+app.raidTimer.getTimeLeft().toFixed(0)+"s";
-
-		}
-		else if (state === app.STATE_DEFENDING) {
-			this.setShopActive(false);
-			this.ui.gameState.setAttribute("class", "gameState defend");
-			this.ui.gameState.innerHTML = "DEFEND";
-			this.stopTimer(this.ui.countdown);
 		}
 	},
 	setShopActive: function(active) {
@@ -128,7 +78,9 @@ var GUI = OE.Utils.defClass2({
 				}.bind(this));
 			}.bind(this))(i);
 		}
-        this.selectShopItem(items[2]);  // hacksy so the player can build towers without using gui for now
+		
+		// hacksy so the player can build towers without using gui for now
+		this.selectShopItem(items[2]);
 	},
 	
 	selectShopItem: function(info) {
@@ -310,6 +262,7 @@ var GUI = OE.Utils.defClass2({
 					object.setUpgradeLevel(nextLv);
 					this.updateUserInfo();
 					this.setSelection(object);
+					app.map.setCursor(object.map_pos_x, object.map_pos_y);
 				}
 				else {
 					alert("Not enough funds!");

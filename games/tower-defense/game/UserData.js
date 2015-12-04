@@ -1,9 +1,9 @@
 
 var UserData = OE.Utils.defClass2({
 	
-
-	balance: 100,
-	health: 100,
+	balance: 0,
+	health: 0,
+	dead: true,
 	
 	constructor: function() {
 		this.receive(100);
