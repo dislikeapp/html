@@ -29,6 +29,8 @@ var GUI = OE.Utils.defClass2({
 	
 	setUserData: function(userData) {
 		this.userData = userData;
+		userData.on("healthChange", this.updateUserInfo.bind(this));
+		userData.on("balanceChange", this.updateUserInfo.bind(this));
 		this.updateUserInfo();
 	},
 	updateUserInfo: function() {
@@ -222,7 +224,6 @@ var GUI = OE.Utils.defClass2({
 							this.userData.receive(level.cost);
 						}
 						else {
-							this.updateUserInfo();
 							this.setSelection(tower);
 						}
 					}
@@ -252,7 +253,6 @@ var GUI = OE.Utils.defClass2({
 			
 			app.map.clearObject(object.map_pos_x, object.map_pos_y);
 			this.userData.receive(sell_price);
-			this.updateUserInfo();
 			this.setSelection(undefined);
 		}
 	},
@@ -266,7 +266,6 @@ var GUI = OE.Utils.defClass2({
 			if (nextLv < info.levels.length) {
 				if (this.userData.charge(info.levels[nextLv].cost)) {
 					object.setUpgradeLevel(nextLv);
-					this.updateUserInfo();
 					this.setSelection(object);
 					app.map.setCursor(object.map_pos_x, object.map_pos_y);
 				}

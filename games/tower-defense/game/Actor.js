@@ -46,15 +46,6 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 		this.power = info.power;
 	},
 	
-	visitWaypoint: function(wp) {
-		this.lastWaypoint = wp;
-		if (wp.nextWaypoint === undefined) {
-			app.userData.damage(this.power);
-			this.dead = true;
-			this.destroy();
-		}
-	},
-	
 	damage: function(power) {
 		this.setHealth(this.health - power);
 	},
@@ -82,6 +73,7 @@ var Actor = OE.Utils.defClass2(OE.Sphere, {
 	visitWaypoint: function(wp) {
 		this.lastWaypoint = wp;
 		if (wp.nextWaypoint === undefined) {
+			app.userData.damage(this.power);
 			this.dead = false;
 			this.destroy();
 		}
