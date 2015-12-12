@@ -1,0 +1,16 @@
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"textures": {
+					"0": "Forest/Tree1Leaves"
+				},
+				"uniforms": {
+					"specular": [0.125, 0.125, 0.125],
+					"emission": 0.5
+				}
+			}
+		]
+	}
+}

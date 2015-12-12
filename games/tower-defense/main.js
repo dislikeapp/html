@@ -30,17 +30,19 @@ function loadFinish(timeout, callback) {
 function declareAll(callback) {
 	loadStart();
 	loadStatus("0");
-	var count = 0;
-	var onDeclared = function() {
-		count++;
-		loadStatus(count);
-		if (count == 3) {
-			loadFinish(0, callback);
+	OE.Utils.loadJSON("Project.json", function(json) {
+		var count = 0;
+		var onDeclared = function() {
+			count++;
+			loadStatus(count);
+			if (count == json.libs.length) {
+				loadFinish(0, callback);
+			}
+		};
+		for (var i=0; i<json.libs.length; i++) {
+			OE.ResourceManager.declareLibrary("Assets/"+json.libs[i], onDeclared);
 		}
-	};
-	OE.ResourceManager.declareLibrary("Assets/Library.json", onDeclared);
-	OE.ResourceManager.declareLibrary("../../resource_libs/Default/Library.json", onDeclared);
-	OE.ResourceManager.declareLibrary("Assets/Towers/Library.json", onDeclared);
+	});
 }
 function preloadResources(type, callback) {
 	var resources = {

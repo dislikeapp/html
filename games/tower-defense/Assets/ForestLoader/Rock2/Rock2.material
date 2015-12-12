@@ -1,0 +1,17 @@
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"textures": {
+					"0": "Forest/Rock2"
+				},
+				"uniforms": {
+					"diffuse": [1.5, 1.5, 1.5],
+					"specular": [0.02, 0.02, 0.02],
+					"emission": 0.5
+				}
+			}
+		]
+	}
+}

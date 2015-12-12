@@ -1,0 +1,21 @@
+{
+	"material": {
+		"passes": [
+			{
+				"shader": "Solid",
+				"textures": {
+					"0": "Grass_diff",
+					"1": "Grass_norm",
+					"2": "Grass_spec"
+				},
+				"uniforms": {
+					"normMapIntensity": 0.25,
+					"specMapIntensity": 1.0,
+					"diffuse": [0.75, 1.25, 0.75],
+					"specular": [1.0, 1.0, 1.0],
+					"emission": 0.5
+				}
+			}
+		]
+	}
+}

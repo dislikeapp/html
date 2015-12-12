@@ -12,7 +12,7 @@ var GUI = OE.Utils.defClass2({
 	constructor: function() {
 		this.overlay = document.getElementById("ingameOverlay");
 		var ui = this.ui = {};
-		var names = ["frame", "toggle", "gameState", "content", "userInfo", "shop", "shopInfo", "selection"];
+		var names = ["frame", "toggle", "gameState", "comeAtMe", "content", "userInfo", "shop", "shopInfo", "selection"];
 		for (var i=0; i<names.length; i++)
 			ui[names[i]] = this.overlay.findByName(names[i]);
 		
@@ -21,10 +21,16 @@ var GUI = OE.Utils.defClass2({
 			ui.content.style.display = this.contentVisible ? 'block' : 'none';
 			ui.frame.style.bottom = this.contentVisible ? '4px' : 'initial';
 		}.bind(this));
+		
+		ui.comeAtMe.on("click", app.comeAtMe.bind(app));
+		
+		this.timerInterval = setInterval(this.updateTimer.bind(this), 1000);
 	},
 	
 	setUserData: function(userData) {
 		this.userData = userData;
+		userData.on("healthChange", this.updateUserInfo.bind(this));
+		userData.on("balanceChange", this.updateUserInfo.bind(this));
 		this.updateUserInfo();
 	},
 	updateUserInfo: function() {
@@ -37,10 +43,12 @@ var GUI = OE.Utils.defClass2({
 		if (state === app.STATE_CALM) {
 			this.setShopActive(true);
 			this.ui.gameState.setAttribute("class", "gameState calm");
+			this.ui.comeAtMe.style.display = "block";
 		}
 		else if (state === app.STATE_RAID) {
 			//this.setShopActive(false);
 			this.ui.gameState.setAttribute("class", "gameState raid");
+			this.ui.comeAtMe.style.display = "none";
 		}
 		this.updateTimer();
 	},
@@ -216,7 +224,6 @@ var GUI = OE.Utils.defClass2({
 							this.userData.receive(level.cost);
 						}
 						else {
-							this.updateUserInfo();
 							this.setSelection(tower);
 						}
 					}
@@ -246,7 +253,6 @@ var GUI = OE.Utils.defClass2({
 			
 			app.map.clearObject(object.map_pos_x, object.map_pos_y);
 			this.userData.receive(sell_price);
-			this.updateUserInfo();
 			this.setSelection(undefined);
 		}
 	},
@@ -260,7 +266,6 @@ var GUI = OE.Utils.defClass2({
 			if (nextLv < info.levels.length) {
 				if (this.userData.charge(info.levels[nextLv].cost)) {
 					object.setUpgradeLevel(nextLv);
-					this.updateUserInfo();
 					this.setSelection(object);
 					app.map.setCursor(object.map_pos_x, object.map_pos_y);
 				}
