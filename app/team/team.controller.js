@@ -18,13 +18,13 @@ function TeamController(){
         [
             {
                 'name': 'Tom Krcmar',
-                'position': 'Co-Founder / CTO',
+                'position': 'Engine Engineering Engineer',
                 'photo': "background-image:url(assets/tom.jpg)",
                 'details': tom_details
             },
             {
                 'name': 'Brad Anderson',
-                'position': 'Co-Founder / CEO',
+                'position': 'Web / Game Developer',
                 'photo': "background-image:url(assets/ando.jpg)",
                 'details': ando_details
             },
